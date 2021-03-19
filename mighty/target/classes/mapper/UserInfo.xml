@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.pilot.mighty.dao.UserInfoDao">
+ 
+ 	<select id="selectUserInfoAll" resultType="com.pilot.mighty.model.UserInfo">
+		SELECT USER_ID as userId
+		      ,USER_NAME as userName
+		      ,LANGUAGE_TYPE as langType
+		      ,DEPARTMENT as depart
+		  FROM ADM_USER_INFO 
+		 ORDER BY USER_ID
+	</select>
+	
+	<select id="checkAvailableUser" resultType="String">
+		SELECT USER_ID as userId
+		  FROM ADM_USER_INFO 
+		 WHERE USER_ID = 'IBS'
+		   AND PASSWORD = 'IBS'
+	</select>
+	
+	<select id="selectUserInfo" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT USER_ID as userId
+		      ,USER_ID || ':' || (SELECT TO_CHAR(sysdate, 'YYYYMMDDHH24MISS') FROM DUAL) as accessToken
+		  FROM ADM_USER_INFO 
+		 WHERE USER_ID = #{userId}
+		   AND PASSWORD = #{password}
+	</select>
+	
+	<update id="updateUserToken" parameterType="java.util.Map">
+		UPDATE ADM_USER_INFO
+		   SET TOKEN = #{token}
+		 WHERE USER_ID = #{userId}
+	</update>
+	
+	<select id="selectUserAndRefreshToken" parameterType="String" resultType="java.util.HashMap">
+		SELECT USER_ID as USERID
+		      ,USER_ID || ':' || (SELECT TO_CHAR(sysdate, 'YYYYMMDDHH24MISS') FROM DUAL) as ACCESSTOKEN
+		 FROM ADM_USER_INFO
+		WHERE TOKEN = #{accessToken}
+	</select>
+
+</mapper>
