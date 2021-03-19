@@ -2,7 +2,9 @@ package com.pilot.mighty.controller;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,6 +98,33 @@ public class LoginController {
 		userService.updateUserToken(updateMap);
 		
 		System.out.println("Logout");
+		
+		// batch insert test
+//		{
+//			List<Map<String, Object>> listMap = new ArrayList<Map<String, Object>>();
+//			
+//			
+//			for (int i = 1; i < 11; i++) {
+//				Map<String, Object> biMap = new HashMap<String, Object>();
+//				
+//				biMap.put("userId", "IBS" + i);
+//				biMap.put("userName", "IBS" + i);
+//				biMap.put("password", "IBS" + i);
+//				biMap.put("langType", "ko");
+//				biMap.put("depart", "SI");
+//				biMap.put("token", "");
+//				
+//				listMap.add(biMap);
+//			}
+//			
+//			StringBuilder sb = new StringBuilder();
+//			sb.append("INSERT INTO ADM_USER_INFO \n");
+//			sb.append("            ( USER_ID, USER_NAME, PASSWORD, LANGUAGE_TYPE, DEPARTMENT, TOKEN ) \n");
+//			sb.append("     VALUES ( :userId, :userName, :password, :langType, :depart, :token      ) \n");
+//			
+//			int[] resArr = qe.batchInsert(sb.toString(), listMap);
+//		}
+		
 
 		return new ResponseEntity<Object>(HttpStatus.OK);
 	}

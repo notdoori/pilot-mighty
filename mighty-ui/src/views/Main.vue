@@ -26,9 +26,9 @@ import {mapState, mapActions} from 'vuex';
     // }
     beforeRouteLeave (to, from, next) {
 
-      console.log('from: ', from);
-      console.log('to: ', to);
-      console.log('isLogIn: ', this.isLogIn);
+      //console.log('from: ', from);
+      //console.log('to: ', to);
+      //console.log('isLogIn: ', this.isLogIn);
 
       if (this.isLogIn === true) {
         next(false);

@@ -6,6 +6,8 @@ import java.util.Map;
 import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -56,8 +58,10 @@ public class QueryExecutor {
 	}
 	
 	public int[] batchInsert(String sql, List<Map<String, Object>> bindVal) {
-			
-		return new int[0];
+		
+		SqlParameterSource[] parameterSource = SqlParameterSourceUtils.createBatch(bindVal);
+		
+		return qe.batchUpdate(sql, parameterSource);
 	}
 
 }

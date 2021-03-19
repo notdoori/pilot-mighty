@@ -36,7 +36,7 @@ export default new Vuex.Store({
       axios.post('http://127.0.0.1:8080/api/login', payload)
        .then(response => {
 
-          console.log(response);
+          //console.log(response);
         
           let Id = response.data.USERID;
           let Token = response.data.ACCESSTOKEN;
