@@ -33,7 +33,7 @@ export default new Vuex.Store({
       }
     },
     actLogin({dispatch, commit}, payload) {
-      axios.post('http://127.0.0.1:8080/api/login', payload)
+      axios.post('http://127.0.0.1:8080/api/users/login', payload)
        .then(response => {
 
           //console.log(response);
@@ -69,7 +69,35 @@ export default new Vuex.Store({
       let userId = localStorage.getItem("user_id");
       let token = localStorage.getItem("access_token");
 
-      axios.post('http://127.0.0.1:8080/api/logout', {userId:userId, token:token})
+      axios.post('http://127.0.0.1:8080/api/users/logout', {userId:userId, token:token})
+       .then(response => {
+        //context.dispatch('clearlocalStorage');
+        context.dispatch('clearLocalStorage');
+        context.commit('LoginFailure');
+        //router.push({name: 'Login'});
+        context.dispatch('actRouteMove', 'Login');
+       })
+       .catch(error => {
+        //context.dispatch('clearSessionStorage');
+        context.dispatch('clearLocalStorage');
+        context.commit('LoginFailure');
+        //router.push({name: 'Login'});
+        context.dispatch('actRouteMove', 'Login');
+       });
+    },
+    actLogoutYN(context) {
+      console.log('LogoutYN');
+
+      if (confirm('로그아웃 하시겠습니까?') === false) {
+        return;
+      }
+
+      //let userId = sessionStorage.getItem("user_id");
+      //let token = sessionStorage.getItem("access_token");
+      let userId = localStorage.getItem("user_id");
+      let token = localStorage.getItem("access_token");
+
+      axios.post('http://127.0.0.1:8080/api/users/logout', {userId:userId, token:token})
        .then(response => {
         //context.dispatch('clearlocalStorage');
         context.dispatch('clearLocalStorage');
@@ -98,7 +126,7 @@ export default new Vuex.Store({
 
       //console.log('Token: ', Token);
 
-      axios.post('http://127.0.0.1:8080/api/user', {userId: userId, token: Token})
+      axios.post('http://127.0.0.1:8080/api/users/check', {userId: userId, token: Token})
       .then(response => {
         
         //console.log(response);

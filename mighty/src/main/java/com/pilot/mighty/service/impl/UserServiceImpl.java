@@ -11,7 +11,7 @@ import com.pilot.mighty.model.UserInfo;
 import com.pilot.mighty.service.UserService;
 
 @Service
-public class LoginServiceImpl implements UserService {
+public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	UserInfoDao userInfoDao;

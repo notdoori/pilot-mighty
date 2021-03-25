@@ -17,6 +17,7 @@
                     <v-text-field
                       label="Login"
                       name="login"
+                      clearable="true"
                       prepend-icon="mdi-account"
                       type="text"
                       v-model="userId"
@@ -25,6 +26,7 @@
                     <v-text-field
                       label="Password"
                       name="password"
+                      clearable="true"
                       prepend-icon="mdi-lock"
                       type="password"
                       v-model="password"
@@ -33,7 +35,8 @@
                 </v-card-text>
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn color="primary" @click="actLogin({userId:userId, password:password})">Login</v-btn>
+                  <!-- <v-btn color="primary" @click="actLogin({userId:userId, password:password})">Login</v-btn> -->
+                  <v-btn color="primary" @click="Login">Login</v-btn>
                 </v-card-actions>
               </v-card>
             </v-col>
@@ -58,11 +61,23 @@ export default {
     ...mapState(['isLogIn'])
   },
   methods: {
-    ...mapActions(['actLogin'])
+    ...mapActions(['actLogin']),
+    Login() {
+      //actLogin({userId:userId, password:password});
+      this.$store.dispatch('actLogin', {userId:this.userId, password:this.password});
+      this.userId = null;
+      this.password = null;
+    }
   },
-  data: () => ({
+  data() {
+    return {
       userId: null,
       password: null
-  }),
+    }
+  }
+  // data: () => ({
+  //     userId: null,
+  //     password: null
+  // }),
 }
 </script>

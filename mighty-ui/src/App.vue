@@ -1,8 +1,8 @@
 <template>
   <v-app>
     <v-main>
-      <Login v-show="isLogIn === false"></Login>   
-      <router-view v-show="isLogIn === true"></router-view>
+      <Login v-if="isLogIn === false"></Login>   
+      <router-view v-if="isLogIn === true"></router-view>
     </v-main>
   </v-app>
 </template>

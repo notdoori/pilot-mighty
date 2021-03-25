@@ -26,8 +26,8 @@ import com.pilot.mighty.service.UserService;
 import com.pilot.mighty.util.TokenUtil;
 
 @RestController
-@RequestMapping("/api")
-public class LoginController {
+@RequestMapping("/api/users")
+public class UserController {
 	
 	@Autowired
 	UserService userService;
@@ -129,7 +129,7 @@ public class LoginController {
 		return new ResponseEntity<Object>(HttpStatus.OK);
 	}
 	
-	@PostMapping(value = "/user"
+	@PostMapping(value = "/check"
 			,consumes = {MediaType.APPLICATION_JSON_VALUE}
 			,produces = {MediaType.APPLICATION_JSON_VALUE} )
 	@ResponseBody
