@@ -1,4 +1,4 @@
-# mighty-ui2
+# mighty-ui
 
 ## Project setup
 ```
