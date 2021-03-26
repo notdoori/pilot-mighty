@@ -20,6 +20,17 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+			<!-- 스프링 부트에서 Log4j2를 사용하기위해선 내부로깅에서 쓰이는 의존성을 제외 필요. 
+		     기본적으로 Spring은 Slf4j라는 로깅 프레임워크를 사용. 
+		     구현체를 손쉽게 교체할 수 있도록 도와주는 프레임 워크.
+		     Slf4j는 인터페이스고 내부 구현체로 logback 갖고 있음.
+		     Log4j2를 사용하기 위해 exclude 필요.-->
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-logging</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.mybatis.spring.boot</groupId>
@@ -45,6 +56,11 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-jdbc</artifactId>
+		</dependency>
+		<!-- Add Log4j2 Dependency -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-log4j2</artifactId>
 		</dependency>
 	</dependencies>
 

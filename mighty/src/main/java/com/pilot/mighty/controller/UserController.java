@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -34,6 +36,8 @@ public class UserController {
 	
 	@Autowired
 	QueryExecutor qe;
+	
+	private final Logger logger = LogManager.getLogger(UserController.class);
 	
 
 	@RequestMapping(value= "/all", method=RequestMethod.GET)
@@ -69,13 +73,25 @@ public class UserController {
 		userService.updateUserToken(updateMap);
 		
 		System.out.println("login: " + retMap);
+		logger.debug("login: " + retMap);
 		
 		
-//		qe.selectList("SELECT * FROM ADM_USER_INFO", new HashMap<String, Object>());
-//		Map<String, Object> bindVal = new HashMap<String, Object>();
-//		bindVal.put("userId", "IBS");
-//		qe.selectMap("SELECT * FROM ADM_USER_INFO WHERE USER_ID = :userId", bindVal);
-//		qe.seletCount("SELECT COUNT(*) FROM ADM_USER_INFO WHERE USER_ID = :userId", bindVal);
+		/* QueryExecutor 사용 예제
+		 * Map<String, Object> bindVal = new HashMap<String, Object>();
+		 * bindVal.put("userId", "IBS"); bindVal.put("token", "IBS:XXXXXXXXX");
+		 * bindVal.put("id", 1); bindVal.put("ids", "'1', '2', '3', '4'"); qe.
+		 * prinQueryWithBindVal("SELECT * FROM ADM_USER_INFO WHERE USER_ID = :userId AND TOKEN = :token AND ID IN (:ids)"
+		 * , bindVal);
+		 */
+		
+		/*
+		 * qe.selectList("SELECT * FROM ADM_USER_INFO", new HashMap<String, Object>());
+		 * Map<String, Object> bindVal = new HashMap<String, Object>();
+		 * bindVal.put("userId", "IBS");
+		 * qe.selectMap("SELECT * FROM ADM_USER_INFO WHERE USER_ID = :userId", bindVal);
+		 * qe.seletCount("SELECT COUNT(*) FROM ADM_USER_INFO WHERE USER_ID = :userId",
+		 * bindVal);
+		 */	 
 
 		return new ResponseEntity<Object>(retMap, HttpStatus.OK);
 	}
