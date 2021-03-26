@@ -1,16 +1,17 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
 
-Vue.use(Vuex)
-
-export default new Vuex.Store({
+const MainStore = {
+    namespaced: true,
     state: {
-
+        mTab: 'Hi'
     },
     mutations: {
 
     },
     actions: {
-        
+        actTest() {
+            console.log('MainStore: actTest');
+        }
     }
-})
+}
+
+export default MainStore

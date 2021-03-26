@@ -56,13 +56,19 @@ import Authority from '@/views/user/Authority';
       VRuntimeTemplate
     },
     computed: {
-      ...mapState(['isLogIn'])
+      ...mapState(['isLogIn']),
+      //...mapState({mTab: state => state.MainStore.mTab})
+      ...mapState('MainStore', {mTab: state => state.mTab})
     },
     methods: {
       ...mapActions(['actLogout', 'actLogoutYN']),
+      ...mapActions('MainStore', ['actTest']),
       // menu
       setSysItem(item) {
-        console.log(item);
+        // console.log(item);
+        // console.log('mTab: ', this.mTab);
+        // console.log('go MainStore');
+        // this.actTest();
         //this.activeItem = item;
         if (item.content === 'Logout') {
           this.$store.dispatch('actLogoutYN');

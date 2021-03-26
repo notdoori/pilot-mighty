@@ -63,7 +63,7 @@ export default {
   methods: {
     ...mapActions(['actLogin']),
     Login() {
-      //actLogin({userId:userId, password:password});
+      //this.actLogin({userId:userId, password:password});
       this.$store.dispatch('actLogin', {userId:this.userId, password:this.password});
       this.userId = null;
       this.password = null;
