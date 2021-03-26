@@ -10,7 +10,7 @@
 <script>
 
 import {mapState, mapActions} from 'vuex';
-import Login from '@/views/Login';
+import Login from '@/views/login/Login';
 
 export default {
   computed: {

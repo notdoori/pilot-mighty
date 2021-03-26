@@ -37,11 +37,12 @@ export default {
     data() {
 		return {
             items: [
-                {menu: [0, '그룹관리', 'Groups']},
-                {menu: [1, '사용자관리','Users']},
-                {menu: [2, '로그아웃', 'Logout']}
+                {menu: [0, '권한관리', 'Auth']},
+                {menu: [1, '그룹관리','Groups']},
+                {menu: [2, '사용자관리','Users']},
+                {menu: [3, '로그아웃', 'Logout']}
 		    ],
-            activeItems: null
+        activeItems: null
 		}
 	},
     methods: {

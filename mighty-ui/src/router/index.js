@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import store from '@/store'
-import Login from '@/views/Login'
+import Login from '@/views/login/Login'
 import Main from '@/views/Main'
 
 Vue.use(VueRouter)

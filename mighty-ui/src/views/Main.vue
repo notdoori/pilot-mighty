@@ -1,42 +1,37 @@
 <template>
   <div>
-    <v-app-bar flat tile color="transparent" extension-height="40">
-
+    <v-app-bar tile color="transparent" height="40">
       <v-row align="stretch" justify="start">
         <SysMenu @selectSysItem="setSysItem"></SysMenu>
-        <InquiryMenu @selectInquiryItem="setInquiryItem"></InquiryMenu>   
+        <InquiryMenu @selectInquiryItem="setInquiryItem"></InquiryMenu>
       </v-row>
-
-      <template v-slot:extension>
-        <v-tabs
-          v-model="tab"
-          background-color="transparent"
-          color="primary"
-        >
-          <v-tab v-for="tab in tabs" :key="tab.id"
-          >
-            <!-- <div> -->
-              {{ tab.title }}
-              <v-icon small left @click="removeTab(tab)">mdi-minus-circle</v-icon>
-            <!-- </div> -->
-          </v-tab>
-        </v-tabs>
-      </template>
-
     </v-app-bar>
 
-    <!-- <v-runtime-template :template="tabItemTemplate"></v-runtime-template> -->
-    <!-- <v-card-text> -->
-    <v-tabs-items v-model="tab">
-      <v-tab-item v-for="tab in tabs" :key="tab.id">
-        <!-- <p>{{tab.title}}</p>     -->
-          <div>
-            <keep-alive><Groups v-show="tab.id === 0" post-title="hi!"></Groups></keep-alive>
-            <keep-alive><users v-show="tab.id === 1" post-title="hello!"></users></keep-alive>                     
-          </div>
-      </v-tab-item>      
-    </v-tabs-items>
-    <!-- </v-card-text> -->
+    <div class="d1">
+      <v-tabs
+        v-model="tab"
+        background-color="transparent"
+        color="primary"
+        height="38"
+      >
+        <v-tab v-for="tab in tabs" :key="tab.id">
+          {{ tab.title }}
+          <v-icon small left @click="removeTab(tab)">mdi-minus-circle</v-icon>
+        </v-tab>
+      </v-tabs>
+
+      <!-- <v-runtime-template :template="tabItemTemplate"></v-runtime-template> -->
+      <v-tabs-items v-model="tab">
+        <v-tab-item v-for="tab in tabs" :key="tab.id">
+          <!-- <p>{{tab.title}}</p>     -->
+            <div>
+              <keep-alive><Authority v-show="tab.id === 0"></Authority></keep-alive>
+              <keep-alive><Groups v-show="tab.id === 1"></Groups></keep-alive>
+              <keep-alive><users v-show="tab.id === 2"></users></keep-alive>                     
+            </div>
+        </v-tab-item>      
+      </v-tabs-items>
+    </div>
   </div>
 </template>
 
@@ -44,10 +39,11 @@
 
 import {mapState, mapActions} from 'vuex';
 import VRuntimeTemplate from "v-runtime-template";
-import SysMenu from '@/components/SysMenu';
-import InquiryMenu from '@/components/InquiryMenu';
-import users from '@/views/users';
-import Groups from '@/views/Groups';
+import SysMenu from '@/components/menu/SysMenu';
+import InquiryMenu from '@/components/menu/InquiryMenu';
+import users from '@/views/user/users';
+import Groups from '@/views/user/Groups';
+import Authority from '@/views/user/Authority';
 
   export default {
     components: {
@@ -56,6 +52,7 @@ import Groups from '@/views/Groups';
       InquiryMenu,
       users,
       Groups,
+      Authority,
       VRuntimeTemplate
     },
     computed: {
@@ -108,7 +105,6 @@ import Groups from '@/views/Groups';
     data() {
         return {
           activeTab: null,
-          // tab: null,
           tab: 0,
           tabs: [],
           // test template
@@ -144,5 +140,7 @@ import Groups from '@/views/Groups';
 </script>
 
 <style scoped>
-
+  .d1 {
+      margin-left: 0.25em;  
+  }
 </style>
