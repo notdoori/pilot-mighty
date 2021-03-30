@@ -12,7 +12,6 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
 import org.springframework.stereotype.Component;
 
-import com.pilot.mighty.controller.UserController;
 
 @Component
 public class QueryExecutor {
@@ -38,6 +37,7 @@ public class QueryExecutor {
 				if (val instanceof String) {
 					printSql = printSql.replace(":" + entry.getKey(), "'" + entry.getValue().toString() + "'");
 				} else if (val instanceof List) {
+					@SuppressWarnings("unchecked")
 					List<Object> listVal = (List<Object>)entry.getValue();
 					String inClause = "";
 					for (int i = 0; i < listVal.size(); i++) {
