@@ -135,20 +135,22 @@ import Inquiry2 from '@/views/Inquiry/Inquiry2';
       this.activeTab = 0;
     },
     // tab, broswer 닫는 경우 처리 => 새로 고침 버튼에도 영향을 줌.
-    // created() {
-    //   window.addEventListener('beforeunload', (e) => {
-    //     e.preventDefault();
-    //     e.returnValue = '';
-    //     this.$store.dispatch('actLogout');
-    //   });
+    created() {
+      window.addEventListener('beforeunload', (e) => {
+        e.preventDefault();
+        e.returnValue = '';        
+      });
+      window.addEventListener('unload', function(e) {
+        this.$store.dispatch('actLogout');
+      });
+    },
+    // beforeRouteLeave (to, from, next) {
+    //   if (this.isLogIn === true) {
+    //     next(false);
+    //   } else {
+    //     next();
+    //   }
     // }
-    beforeRouteLeave (to, from, next) {
-      if (this.isLogIn === true) {
-        next(false);
-      } else {
-        next();
-      }
-    }
   }
 </script>
 
