@@ -1,6 +1,6 @@
 <template>
   <div>
-      This is Inquiry1 Vue !!!
+      This is Inquiry1 Vue for Menu Test!!!
   </div>
 </template>
 

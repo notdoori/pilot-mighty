@@ -37,9 +37,9 @@ export default {
     data() {
 		return {
             items: [
-                {menu: [0, '권한관리', 'Auth']},
-                {menu: [1, '그룹관리','Groups']},
-                {menu: [2, '사용자관리','Users']},
+                {menu: [0, '권한관리', '/main/authority']},
+                {menu: [1, '그룹관리','/main/groups']},
+                {menu: [2, '사용자관리','/main/users']},
                 {menu: [100, '로그아웃', 'Logout']}
 		    ],
         activeItems: null

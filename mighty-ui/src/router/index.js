@@ -3,6 +3,11 @@ import VueRouter from 'vue-router'
 import store from '@/store'
 import Login from '@/views/login/Login'
 import Main from '@/views/Main'
+import users from '@/views/user/users';
+import Groups from '@/views/user/Groups';
+import Authority from '@/views/user/Authority';
+import Inquiry1 from '@/views/Inquiry/Inquiry1';
+import Inquiry2 from '@/views/Inquiry/Inquiry2';
 
 Vue.use(VueRouter)
 
@@ -21,8 +26,16 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     // component: () => import(/* webpackChunkName: "main" */ '../views/Main.vue')
-    component: Main
-  }
+    component: Main,
+    children : [  // nested routes
+      {path: 'authority', component: Authority},
+      {path: 'groups', component: Groups},
+      {path: 'users', component: users},
+      {path: 'inquiry1', component: Inquiry1},
+      {path: 'inquiry2', component: Inquiry2}
+    ]
+  },
+  
 ]
 
 const router = new VueRouter({

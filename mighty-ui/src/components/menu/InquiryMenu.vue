@@ -27,8 +27,8 @@ export default {
     data() {
 		return {
             items: [
-                {menu: [10, '조회1', 'Inquiry1']},
-                {menu: [11, '조회2', 'Inquiry2']}
+                {menu: [10, '조회1', '/main/inquiry1']},
+                {menu: [11, '조회2', '/main/inquiry2']}
 		    ],
             activeItems: 'Piano'
 		}
