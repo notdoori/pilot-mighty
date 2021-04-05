@@ -25,6 +25,10 @@ import com.pilot.mighty.query.QueryExecutor;
 import com.pilot.mighty.service.UserService;
 import com.pilot.mighty.util.TokenUtil;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+@Api(tags = {"1. User"})
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -38,6 +42,12 @@ public class UserController {
 	private final Logger logger = LogManager.getLogger(UserController.class);
 	
 
+	/**
+	 * 전체 사용자 조회 요청
+	 * @author djchoi
+	 * @return UserInfo
+	 */
+	@ApiOperation(value="전체 사용자 조회", notes = "모든 사용자를 조회합니다.")
 	@RequestMapping(value= "/all", method=RequestMethod.GET)
 	public UserInfo getAll() {	
 		UserInfo userInfo = userService.selectUserInfoAll();
