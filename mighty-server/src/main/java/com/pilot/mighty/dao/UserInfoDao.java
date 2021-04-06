@@ -7,7 +7,7 @@ import com.pilot.mighty.model.UserInfo;
 
 public interface UserInfoDao {
 	
-	UserInfo selectUserInfoAll();
+	UserInfo[] selectUserInfoAll();
 	
 	HashMap<String, Object> selectUserInfo(Map<String, Object> map);
 	
