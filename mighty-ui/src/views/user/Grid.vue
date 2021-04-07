@@ -3,7 +3,7 @@
     <table>
     <thead>
       <tr>
-        <th v-for="key in columns" @click="sortBy(key)" :class="{ active: sortKey == key }">
+        <th v-for="key in columns" v-bind:key="key" @click="sortBy(key)" :class="{ active: sortKey == key }">
           {{ key | capitalize }}
           <span class="arrow" :class="sortOrders[key] > 0 ? 'asc' : 'dsc'">
           </span>
@@ -11,8 +11,8 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="entry in filteredData">
-        <td v-for="key in columns">
+      <tr v-for="entry in filteredData" v-bind:key="entry">
+        <td v-for="key in columns" v-bind:key="key">
           {{entry[key]}}
         </td>
       </tr>

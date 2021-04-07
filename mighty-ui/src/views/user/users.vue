@@ -1,6 +1,6 @@
 <template>
     <div>
-      <div v-bind:key="userId" v-for="user in gridData">
+      <!--<div v-for="(user, index) in gridData" v-bind:key="index">
         <span>{{ user.userId }}</span>
         <span>||</span>
         <span>{{ user.userName }}</span>
@@ -9,6 +9,7 @@
         <span>||</span>
         <span>{{ user.langType }}</span>
       </div>
+      -->
       <form id="search">
       Search <input id="queryinput" name="query" v-model="searchQuery">
       </form>
@@ -28,7 +29,7 @@ export default {
   data() {
     return {
       searchQuery: '',
-      gridColumn: ['userId', 'userName', 'depart', 'langType'],
+      gridColumns: ['userId', 'userName', 'depart', 'langType'],
       gridData: []
     }
   },
