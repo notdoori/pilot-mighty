@@ -2,50 +2,30 @@ package com.pilot.mighty.model;
 
 public class AuthInfo {
 	
-	private String userId;
-	private String userName;
-	private String langType;
-	private String depart;
+	private String roleId;
+	private String roleDesc;
 	
 	public AuthInfo() {}	
 	
-	public AuthInfo(String userId, String userName, String langType, String depart) {
+	public AuthInfo(String roleId, String roleDesc) {
 		super();
-		this.userId = userId;
-		this.userName = userName;
-		this.langType = langType;
-		this.depart = depart;
+		this.roleId = roleId;			// 권한 그룹 아이디
+		this.roleDesc = roleDesc;		// 권한 그룹 설명
 	}
 
-	public String getUserId() {
-		return userId;
+	public String getAuthId() {
+		return roleId;
 	}
 	
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setAuthId(String roleId) {
+		this.roleId = roleId;
 	}
 	
-	public String getUserName() {
-		return userName;
+	public String getAuthDesc() {
+		return roleDesc;
 	}
 	
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-	
-	public String getLangType() {
-		return langType;
-	}
-	
-	public void setLangType(String langType) {
-		this.langType = langType;
-	}
-	
-	public String getDepart() {
-		return depart;
-	}
-	
-	public void setDepart(String depart) {
-		this.depart = depart;
+	public void setAuthDesc(String authDesc) {
+		this.roleDesc = authDesc;
 	}
 }
