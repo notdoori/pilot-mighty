@@ -35,5 +35,9 @@ build/
 ### Progject ###
 mighty-ui/node_modules/
 mighty-ui/dist/
-mighty/target/
-mighty/src/main/resources/static
+mighty-server/target/*
+mighty-server/src/main/resources/static/*
+
+# ignore properties file
+config.properties
+aoolication.properties

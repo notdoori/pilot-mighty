@@ -49,8 +49,8 @@ public class UserController {
 	 */
 	@ApiOperation(value="전체 사용자 조회", notes = "모든 사용자를 조회합니다.")
 	@RequestMapping(value= "/all", method=RequestMethod.GET)
-	public UserInfo getAll() {	
-		UserInfo userInfo = userService.selectUserInfoAll();
+	public UserInfo[] getAll() {	
+		UserInfo[] userInfo = userService.selectUserInfoAll();
 		
 		return userInfo;
 		//return userService.selectUserInfo();

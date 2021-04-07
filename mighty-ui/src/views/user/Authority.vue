@@ -1,18 +1,135 @@
 <template>
-  <div>
-    This is Authority Vue !!!
-    </div>
+  <v-app>
+    <!-- <v-navigation-drawer app>
+      v-navigation-drawer
+    </v-navigation-drawer> -->
+
+    <!-- <v-app-bar app>
+      <h1>기준정보 시스템 - 권한 관리</h1>
+    </v-app-bar> -->
+
+    <br />
+    <v-container row fluid style="background-color: grey lighten-3">
+      <v-row>
+        <v-col>
+          <h2>권한 그룹</h2>
+          <br />
+          <div>
+            <!-- <div v-bind:key="user.userId" v-for="user in users">
+              <span>{{ user.userId }}, </span>
+              <span>{{ user.userName }}, </span>
+              <span>{{ user.depart }}, </span>
+              <span>{{ user.langType }}</span>
+            </div> -->
+            <!-- <form id="search"> -->
+            <!-- 권한 정보 검색 -->
+            <!-- <input id="queryinput" name="query" v-model="searchQuery" /> -->
+            <!-- </form> -->
+            <v-text-field
+              id="queryinput"
+              name="query"
+              v-model="searchQuery"
+              hint="권한 정보 검색"
+              outlined="true"
+            ></v-text-field>
+            <userGrid
+              :data="gridData"
+              :columns="gridColumns"
+              :filter-key="searchQuery"
+            ></userGrid>
+          </div>
+        </v-col>
+        <v-col>
+          <h2>권한 그룹 설정</h2>
+          <br />
+          <div>
+            <v-text-field
+              hint="권한 그룹 아이디"
+              outlined="true"
+            ></v-text-field>
+            <v-text-field hint="권한 그룹 설명" outlined="true"></v-text-field>
+          </div>
+          <div>
+            <v-btn
+              class="v-btn"
+              @click="authority_add"
+              color="deep-orange lighten-3"
+              width="120px"
+            >
+              추가
+            </v-btn>
+            <v-btn
+              class="v-btn"
+              @click="authority_modify"
+              color="deep-orange lighten-3"
+              width="120px"
+            >
+              수정
+            </v-btn>
+            <v-btn
+              @click="authority_delete"
+              color="deep-orange lighten-3"
+              width="120px"
+            >
+              삭제
+            </v-btn>
+          </div>
+        </v-col>
+      </v-row>
+    </v-container>
+
+    <!-- </v-main> -->
+
+    <v-footer app> 권한 관리 메뉴 화면 입니다. </v-footer>
+  </v-app>
 </template>
 
 <script>
+import axios from "axios";
+import userGrid from "@/views/user/Grid";
+
 export default {
+  name: "User",
+  components: {
+    userGrid,
+  },
   data() {
     return {
-    }
+      searchQuery: "",
+      gridColumns: ["userId", "userName", "depart", "langType"],
+      gridData: [],
+    };
   },
-}
+  created() {
+    // 리스트 조회
+    axios
+      // .get("http://127.0.0.1:8080/api/users/all")
+      .get("/api/users/all")
+      .then(
+        (response) => (
+          (this.gridData = response.data), console.log(this.gridData)
+        )
+      )
+      .catch((error) => console.log(error));
+  },
+  methods: {
+    // 권한 추가
+    authority_add: function () {},
+
+    // 권한 수정
+    authority_modify: function () {},
+
+    // 권한 삭제
+    authority_delete: function () {},
+  },
+};
 </script>
 
-<style>
-
+<style type="text/css">
+.v-content {
+  color: red;
+}
+.v-btn {
+  margin-right: 10px;
+}
 </style>

@@ -17,10 +17,10 @@ public class UserServiceImpl implements UserService {
 	UserInfoDao userInfoDao;
 
 	@Override
-	public UserInfo selectUserInfoAll() {
+	public UserInfo[] selectUserInfoAll() {
 		// TODO Auto-generated method stub
 		
-		UserInfo userInfo = userInfoDao.selectUserInfoAll();
+		UserInfo[] userInfo = userInfoDao.selectUserInfoAll();
 		return userInfo;
 	}
 
