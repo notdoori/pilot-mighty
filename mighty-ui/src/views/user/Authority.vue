@@ -9,10 +9,10 @@
     </v-app-bar> -->
 
     <br />
-    <v-container row fluid style="background-color: grey lighten-3">
+    <v-container class="container" row fluid>
       <v-row>
         <v-col>
-          <h2>권한 그룹</h2>
+          <h2>모든 권한 그룹</h2>
           <br />
           <div>
             <!-- <div v-bind:key="user.userId" v-for="user in users">
@@ -40,7 +40,7 @@
           </div>
         </v-col>
         <v-col>
-          <h2>권한 그룹 설정</h2>
+          <h2>권한 그룹 정보</h2>
           <br />
           <div>
             <v-text-field
@@ -101,7 +101,7 @@ export default {
     };
   },
   created() {
-    // 리스트 조회
+    // 모든 권한 그룹 리스트 조회
     axios
       // .get("http://127.0.0.1:8080/api/users/all")
       .get("/api/users/all")
@@ -113,13 +113,13 @@ export default {
       .catch((error) => console.log(error));
   },
   methods: {
-    // 권한 추가
+    // 권한 그룹 추가
     authority_add: function () {},
 
-    // 권한 수정
+    // 권한 그룹 정보 수정
     authority_modify: function () {},
 
-    // 권한 삭제
+    // 권한 그룹 삭제
     authority_delete: function () {},
   },
 };
@@ -128,6 +128,9 @@ export default {
 <style type="text/css">
 .v-content {
   color: red;
+}
+.v-container {
+  background-color: grey lighten-3;
 }
 .v-btn {
   margin-right: 10px;
