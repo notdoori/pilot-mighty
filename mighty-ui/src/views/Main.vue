@@ -101,7 +101,11 @@ import InquiryMenu from '@/components/menu/InquiryMenu';
       // },
       removeTab(tab){
         this.tabs = this.tabs.filter(t => t.id !== tab.id);
-        // console.log('tabs: ', this.tabs);
+        //console.log('tab: ', tab);
+        this.$router.go(-1);
+        if (this.tabs.length === 0) {
+          this.$router.content = "";
+        }
         // console.log('activeTab: ', this.activeTab);
       },
       addTab(item){
@@ -115,9 +119,10 @@ import InquiryMenu from '@/components/menu/InquiryMenu';
                 title: item.value,
                 content: item.content
               });
+          this.$router.push({path: item.content}, function(){}, function(){});
         }
 
-        this.$router.push({path: item.content}, function(){}, function(){});
+        // this.$router.push({path: item.content}, function(){}, function(){});
 
         this.activeTab = this.tabs.findIndex(t => t.id === item.id);
 
