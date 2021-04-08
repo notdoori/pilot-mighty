@@ -111,6 +111,8 @@ import InquiryMenu from '@/components/menu/InquiryMenu';
       addTab(item){
         console.log('item: ', item);
 
+        //console.log('curRoute: ', this.$router.currentRoute);        
+
         if (this.tabs.some(t => t.id === item.id)) {
           console.log('already exist: ', item.value)         
         } else {
@@ -119,10 +121,12 @@ import InquiryMenu from '@/components/menu/InquiryMenu';
                 title: item.value,
                 content: item.content
               });
-          this.$router.push({path: item.content}, function(){}, function(){});
-        }
 
-        // this.$router.push({path: item.content}, function(){}, function(){});
+          let nextRoutePath=this.curRoutePath + '/' + item.content;
+          //console.log('next route path: ', nextRoutePath);
+          this.$router.push({path: nextRoutePath}, function(){}, function(){});
+          //this.$router.push({path: item.content}, function(){}, function(){});
+        }
 
         this.activeTab = this.tabs.findIndex(t => t.id === item.id);
 
@@ -132,6 +136,7 @@ import InquiryMenu from '@/components/menu/InquiryMenu';
     },
     data() {
         return {
+          curRoutePath: "/",
           activeTab: 0,
           tabs: [],
           // test template for <v-runtime-template templat>
@@ -154,6 +159,8 @@ import InquiryMenu from '@/components/menu/InquiryMenu';
       window.addEventListener('unload', function(e) {
         this.$store.dispatch('actLogout');
       });
+
+      this.curRoutePath = this.$route.path;
     },
     // beforeRouteLeave (to, from, next) {
     //   console.log('from: ', from);
