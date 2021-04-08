@@ -85,7 +85,8 @@ export default {
   created() {
     // 모든 사용자 그룹 리스트 조회
     axios
-      .get("/api/users/all")
+      // .get("/api/users/all")
+      .get("/api/group/all")
       .then(
         (response) => (
           (this.gridData = response.data), console.log(this.gridData)
@@ -106,12 +107,17 @@ export default {
 };
 </script>
 
+<!--
 <style type="text/css">
-.v-content {
+ .v-content {
   color: red;
 }
+</style>
+-->
+
+<style scoped="">
 .v-container {
-  background-color: grey lighten-3;
+  background-color: grey lighten-1;
 }
 .v-btn {
   margin-right: 10px;
