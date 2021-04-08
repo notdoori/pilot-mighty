@@ -89,6 +89,52 @@ import axios from "axios";
 import userGrid from "@/views/user/Grid";
 
 export default {
+  beforeCreate() {
+    /* beforeCreate 훅은 인스턴스가 생성될 때 가장 처음으로 실행되는 훅이다. */
+    alert("beforeCreate() 호출");
+  },
+  created() {
+    /* created 훅은 beforeCreate 훅의 다음 단계로서,
+       beforeCreate 훅이 호출된 직후 데이터와 이벤트가 초기화되어 created 훅에서는 데이터와 이벤트에 접근할 수 있다. */
+    alert("created() 호출");
+
+    // 모든 권한 그룹 리스트 조회
+    axios
+      // .get("http://127.0.0.1:8080/api/users/all")
+      // .get("/api/users/all")
+      .get("/api/auth/all")
+      .then(
+        (response) => (
+          (this.gridData = response.data), console.log(this.gridData)
+        )
+      )
+      .catch((error) => console.log(error));
+  },
+  beforeMount() {
+    /* beforeMount 훅 이후부터는 컴포넌트에 접근할 수 있다. */
+    alert("beforeMount() 호출");
+  },
+  mounted() {
+    /* mounted 훅에서는 인스턴스의 렌더와 DOM 마운트가 끝난 상태이다. */
+    alert("mounted() 호출");
+  },
+  beforeUpdate() {
+    /* 컴포넌트가 마운트가 다 된 후,
+       데이터의 감지됐을 때 해당하는 데이터와 관련 있는 DOM 을 업데이트하기 전에 호출된다. */
+    alert("beforeUpdate() 호출");
+  },
+  updated() {
+    /* updated 훅은 가상 DOM 이 재렌더링 되어 실제 DOM 이 되었을 때 호출된다. */
+    alert("updated() 호출");
+  },
+  beforeDestroy() {
+    /* beforeDestroy 훅은 Vue 인스턴스가 제거되기 전에 호출되는 훅이다. */
+    alert("beforeDestroy() 호출");
+  },
+  destroyed() {
+    /* destroyed 훅은 Vue 인스턴스가 제거된 후에 실행되는 훅이다 */
+    alert("destroyed() 호출");
+  },
   name: "User",
   components: {
     userGrid,
@@ -100,19 +146,7 @@ export default {
       gridData: [],
     };
   },
-  created() {
-    // 모든 권한 그룹 리스트 조회
-    axios
-      // .get("http://127.0.0.1:8080/api/users/all")
-      //.get("/api/users/all")
-      .get("/api/auth/all")
-      .then(
-        (response) => (
-          (this.gridData = response.data), console.log(this.gridData)
-        )
-      )
-      .catch((error) => console.log(error));
-  },
+
   methods: {
     // 권한 그룹 정보 조회
     // authority_select: function () {},
