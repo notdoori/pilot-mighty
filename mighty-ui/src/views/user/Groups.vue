@@ -117,7 +117,7 @@ export default {
 
 <style scoped="">
 .v-container {
-  background-color: grey lighten-1;
+  background-color: lightgray;
 }
 .v-btn {
   margin-right: 10px;
