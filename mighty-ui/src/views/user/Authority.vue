@@ -46,12 +46,12 @@
             <v-text-field
               label="권한 그룹 아이디"
               outlined="true"
-              v-model="authGroupId"
+              v-model="roleId"
             ></v-text-field>
             <v-text-field
               label="권한 그룹 설명"
               outlined="true"
-              v-model="authGroupDesc"
+              v-model="roleDesc"
             ></v-text-field>
           </div>
           <div>
@@ -149,8 +149,8 @@ export default {
       searchQuery: "",
       gridColumns: ["userId", "userName", "depart", "langType"], // 모든 권한 그룹 항목 정보
       gridData: [], // 모든 권한 그룹 데이터 정보 (SELECT)
-      authGroupId: "", // 권한 그룹 아이디
-      authGroupDesc: "", // 권한 그룹 설명
+      roleId: "", // 권한 그룹 아이디 (NOT NULL)
+      roleDesc: "", // 권한 그룹 설명 (NULL)
     };
   },
 
@@ -160,17 +160,19 @@ export default {
 
     // 권한 그룹 추가
     authority_add: function () {
-      if (this.authGroupId === "") {
+      if (this.roleId === "") {
         alert("아이디를 입력하여 주십시오.", "");
       } else {
         axios
           .post("/api/auth/add", {
-            authId: this.authGroupId,
-            authDesc: this.authGroupDesc,
+            ROLE_ID: this.roleId,
+            ROLE_DESC: this.roleDesc,
           })
-          .then((response) =>
-            // console.log(response)
-            alert("권한 그룹 추가를 완료하였습니다.")
+          .then(
+            (response) =>
+              // console.log(response)
+              alert("권한 그룹 추가를 완료하였습니다."),
+            ((this.roleId = ""), (this.roleDesc = ""))
           )
           .catch((error) =>
             // console.log(error)
@@ -181,13 +183,13 @@ export default {
 
     // 권한 그룹 정보 수정
     authority_modify: function () {
-      if (this.authGroupId === "") {
+      if (this.roleId === "") {
         alert("아이디를 입력하여 주십시오.");
       } else {
         axios
           .post("/api/auth/modify", {
-            authId: this.authGroupId,
-            authDesc: this.authGroupDesc,
+            ROLE_ID: this.roleId,
+            ROLE_DESC: this.roleDesc,
           })
           .then((response) =>
             // console.log(response)
@@ -202,17 +204,19 @@ export default {
 
     // 권한 그룹 삭제
     authority_delete: function () {
-      if (this.authGroupId === "") {
+      if (this.roleId === "") {
         alert("아이디를 입력하여 주십시오.");
       } else {
         axios
           .post("/api/auth/delete", {
-            authId: this.authGroupId,
-            authDesc: this.authGroupDesc,
+            ROLE_ID: this.roleId,
+            ROLE_DESC: this.roleDesc,
           })
-          .then((response) =>
-            // console.log(response)
-            alert("권한 그룹 삭제를 완료하였습니다.")
+          .then(
+            (response) =>
+              // console.log(response)
+              alert("권한 그룹 삭제를 완료하였습니다."),
+            ((this.roleId = ""), (this.roleDesc = ""))
           )
           .catch((error) =>
             // console.log(error)

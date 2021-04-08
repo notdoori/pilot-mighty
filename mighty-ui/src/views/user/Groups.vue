@@ -28,12 +28,17 @@
             <v-text-field
               label="사용자 그룹 아이디"
               outlined="true"
-              v-model="userGroupId"
+              v-model="groupId"
             ></v-text-field>
             <v-text-field
               label="사용자 그룹 설명"
               outlined="true"
-              v-model="userGroupDesc"
+              v-model="groupDesc"
+            ></v-text-field>
+            <v-text-field
+              label="권한 그룹 아이디"
+              outlined="true"
+              v-model="authGroupId"
             ></v-text-field>
           </div>
           <div>
@@ -126,24 +131,30 @@ export default {
       searchQuery: "",
       gridColumns: ["userId", "userName", "depart", "langType"], // 모든 사용자 그룹 항목 정보
       gridData: [], // 모든 사용자 그룹 데이터 정보 (SELECT)
-      userGroupId: "", // 사용자 그룹 아이디
-      userGroupDesc: "", // 사용자 그룹 설명
+      groupId: "", // 사용자 그룹 아이디 (NOT NULL)
+      groupDesc: "", // 사용자 그룹 설명 (NULL)
+      authGroupId: "", // 권한 그룹 아이디 (NULL)
     };
   },
   methods: {
     // 사용자 그룹 추가
     user_group_add: function () {
-      if (this.userGroupId === "") {
+      if (this.groupId === "") {
         alert("아이디를 입력하여 주십시오.");
       } else {
         axios
           .post("/api/group/add", {
-            groupId: this.userGroupId,
-            groupDesc: this.userGroupDesc,
+            GROUP_ID: this.groupId,
+            GROUP_DESC: this.groupDesc,
+            ROLE_ID: this.authGroupId,
           })
-          .then((response) =>
-            // console.log(response)
-            alert("사용자 그룹 추가를 완료하였습니다.")
+          .then(
+            (response) =>
+              // console.log(response)
+              alert("사용자 그룹 추가를 완료하였습니다."),
+            ((this.groupId = ""),
+            (this.groupDesc = ""),
+            (this.authGroupId = ""))
           )
           .catch((error) =>
             // console.log(error)
@@ -154,13 +165,14 @@ export default {
 
     // 사용자 그룹 정보 수정
     user_group_modify: function () {
-      if (this.userGroupId === "") {
+      if (this.groupId === "") {
         alert("아이디를 입력하여 주십시오.");
       } else {
         axios
           .post("/api/group/modify", {
-            groupId: this.userGroupId,
-            groupDesc: this.userGroupDesc,
+            GROUP_ID: this.groupId,
+            GROUP_DESC: this.groupDesc,
+            ROLE_ID: this.authGroupId,
           })
           .then((response) =>
             // console.log(response)
@@ -175,17 +187,22 @@ export default {
 
     // 사용자 그룹 삭제
     user_group_delete: function () {
-      if (this.userGroupId === "") {
+      if (this.groupId === "") {
         alert("아이디를 입력하여 주십시오.");
       } else {
         axios
           .post("/api/group/delete", {
-            groupId: this.userGroupId,
-            groupDesc: this.userGroupDesc,
+            GROUP_ID: this.groupId,
+            GROUP_DESC: this.groupDesc,
+            ROLE_ID: this.authGroupId,
           })
-          .then((response) =>
-            // console.log(response)
-            alert("사용자 그룹 삭제를 완료하였습니다.")
+          .then(
+            (response) =>
+              // console.log(response)
+              alert("사용자 그룹 삭제를 완료하였습니다."),
+            ((this.groupId = ""),
+            (this.groupDesc = ""),
+            (this.authGroupId = ""))
           )
           .catch((error) =>
             // console.log(error)
