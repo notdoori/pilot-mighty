@@ -21,6 +21,7 @@ public class AuthServiceImpl implements AuthService {
 		// TODO Auto-generated method stub
 		
 		AuthInfo[] authInfo = authInfoDao.selectAuthInfoAll();
+		
 		return authInfo;
 	}
 

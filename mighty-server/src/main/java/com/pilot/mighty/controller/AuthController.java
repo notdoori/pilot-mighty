@@ -53,13 +53,21 @@ public class AuthController {
 	@RequestMapping(value= "/all", method=RequestMethod.GET)
 	public UserInfo[] getUserAll() {
 		
+		logger.debug("[AuthController] TEST-001");
+		
 		UserInfo[] userInfo = userService.selectUserInfoAll();
+		
+		logger.debug("[AuthController] TEST-002");
 		
 		return userInfo;
 	}
 //	public AuthInfo[] getAuthAll() {
 //		
+//		logger.debug("[AuthController] TEST01");
+//		
 //		AuthInfo[] authInfo = authService.selectAuthInfoAll();
+//		
+//		logger.debug("[AuthController] TEST04");
 //		
 //		return authInfo;
 //	}
@@ -79,8 +87,8 @@ public class AuthController {
 		@SuppressWarnings("unchecked")
 		Map<String, Object> map = mapper.readValue(body, Map.class);
 		
-		logger.debug("authId: " + map.get("authId").toString());
-		logger.debug("authDesc: " + map.get("authDesc").toString());
+		logger.debug("ROLE_ID: " + map.get("ROLE_ID").toString());
+		logger.debug("ROLE_DESC: " + map.get("ROLE_DESC").toString());
 		
 		return null;
 	}
@@ -100,8 +108,8 @@ public class AuthController {
 		@SuppressWarnings("unchecked")
 		Map<String, Object> map = mapper.readValue(body, Map.class);
 		
-		logger.debug("authId: " + map.get("authId").toString());
-		logger.debug("authDesc: " + map.get("authDesc").toString());
+		logger.debug("ROLE_ID: " + map.get("ROLE_ID").toString());
+		logger.debug("ROLE_DESC: " + map.get("ROLE_DESC").toString());
 		
 		return null;
 	}
@@ -121,8 +129,8 @@ public class AuthController {
 		@SuppressWarnings("unchecked")
 		Map<String, Object> map = mapper.readValue(body, Map.class);
 		
-		logger.debug("authId: " + map.get("authId").toString());
-		logger.debug("authDesc: " + map.get("authDesc").toString());
+		logger.debug("ROLE_ID: " + map.get("ROLE_ID").toString());
+		logger.debug("ROLE_DESC: " + map.get("ROLE_DESC").toString());
 		
 		return null;
 	}

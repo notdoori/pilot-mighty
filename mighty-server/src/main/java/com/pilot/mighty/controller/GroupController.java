@@ -79,8 +79,9 @@ public class GroupController {
 		@SuppressWarnings("unchecked")
 		Map<String, Object> map = mapper.readValue(body, Map.class);
 		
-		logger.debug("groupId: " + map.get("groupId").toString());
-		logger.debug("groupDesc: " + map.get("groupDesc").toString());
+		logger.debug("GROUP_ID: " + map.get("GROUP_ID").toString());
+		logger.debug("GROUP_DESC: " + map.get("GROUP_DESC").toString());
+		logger.debug("ROLE_ID: " + map.get("ROLE_ID").toString());
 		
 		return null;
 	}
@@ -100,8 +101,9 @@ public class GroupController {
 		@SuppressWarnings("unchecked")
 		Map<String, Object> map = mapper.readValue(body, Map.class);
 		
-		logger.debug("groupId: " + map.get("groupId").toString());
-		logger.debug("groupDesc: " + map.get("groupDesc").toString());
+		logger.debug("GROUP_ID: " + map.get("GROUP_ID").toString());
+		logger.debug("GROUP_DESC: " + map.get("GROUP_DESC").toString());
+		logger.debug("ROLE_ID: " + map.get("ROLE_ID").toString());
 		
 		return null;
 	}
@@ -121,8 +123,9 @@ public class GroupController {
 		@SuppressWarnings("unchecked")
 		Map<String, Object> map = mapper.readValue(body, Map.class);
 		
-		logger.debug("groupId: " + map.get("groupId").toString());
-		logger.debug("groupDesc: " + map.get("groupDesc").toString());
+		logger.debug("GROUP_ID: " + map.get("GROUP_ID").toString());
+		logger.debug("GROUP_DESC: " + map.get("GROUP_DESC").toString());
+		logger.debug("ROLE_ID: " + map.get("ROLE_ID").toString());
 		
 		return null;
 	}
