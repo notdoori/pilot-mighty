@@ -30,14 +30,13 @@ import com.pilot.mighty.util.TokenUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-//@Api(tags = {"1. User"})
+@Api(tags = {"1. Group"})
 @RestController
 @RequestMapping("/api/group")
 public class GroupController {
 	
 	@Autowired
-	UserService userService;
-//	GroupService groupService;
+	GroupService groupService;
 	
 	@Autowired
 	QueryExecutor qe;
@@ -51,18 +50,12 @@ public class GroupController {
 	 */
 	@ApiOperation(value="전체 사용자 그룹 조회", notes = "모든 사용자 그룹을 조회합니다.")
 	@RequestMapping(value= "/all", method=RequestMethod.GET)
-	public UserInfo[] getUserAll() {
+	public GroupInfo[] getGroupAll() {
 		
-		UserInfo[] userInfo = userService.selectUserInfoAll();
+		GroupInfo[] groupInfo = groupService.selectGroupInfoAll();
 		
-		return userInfo;
+		return groupInfo;
 	}
-//	public GroupInfo[] getGroupAll() {
-//		
-//		GroupInfo[] groupInfo = groupService.selectGroupInfoAll();
-//		
-//		return groupInfo;
-//	}
 	
 	/**
 	 * 사용자 그룹 추가 요청 (INSERT)
