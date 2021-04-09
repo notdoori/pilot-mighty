@@ -14,11 +14,11 @@
               label="사용자 그룹 정보 검색"
               outlined="true"
             ></v-text-field>
-            <userGrid
+            <groupGrid
               :data="gridData"
               :columns="gridColumns"
               :filter-key="searchQuery"
-            ></userGrid>
+            ></groupGrid>
           </div>
         </v-col>
         <v-col>
@@ -38,7 +38,7 @@
             <v-text-field
               label="권한 그룹 아이디"
               outlined="true"
-              v-model="authGroupId"
+              v-model="roleId"
             ></v-text-field>
           </div>
           <div>
@@ -75,7 +75,7 @@
 
 <script>
 import axios from "axios";
-import userGrid from "@/views/user/Grid";
+import groupGrid from "@/views/user/Grid";
 
 export default {
   beforeCreate() {
@@ -122,14 +122,14 @@ export default {
     /* destroyed 훅은 Vue 인스턴스가 제거된 후에 실행되는 훅이다 */
     // alert("destroyed() 호출");
   },
-  name: "User",
+  name: "Group",
   components: {
-    userGrid,
+    groupGrid,
   },
   data() {
     return {
       searchQuery: "",
-      gridColumns: ["userId", "userName", "depart", "langType"], // 모든 사용자 그룹 항목 정보
+      gridColumns: ["groupId", "groupDesc", "roleId"], // 모든 사용자 그룹 항목 정보
       gridData: [], // 모든 사용자 그룹 데이터 정보 (SELECT)
       groupId: "", // 사용자 그룹 아이디 (NOT NULL)
       groupDesc: "", // 사용자 그룹 설명 (NULL)
@@ -146,15 +146,13 @@ export default {
           .post("/api/group/add", {
             GROUP_ID: this.groupId,
             GROUP_DESC: this.groupDesc,
-            ROLE_ID: this.authGroupId,
+            ROLE_ID: this.roleId,
           })
           .then(
             (response) =>
               // console.log(response)
               alert("사용자 그룹 추가를 완료하였습니다."),
-            ((this.groupId = ""),
-            (this.groupDesc = ""),
-            (this.authGroupId = ""))
+            ((this.groupId = ""), (this.groupDesc = ""), (this.roleId = ""))
           )
           .catch((error) =>
             // console.log(error)
@@ -172,7 +170,7 @@ export default {
           .post("/api/group/modify", {
             GROUP_ID: this.groupId,
             GROUP_DESC: this.groupDesc,
-            ROLE_ID: this.authGroupId,
+            ROLE_ID: this.roleId,
           })
           .then((response) =>
             // console.log(response)
@@ -194,15 +192,13 @@ export default {
           .post("/api/group/delete", {
             GROUP_ID: this.groupId,
             GROUP_DESC: this.groupDesc,
-            ROLE_ID: this.authGroupId,
+            ROLE_ID: this.roleId,
           })
           .then(
             (response) =>
               // console.log(response)
               alert("사용자 그룹 삭제를 완료하였습니다."),
-            ((this.groupId = ""),
-            (this.groupDesc = ""),
-            (this.authGroupId = ""))
+            ((this.groupId = ""), (this.groupDesc = ""), (this.roleId = ""))
           )
           .catch((error) =>
             // console.log(error)
