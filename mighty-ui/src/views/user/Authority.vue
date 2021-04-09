@@ -91,6 +91,20 @@
 import axios from "axios";
 import authGrid from "@/views/user/Grid";
 
+const AUTHORITY_GROUP_ALL = "/api/auth/all";
+const AUTHORITY_GROUP_ADD = "/api/auth/add";
+const AUTHORITY_GROUP_MODIFY = "/api/auth/modify";
+const AUTHORITY_GROUP_DELETE = "/api/auth/delete";
+
+// alert() 팝업 메시지 정보
+const ID_INPUT_MESSAGE = "아이디를 입력하여 주십시오.";
+const AUTHORITY_GROUP_ADD_COMPLETE = "권한 그룹 추가를 완료하였습니다.";
+const AUTHORITY_GROUP_ADD_FAILED = "권한 그룹 추가를 실패하였습니다.";
+const AUTHORITY_GROUP_MODIFY_COMPLETE = "권한 그룹 수정을 완료하였습니다.";
+const AUTHORITY_GROUP_MODIFY_FAILED = "권한 그룹 수정을 실패하였습니다.";
+const AUTHORITY_GROUP_DELETE_COMPLETE = "권한 그룹 삭제를 완료하였습니다.";
+const AUTHORITY_GROUP_DELETE_FAILED = "권한 그룹 삭제를 실패하였습니다.";
+
 export default {
   beforeCreate() {
     /* beforeCreate 훅은 인스턴스가 생성될 때 가장 처음으로 실행되는 훅이다. */
@@ -102,16 +116,7 @@ export default {
     // alert("created() 호출");
 
     // 모든 권한 그룹 리스트 조회
-    axios
-      // .get("http://127.0.0.1:8080/api/users/all")
-      // .get("/api/users/all")
-      .get("/api/auth/all")
-      .then(
-        (response) => (
-          (this.gridData = response.data), console.log(this.gridData)
-        )
-      )
-      .catch((error) => console.log(error));
+    this.authority_refresh();
   },
   beforeMount() {
     /* beforeMount 훅 이후부터는 컴포넌트에 접근할 수 있다. */
@@ -129,6 +134,13 @@ export default {
   updated() {
     /* updated 훅은 가상 DOM 이 재렌더링 되어 실제 DOM 이 되었을 때 호출된다. */
     // alert("updated() 호출");
+
+    if (this.queryUpdate === true) {
+      this.queryUpdate = false;
+
+      // 모든 권한 그룹 리스트 조회
+      this.authority_refresh();
+    }
   },
   beforeDestroy() {
     /* beforeDestroy 훅은 Vue 인스턴스가 제거되기 전에 호출되는 훅이다. */
@@ -145,57 +157,71 @@ export default {
   data() {
     return {
       searchQuery: "",
+      //gridColumns: ["roleId", "roleDesc"], // 모든 권한 그룹 항목 정보
       gridColumns: ["roleId", "roleDesc"], // 모든 권한 그룹 항목 정보
       gridData: [], // 모든 권한 그룹 데이터 정보 (SELECT)
       roleId: "", // 권한 그룹 아이디 (NOT NULL)
       roleDesc: "", // 권한 그룹 설명 (NULL)
+      queryUpdate: false,
     };
   },
 
   methods: {
-    // 권한 그룹 정보 조회
-    // authority_select: function () {},
+    // 모든 권한 그룹 리스트 조회
+    authority_refresh: function () {
+      axios
+        .get(AUTHORITY_GROUP_ALL)
+        .then(
+          (response) => (
+            (this.gridData = response.data), console.log(this.gridData)
+          )
+        )
+        .catch((error) => console.log(error));
+    },
 
     // 권한 그룹 추가
     authority_add: function () {
       if (this.roleId === "") {
-        alert("아이디를 입력하여 주십시오.", "");
+        alert(ID_INPUT_MESSAGE, "");
       } else {
         axios
-          .post("/api/auth/add", {
+          .post(AUTHORITY_GROUP_ADD, {
             ROLE_ID: this.roleId,
             ROLE_DESC: this.roleDesc,
           })
           .then(
             (response) =>
               // console.log(response)
-              alert("권한 그룹 추가를 완료하였습니다."),
+              alert(AUTHORITY_GROUP_ADD_COMPLETE),
             ((this.roleId = ""), (this.roleDesc = ""))
           )
           .catch((error) =>
             // console.log(error)
-            alert("권한 그룹 추가를 실패하였습니다.")
+            alert(AUTHORITY_GROUP_ADD_FAILED)
           );
+
+        // 모든 권한 그룹 리스트 갱신
+        this.queryUpdate = true;
       }
     },
 
     // 권한 그룹 정보 수정
     authority_modify: function () {
       if (this.roleId === "") {
-        alert("아이디를 입력하여 주십시오.");
+        alert(ID_INPUT_MESSAGE);
       } else {
         axios
-          .post("/api/auth/modify", {
+          .post(AUTHORITY_GROUP_MODIFY, {
             ROLE_ID: this.roleId,
             ROLE_DESC: this.roleDesc,
           })
           .then((response) =>
             // console.log(response)
-            alert("권한 그룹 수정을 완료하였습니다.")
+            alert(AUTHORITY_GROUP_MODIFY_COMPLETE)
           )
           .catch((error) =>
             // console.log(error)
-            alert("권한 그룹 수정을 실패하였습니다.")
+            alert(AUTHORITY_GROUP_MODIFY_FAILED)
           );
       }
     },
@@ -203,23 +229,26 @@ export default {
     // 권한 그룹 삭제
     authority_delete: function () {
       if (this.roleId === "") {
-        alert("아이디를 입력하여 주십시오.");
+        alert(ID_INPUT_MESSAGE);
       } else {
         axios
-          .post("/api/auth/delete", {
+          .post(AUTHORITY_GROUP_DELETE, {
             ROLE_ID: this.roleId,
             ROLE_DESC: this.roleDesc,
           })
           .then(
             (response) =>
               // console.log(response)
-              alert("권한 그룹 삭제를 완료하였습니다."),
+              alert(AUTHORITY_GROUP_DELETE_COMPLETE),
             ((this.roleId = ""), (this.roleDesc = ""))
           )
           .catch((error) =>
             // console.log(error)
-            alert("권한 그룹 삭제를 실패하였습니다.")
+            alert(AUTHORITY_GROUP_DELETE_FAILED)
           );
+
+        // 모든 권한 그룹 리스트 갱신
+        this.queryUpdate = true;
       }
     },
   },

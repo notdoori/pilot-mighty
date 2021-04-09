@@ -77,6 +77,20 @@
 import axios from "axios";
 import groupGrid from "@/views/user/Grid";
 
+const USER_GROUP_ALL = "/api/group/all";
+const USER_GROUP_ADD = "/api/group/add";
+const USER_GROUP_MODIFY = "/api/group/modify";
+const USER_GROUP_DELETE = "/api/group/delete";
+
+// alert() 팝업 메시지 정보
+const ID_INPUT_MESSAGE = "아이디를 입력하여 주십시오.";
+const USER_GROUP_ADD_COMPLETE = "사용자 그룹 추가를 완료하였습니다.";
+const USER_GROUP_ADD_FAILED = "사용자 그룹 추가를 실패하였습니다.";
+const USER_GROUP_MODIFY_COMPLETE = "사용자 그룹 수정을 완료하였습니다.";
+const USER_GROUP_MODIFY_FAILED = "사용자 그룹 수정을 실패하였습니다.";
+const USER_GROUP_DELETE_COMPLETE = "사용자 그룹 삭제를 완료하였습니다.";
+const USER_GROUP_DELETE_FAILED = "사용자 그룹 삭제를 실패하였습니다.";
+
 export default {
   beforeCreate() {
     /* beforeCreate 훅은 인스턴스가 생성될 때 가장 처음으로 실행되는 훅이다. */
@@ -87,15 +101,8 @@ export default {
        beforeCreate 훅이 호출된 직후 데이터와 이벤트가 초기화되어 created 훅에서는 데이터와 이벤트에 접근할 수 있다. */
     // alert("created() 호출");
 
-    // 모든 사용자 그룹 리스트 조회
-    axios
-      .get("/api/group/all")
-      .then(
-        (response) => (
-          (this.gridData = response.data), console.log(this.gridData)
-        )
-      )
-      .catch((error) => console.log(error));
+    // 모든 권한 그룹 리스트 조회
+    this.group_refresh();
   },
   beforeMount() {
     /* beforeMount 훅 이후부터는 컴포넌트에 접근할 수 있다. */
@@ -113,6 +120,13 @@ export default {
   updated() {
     /* updated 훅은 가상 DOM 이 재렌더링 되어 실제 DOM 이 되었을 때 호출된다. */
     // alert("updated() 호출");
+
+    if (this.queryUpdate === true) {
+      this.queryUpdate = false;
+
+      // 모든 권한 그룹 리스트 조회
+      this.group_refresh();
+    }
   },
   beforeDestroy() {
     /* beforeDestroy 훅은 Vue 인스턴스가 제거되기 전에 호출되는 훅이다. */
@@ -133,17 +147,30 @@ export default {
       gridData: [], // 모든 사용자 그룹 데이터 정보 (SELECT)
       groupId: "", // 사용자 그룹 아이디 (NOT NULL)
       groupDesc: "", // 사용자 그룹 설명 (NULL)
-      authGroupId: "", // 권한 그룹 아이디 (NULL)
+      roleId: "", // 권한 그룹 아이디 (NULL)
+      queryUpdate: false,
     };
   },
   methods: {
+    // 모든 권한 그룹 리스트 조회
+    group_refresh: function () {
+      axios
+        .get(USER_GROUP_ALL)
+        .then(
+          (response) => (
+            (this.gridData = response.data), console.log(this.gridData)
+          )
+        )
+        .catch((error) => console.log(error));
+    },
+
     // 사용자 그룹 추가
     user_group_add: function () {
       if (this.groupId === "") {
-        alert("아이디를 입력하여 주십시오.");
+        alert(ID_INPUT_MESSAGE);
       } else {
         axios
-          .post("/api/group/add", {
+          .post(USER_GROUP_ADD, {
             GROUP_ID: this.groupId,
             GROUP_DESC: this.groupDesc,
             ROLE_ID: this.roleId,
@@ -151,34 +178,37 @@ export default {
           .then(
             (response) =>
               // console.log(response)
-              alert("사용자 그룹 추가를 완료하였습니다."),
+              alert(USER_GROUP_ADD_COMPLETE),
             ((this.groupId = ""), (this.groupDesc = ""), (this.roleId = ""))
           )
           .catch((error) =>
             // console.log(error)
-            alert("사용자 그룹 추가를 실패하였습니다.")
+            alert(USER_GROUP_ADD_FAILED)
           );
+
+        // 모든 권한 그룹 리스트 갱신
+        this.queryUpdate = true;
       }
     },
 
     // 사용자 그룹 정보 수정
     user_group_modify: function () {
       if (this.groupId === "") {
-        alert("아이디를 입력하여 주십시오.");
+        alert(ID_INPUT_MESSAGE);
       } else {
         axios
-          .post("/api/group/modify", {
+          .post(USER_GROUP_MODIFY, {
             GROUP_ID: this.groupId,
             GROUP_DESC: this.groupDesc,
             ROLE_ID: this.roleId,
           })
           .then((response) =>
             // console.log(response)
-            alert("사용자 그룹 수정을 완료하였습니다.")
+            alert(USER_GROUP_MODIFY_COMPLETE)
           )
           .catch((error) =>
             // console.log(error)
-            alert("사용자 그룹 수정을 실패하였습니다.")
+            alert(USER_GROUP_MODIFY_FAILED)
           );
       }
     },
@@ -186,10 +216,10 @@ export default {
     // 사용자 그룹 삭제
     user_group_delete: function () {
       if (this.groupId === "") {
-        alert("아이디를 입력하여 주십시오.");
+        alert(ID_INPUT_MESSAGE);
       } else {
         axios
-          .post("/api/group/delete", {
+          .post(USER_GROUP_DELETE, {
             GROUP_ID: this.groupId,
             GROUP_DESC: this.groupDesc,
             ROLE_ID: this.roleId,
@@ -197,13 +227,16 @@ export default {
           .then(
             (response) =>
               // console.log(response)
-              alert("사용자 그룹 삭제를 완료하였습니다."),
+              alert(USER_GROUP_DELETE_COMPLETE),
             ((this.groupId = ""), (this.groupDesc = ""), (this.roleId = ""))
           )
           .catch((error) =>
             // console.log(error)
-            alert("사용자 그룹 삭제를 실패하였습니다.")
+            alert(USER_GROUP_DELETE_FAILED)
           );
+
+        // 모든 권한 그룹 리스트 갱신
+        this.queryUpdate = true;
       }
     },
   },
