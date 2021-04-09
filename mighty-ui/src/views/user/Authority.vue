@@ -32,11 +32,11 @@
               label="권한 그룹 정보 검색"
               outlined="true"
             ></v-text-field>
-            <userGrid
+            <authGrid
               :data="gridData"
               :columns="gridColumns"
               :filter-key="searchQuery"
-            ></userGrid>
+            ></authGrid>
           </div>
         </v-col>
         <v-col>
@@ -83,15 +83,13 @@
       </v-row>
     </v-container>
 
-    <!-- </v-main> -->
-
     <v-footer app> 권한 그룹 관리 메뉴 화면 입니다. </v-footer>
   </v-app>
 </template>
 
 <script>
 import axios from "axios";
-import userGrid from "@/views/user/Grid";
+import authGrid from "@/views/user/Grid";
 
 export default {
   beforeCreate() {
@@ -140,14 +138,14 @@ export default {
     /* destroyed 훅은 Vue 인스턴스가 제거된 후에 실행되는 훅이다 */
     // alert("destroyed() 호출");
   },
-  name: "User",
+  name: "Auth",
   components: {
-    userGrid,
+    authGrid,
   },
   data() {
     return {
       searchQuery: "",
-      gridColumns: ["userId", "userName", "depart", "langType"], // 모든 권한 그룹 항목 정보
+      gridColumns: ["roleId", "roleDesc"], // 모든 권한 그룹 항목 정보
       gridData: [], // 모든 권한 그룹 데이터 정보 (SELECT)
       roleId: "", // 권한 그룹 아이디 (NOT NULL)
       roleDesc: "", // 권한 그룹 설명 (NULL)
