@@ -134,13 +134,6 @@ export default {
   updated() {
     /* updated 훅은 가상 DOM 이 재렌더링 되어 실제 DOM 이 되었을 때 호출된다. */
     // alert("updated() 호출");
-
-    if (this.queryUpdate === true) {
-      this.queryUpdate = false;
-
-      // 모든 권한 그룹 리스트 조회
-      this.authority_refresh();
-    }
   },
   beforeDestroy() {
     /* beforeDestroy 훅은 Vue 인스턴스가 제거되기 전에 호출되는 훅이다. */
@@ -157,12 +150,10 @@ export default {
   data() {
     return {
       searchQuery: "",
-      //gridColumns: ["roleId", "roleDesc"], // 모든 권한 그룹 항목 정보
       gridColumns: ["roleId", "roleDesc"], // 모든 권한 그룹 항목 정보
       gridData: [], // 모든 권한 그룹 데이터 정보 (SELECT)
       roleId: "", // 권한 그룹 아이디 (NOT NULL)
       roleDesc: "", // 권한 그룹 설명 (NULL)
-      queryUpdate: false,
     };
   },
 
@@ -184,10 +175,13 @@ export default {
       if (this.roleId === "") {
         alert(ID_INPUT_MESSAGE, "");
       } else {
+        console.log("[vue] roleId: " + this.roleId);
+        console.log("[vue] roleDesc: " + this.roleDesc);
+
         axios
           .post(AUTHORITY_GROUP_ADD, {
-            ROLE_ID: this.roleId,
-            ROLE_DESC: this.roleDesc,
+            roleId: this.roleId,
+            roleDesc: this.roleDesc,
           })
           .then(
             (response) =>
@@ -199,9 +193,6 @@ export default {
             // console.log(error)
             alert(AUTHORITY_GROUP_ADD_FAILED)
           );
-
-        // 모든 권한 그룹 리스트 갱신
-        this.queryUpdate = true;
       }
     },
 
@@ -210,14 +201,19 @@ export default {
       if (this.roleId === "") {
         alert(ID_INPUT_MESSAGE);
       } else {
+        console.log("[vue] roleId: " + this.roleId);
+        console.log("[vue] roleDesc: " + this.roleDesc);
+
         axios
           .post(AUTHORITY_GROUP_MODIFY, {
-            ROLE_ID: this.roleId,
-            ROLE_DESC: this.roleDesc,
+            roleId: this.roleId,
+            roleDesc: this.roleDesc,
           })
-          .then((response) =>
-            // console.log(response)
-            alert(AUTHORITY_GROUP_MODIFY_COMPLETE)
+          .then(
+            (response) =>
+              // console.log(response)
+              alert(AUTHORITY_GROUP_MODIFY_COMPLETE),
+            this.authority_refresh()
           )
           .catch((error) =>
             // console.log(error)
@@ -231,24 +227,24 @@ export default {
       if (this.roleId === "") {
         alert(ID_INPUT_MESSAGE);
       } else {
+        console.log("[vue] roleId: " + this.roleId);
+        console.log("[vue] roleDesc: " + this.roleDesc);
+
         axios
           .post(AUTHORITY_GROUP_DELETE, {
-            ROLE_ID: this.roleId,
-            ROLE_DESC: this.roleDesc,
+            roleId: this.roleId,
+            roleDesc: this.roleDesc,
           })
           .then(
             (response) =>
               // console.log(response)
               alert(AUTHORITY_GROUP_DELETE_COMPLETE),
-            ((this.roleId = ""), (this.roleDesc = ""))
+            ((this.roleId = ""), (this.roleDesc = ""), this.authority_refresh())
           )
           .catch((error) =>
             // console.log(error)
             alert(AUTHORITY_GROUP_DELETE_FAILED)
           );
-
-        // 모든 권한 그룹 리스트 갱신
-        this.queryUpdate = true;
       }
     },
   },
