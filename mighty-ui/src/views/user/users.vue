@@ -27,8 +27,11 @@
                 :filter-key="searchQuery"
             ></userGrid>
         </div>
-        <div class="right">
-            <div class="textbox">
+        <div class="contTitle">
+				사용자 정보
+		</div>
+		<div class="right">
+			<div class="textbox">
                 <label for="userId">User ID</label>
                 <input type="text" v-model="userInfo.userId" />
             </div>
@@ -74,12 +77,7 @@ export default {
                 "userGroup",
             ],
             gridData: [],
-			userInfo: []/*,
-			userId: '',
-			userName: '',
-			depart: '',
-			langType: '',
-			userGroup: ''*/
+			userInfo: []
         };
     },
     created() {
@@ -115,6 +113,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped="">
+.contTitle {
+	padding-top: 100px;
+}
 .left {
     float: left;
     width: 55%;
@@ -129,6 +130,7 @@ export default {
     border-left: 1px solid #BEBEBE;
     border-right: 1px solid #BEBEBE;
     background-color: #F2F2F2;
+	padding-top: 20px;
     padding-left: 20px;
 }
 .input {
