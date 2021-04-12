@@ -187,7 +187,7 @@ export default {
             (response) =>
               // console.log(response)
               alert(AUTHORITY_GROUP_ADD_COMPLETE),
-            ((this.roleId = ""), (this.roleDesc = ""))
+            ((this.roleId = ""), (this.roleDesc = ""), this.authority_refresh())
           )
           .catch((error) =>
             // console.log(error)
@@ -213,7 +213,7 @@ export default {
             (response) =>
               // console.log(response)
               alert(AUTHORITY_GROUP_MODIFY_COMPLETE),
-            this.authority_refresh()
+            ((this.roleId = ""), (this.roleDesc = ""), this.authority_refresh())
           )
           .catch((error) =>
             // console.log(error)
