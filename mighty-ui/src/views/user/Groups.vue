@@ -176,7 +176,10 @@ export default {
             (response) =>
               // console.log(response)
               alert(USER_GROUP_ADD_COMPLETE),
-            ((this.groupId = ""), (this.groupDesc = ""), (this.roleId = ""))
+            ((this.groupId = ""),
+            (this.groupDesc = ""),
+            (this.roleId = ""),
+            this.group_refresh())
           )
           .catch((error) =>
             // console.log(error)
@@ -200,9 +203,14 @@ export default {
             groupDesc: this.groupDesc,
             roleId: this.roleId,
           })
-          .then((response) =>
-            // console.log(response)
-            alert(USER_GROUP_MODIFY_COMPLETE)
+          .then(
+            (response) =>
+              // console.log(response)
+              alert(USER_GROUP_MODIFY_COMPLETE),
+            ((this.groupId = ""),
+            (this.groupDesc = ""),
+            (this.roleId = ""),
+            this.group_refresh())
           )
           .catch((error) =>
             // console.log(error)
@@ -230,7 +238,10 @@ export default {
             (response) =>
               // console.log(response)
               alert(USER_GROUP_DELETE_COMPLETE),
-            ((this.groupId = ""), (this.groupDesc = ""), (this.roleId = ""))
+            ((this.groupId = ""),
+            (this.groupDesc = ""),
+            (this.roleId = ""),
+            this.group_refresh())
           )
           .catch((error) =>
             // console.log(error)
