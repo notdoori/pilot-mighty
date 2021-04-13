@@ -1,6 +1,14 @@
 <template>
   <div id="gridTable">
     <table>
+    <colgroup>
+      <col style="width:8%">
+      <col style="width:12%">
+      <col style="width:18%">
+      <col style="width:24%">
+      <col style="width:14%">
+      <col style="width:24%">
+    </colgroup>
     <thead>
       <tr>
         <th v-for="key in columns" v-bind:key="key" @click="sortBy(key)" :class="{ active: sortKey == key }">
@@ -11,7 +19,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="entry in filteredData" v-bind:key="entry" class="list-row">
+      <tr v-for="(entry, key) in filteredData" v-bind:key="key" @click="doMouseClick(entry)">
         <td v-for="key in columns" v-bind:key="key">
           {{entry[key]}}
         </td>
@@ -22,6 +30,8 @@
 </template>
 
 <script>
+import { BUS } from '@/router/EventBus';
+
 export default {
   name: 'Grid',
   props: {
@@ -71,6 +81,9 @@ export default {
     sortBy: function (key) {
       this.sortKey = key
       this.sortOrders[key] = this.sortOrders[key] * -1
+    },
+    doMouseClick: function(entry) {
+        BUS.$emit('selectedRow', entry);
     }
   }
 }
@@ -82,7 +95,7 @@ export default {
 table {
   border: 2px solid #DF6659;
   border-radius: 3px;
-  background-color: #fff;
+  background-color: #FFF;
 }
 th {
   background-color: #DF6659;
@@ -93,16 +106,20 @@ th {
   -ms-user-select: none;
   user-select: none;
 }
+tr:hover td {
+  cursor: pointer;
+  background-color: #FBCFD0;
+}
 td {
-  background-color: #f9f9f9;
+  background-color: #F9F9F9;
 }
 th, td {
   font-size: 80%;
-  min-width: 120px;
+  min-width: 20px;
   padding: 5px 10px;
 }
 th.active {
-  color: #fff;
+  color: #FFF;
 }
 th.active .arrow {
   opacity: 1;
@@ -118,14 +135,18 @@ th.active .arrow {
 .arrow.asc {
   border-left: 4px solid transparent;
   border-right: 4px solid transparent;
-  border-bottom: 4px solid #fff;
+  border-bottom: 4px solid #FFF;
 }
 .arrow.dsc {
   border-left: 4px solid transparent;
   border-right: 4px solid transparent;
-  border-top: 4px solid #fff;
+  border-top: 4px solid #FFF;
 }
-.list-row:hover {
+tr.listRow:hover {
+  background-color: #E0BBB7;
+  cursor: pointer;
+}
+td.listCell:hover {
   background-color: #E0BBB7;
   cursor: pointer;
 }

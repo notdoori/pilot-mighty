@@ -21,23 +21,19 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pilot.mighty.model.AuthInfo;
-import com.pilot.mighty.model.UserInfo;
 import com.pilot.mighty.query.QueryExecutor;
 import com.pilot.mighty.service.AuthService;
-import com.pilot.mighty.service.UserService;
-import com.pilot.mighty.util.TokenUtil;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-//@Api(tags = {"1. User"})
+@Api(tags = {"1. Auth"})
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
 	
 	@Autowired
-	UserService userService;
-//	AuthService authService;
+	AuthService authService;
 	
 	@Autowired
 	QueryExecutor qe;
@@ -51,18 +47,11 @@ public class AuthController {
 	 */
 	@ApiOperation(value="전체 권한 그룹 조회", notes = "모든 권한 그룹을 조회합니다.")
 	@RequestMapping(value= "/all", method=RequestMethod.GET)
-	public UserInfo[] getUserAll() {
+	public AuthInfo[] getAuthAll() {
+		AuthInfo[] authInfo = authService.selectAuthInfoAll();
 		
-		UserInfo[] userInfo = userService.selectUserInfoAll();
-		
-		return userInfo;
+		return authInfo;
 	}
-//	public AuthInfo[] getAuthAll() {
-//		
-//		AuthInfo[] authInfo = authService.selectAuthInfoAll();
-//		
-//		return authInfo;
-//	}
 	
 	/**
 	 * 권한 그룹 추가 요청 (INSERT)
@@ -79,12 +68,28 @@ public class AuthController {
 		@SuppressWarnings("unchecked")
 		Map<String, Object> map = mapper.readValue(body, Map.class);
 		
-		logger.debug("authId: " + map.get("authId").toString());
-		logger.debug("authDesc: " + map.get("authDesc").toString());
+		logger.debug("roleId: " + map.get("roleId").toString());
+		logger.debug("roleDesc: " + map.get("roleDesc").toString());
 		
-		return null;
+		HashMap<String, Object> retMap = authService.selectAuthInfo(map);
+		
+		// DB 에 리스트 존재 여부 확인
+		if (retMap != null) {
+			retMap = new HashMap<String, Object>();
+			retMap.put("reason", map.get("roleId").toString() + " is already existed.");
+			return new ResponseEntity<Object>(retMap, HttpStatus.FOUND);
+		}
+		
+		Map<String, String> insertMap = new HashMap<String, String>();
+		
+		insertMap.put("roleId", map.get("roleId").toString());
+		insertMap.put("roleDesc", map.get("roleDesc").toString());
+		
+		authService.insertAuthInfo(insertMap);
+		
+		return new ResponseEntity<Object>(map, HttpStatus.OK);
 	}
-
+	
 	/**
 	 * 권한 그룹 수정 요청 (UPDATE)
 	 * @author thkim
@@ -100,10 +105,26 @@ public class AuthController {
 		@SuppressWarnings("unchecked")
 		Map<String, Object> map = mapper.readValue(body, Map.class);
 		
-		logger.debug("authId: " + map.get("authId").toString());
-		logger.debug("authDesc: " + map.get("authDesc").toString());
+		logger.debug("roleId: " + map.get("roleId").toString());
+		logger.debug("roleDesc: " + map.get("roleDesc").toString());
 		
-		return null;
+		HashMap<String, Object> retMap = authService.selectAuthInfo(map);
+		
+		// DB에 리스트 존재 여부 확인
+		if (retMap == null) {
+			retMap = new HashMap<String, Object>();
+			retMap.put("reason", map.get("roleId").toString() + " is not found.");
+			return new ResponseEntity<Object>(retMap, HttpStatus.NOT_FOUND);
+		}
+		
+		Map<String, String> updateMap = new HashMap<String, String>();
+		
+		updateMap.put("roleId", map.get("roleId").toString());
+		updateMap.put("roleDesc", map.get("roleDesc").toString());
+		
+		authService.updateAuthInfo(updateMap);
+		
+		return new ResponseEntity<Object>(map, HttpStatus.OK);
 	}
 	
 	/**
@@ -121,9 +142,25 @@ public class AuthController {
 		@SuppressWarnings("unchecked")
 		Map<String, Object> map = mapper.readValue(body, Map.class);
 		
-		logger.debug("authId: " + map.get("authId").toString());
-		logger.debug("authDesc: " + map.get("authDesc").toString());
+		logger.debug("roleId: " + map.get("roleId").toString());
+		logger.debug("roleDesc: " + map.get("roleDesc").toString());
 		
-		return null;
+		HashMap<String, Object> retMap = authService.selectAuthInfo(map);
+		
+		// DB에 리스트 존재 여부 확인
+		if (retMap == null) {
+			retMap = new HashMap<String, Object>();
+			retMap.put("reason", map.get("roleId").toString() + " is not found.");
+			return new ResponseEntity<Object>(retMap, HttpStatus.NOT_FOUND);
+		}
+		
+		Map<String, String> deleteMap = new HashMap<String, String>();
+		
+		deleteMap.put("roleId", map.get("roleId").toString());
+		deleteMap.put("roleDesc", map.get("roleDesc").toString());
+		
+		authService.deleteAuthInfo(deleteMap);
+		
+		return new ResponseEntity<Object>(map, HttpStatus.OK);
 	}
 }

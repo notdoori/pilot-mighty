@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.pilot.mighty.dao.GroupInfoDao">
+ 
+ 	<select id="selectGroupInfoAll" resultType="com.pilot.mighty.model.GroupInfo">
+		SELECT GROUP_ID as groupId,
+		       GROUP_DESC as groupDesc,
+		       ROLE_ID as roleId
+		  FROM ADM_GROUP_INFO
+		 ORDER BY GROUP_ID
+	</select>
+	
+	<select id="selectGroupInfo" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT GROUP_ID as groupId,
+		          GROUP_DESC as groupDesc,
+		          ROLE_ID as roleId
+		  FROM ADM_GROUP_INFO
+		 WHERE GROUP_ID = #{groupId}
+	</select>
+	
+	<insert id="insertGroupInfo" parameterType="java.util.Map">
+		INSERT INTO ADM_GROUP_INFO (GROUP_ID, GROUP_DESC, ROLE_ID)
+		VALUES (#{groupId}, #{groupDesc}, #{roleId})
+	</insert>
+	
+	<update id="updateGroupInfo" parameterType="java.util.Map">
+		UPDATE ADM_GROUP_INFO
+		   SET GROUP_DESC = #{groupDesc}
+		 WHERE GROUP_ID = #{groupId}
+	</update>
+	
+	<delete id="deleteGroupInfo" parameterType="java.util.Map">
+		DELETE FROM ADM_GROUP_INFO
+		 WHERE GROUP_ID = #{groupId}
+	</delete>
+	
+</mapper>

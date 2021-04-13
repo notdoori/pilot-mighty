@@ -3,10 +3,12 @@
  <mapper namespace="com.pilot.mighty.dao.UserInfoDao">
  
  	<select id="selectUserInfoAll" resultType="com.pilot.mighty.model.UserInfo">
-		SELECT USER_ID as userId
+		SELECT ROWNUM as no
+			  ,USER_ID as userId
 		      ,USER_NAME as userName
 		      ,LANGUAGE_TYPE as langType
 		      ,DEPARTMENT as depart
+		      ,USER_GROUP_ID as userGroup
 		  FROM ADM_USER_INFO 
 		 ORDER BY USER_ID
 	</select>
