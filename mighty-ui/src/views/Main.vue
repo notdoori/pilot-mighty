@@ -1,10 +1,13 @@
 <template>
   <div>
     <v-app-bar tile color="transparent" height="40">
-      <v-row align="stretch" justify="start">
-        <SysMenu @selectSysItem="setSysItem"></SysMenu>
-        <InquiryMenu @selectInquiryItem="setInquiryItem"></InquiryMenu>
-      </v-row>
+      <v-btn icon small>
+        <v-icon>mdi-dots-vertical</v-icon>
+      </v-btn>
+      
+      <span v-for="(menu, index) in menuList" :key="index">
+        <Menu :menuGroup="menu" @clickMenu="clickMenu"></Menu>
+      </span>
     </v-app-bar>
 
     <div class="d1">
@@ -15,7 +18,7 @@
         height="38"
       >
         <v-tab v-for="tab in tabs" :key="tab.id" exact @click="updateTab(tab)">
-          {{ tab.title }}
+          {{ tab.name }}
           <v-icon small left @click="removeTab(tab)">mdi-minus-circle</v-icon>
         </v-tab>
       </v-tabs>
@@ -44,24 +47,12 @@
 
 import {mapState, mapActions} from 'vuex';
 import VRuntimeTemplate from "v-runtime-template";
-import SysMenu from '@/components/menu/SysMenu';
-import InquiryMenu from '@/components/menu/InquiryMenu';
-// import users from '@/views/user/users';
-// import Groups from '@/views/user/Groups';
-// import Authority from '@/views/user/Authority';
-// import Inquiry1 from '@/views/Inquiry/Inquiry1';
-// import Inquiry2 from '@/views/Inquiry/Inquiry2';
+import Menu from '@/components/menu/Menu';
 
   export default {
     components: {
       // menu
-      SysMenu,
-      InquiryMenu,
-      // users,
-      // Groups,
-      // Authority,
-      // Inquiry1,
-      // Inquiry2,
+      Menu,
       VRuntimeTemplate
     },
     computed: {
@@ -72,33 +63,12 @@ import InquiryMenu from '@/components/menu/InquiryMenu';
     methods: {
       ...mapActions(['actLogout', 'actLogoutYN']),
       ...mapActions('MainStore', ['actTest']),
-      // menu
-      setSysItem(item) {
-        // console.log(item);
-        // console.log('mTab: ', this.mTab);
-        // console.log('go MainStore');
-        // this.actTest();
-        //this.activeItem = item;
-        if (item.content === 'Logout') {
-          this.$store.dispatch('actLogoutYN');
-        } else {
-          this.addTab(item);
-        }
-      },
-      setInquiryItem(item) {
-        //console.log(item);
-        this.addTab(item);
-      },
-
       // tab
       updateTab(tab) {
         //console.log('updateTab: ', tab);
-        this.$router.push({path: tab.content}, function(){}, function(){});
+        //this.$router.push({path: tab.route}, function(){}, function(){});
         this.activeTab = this.tabs.findIndex(t => t.id === tab.id);
       },
-      // activateTab: function(tab) {
-      //   this.activeTab = tab;
-      // },
       removeTab(tab){
         this.tabs = this.tabs.filter(t => t.id !== tab.id);
         //console.log('tab: ', tab);
@@ -108,30 +78,34 @@ import InquiryMenu from '@/components/menu/InquiryMenu';
         }
         // console.log('activeTab: ', this.activeTab);
       },
-      addTab(item){
-        console.log('item: ', item);
+      clickMenu(item) {
+        //console.log('id: ', item.id, ' name: ', item.name);
 
-        //console.log('curRoute: ', this.$router.currentRoute);        
+        if (item.id === 'M0004') {
+          this.$store.dispatch('actLogoutYN');
+        } else {
+          this.addMenuTab(item);
+        }
+      },
+      addMenuTab(item) {
+        //console.log('id: ', item.id, ' name: ', item.name);
 
         if (this.tabs.some(t => t.id === item.id)) {
-          console.log('already exist: ', item.value)         
+          console.log('already exist id: ', item.id, ' name: ', item.name);         
         } else {
-          this.tabs.push({
-                id: item.id,
-                title: item.value,
-                content: item.content
-              });
+            this.tabs.push({
+                  id: item.id,
+                  name: item.name,
+                });
 
-          let nextRoutePath=this.curRoutePath + '/' + item.content;
-          //console.log('next route path: ', nextRoutePath);
-          this.$router.push({path: nextRoutePath}, function(){}, function(){});
-          //this.$router.push({path: item.content}, function(){}, function(){});
+            let nextRoutePath=this.curRoutePath + '/' + item.id;
+
+            //console.log('next route path: ', nextRoutePath);
+
+            this.$router.push({path: nextRoutePath}, function(){}, function(){});
         }
 
         this.activeTab = this.tabs.findIndex(t => t.id === item.id);
-
-        //console.log('activeTab: ', this.activeTab);
-        //console.log('tabs: ', this.tabs);
       }
     },
     data() {
@@ -148,6 +122,7 @@ import InquiryMenu from '@/components/menu/InquiryMenu';
           //                       </div>
           //                     </v-tab-item>      
           //                   </v-tabs-items>`
+          menuList: []
       }
     },
     // tab, broswer 닫는 경우 처리 => 새로 고침 버튼에도 영향을 줌.
@@ -159,9 +134,28 @@ import InquiryMenu from '@/components/menu/InquiryMenu';
       window.addEventListener('unload', function(e) {
         this.$store.dispatch('actLogout');
       });
-
-      this.curRoutePath = this.$route.path;
     },
+    mounted() {
+      this.curRoutePath = this.$route.path;
+      this.menuList = [
+                       {id: "K0001", name: "SYSTEN", desc: "",
+                        children: [{id: "M0001", name: "권한 관리", desc: "권한 관리 메뉴", children: []},
+                                   {id: "M0002", name: "사용자 그룹 관리", desc: "사용자 그룹 관리 메뉴", children:[]},
+                                   {id: "M0003", name: "사용자 관리", desc: "사용자 관리 메뉴", children:[]},
+                                   {id: "M0004", name: "로그 아웃", desc: "로그 아웃 메뉴", children:[]}
+                                  ]
+                       },
+                       {id: "K0002", name: "INQUIRY", desc: "",
+                        children: [{id: "M0020", name: "Sub Group", desc: "", 
+                                    children:[{id: "M0021", name: "Sub Menu1", desc: "", children:[]},
+                                              {id: "M0022", name: "Sub Menu2", desc: "", children:[]}
+                                             ]
+                                   }
+                                  //  ,{id: "M0023", name: "INQUIRY1", desc: "메뉴 테스트 2", children:[]}
+                                  ]
+                       }
+                      ];
+    }
     // beforeRouteLeave (to, from, next) {
     //   console.log('from: ', from);
     //   console.log('to: ', to);
