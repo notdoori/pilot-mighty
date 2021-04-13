@@ -20,12 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pilot.mighty.model.AuthInfo;
 import com.pilot.mighty.model.GroupInfo;
-import com.pilot.mighty.model.UserInfo;
 import com.pilot.mighty.query.QueryExecutor;
 import com.pilot.mighty.service.GroupService;
-import com.pilot.mighty.service.UserService;
-import com.pilot.mighty.util.TokenUtil;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -72,11 +70,28 @@ public class GroupController {
 		@SuppressWarnings("unchecked")
 		Map<String, Object> map = mapper.readValue(body, Map.class);
 		
-		logger.debug("GROUP_ID: " + map.get("GROUP_ID").toString());
-		logger.debug("GROUP_DESC: " + map.get("GROUP_DESC").toString());
-		logger.debug("ROLE_ID: " + map.get("ROLE_ID").toString());
+		logger.debug("groupId: " + map.get("groupId").toString());
+		logger.debug("groupDesc: " + map.get("groupDesc").toString());
+		logger.debug("roleId: " + map.get("roleId").toString());
 		
-		return null;
+		HashMap<String, Object> retMap = groupService.selectGroupInfo(map);
+		
+		// Database 에 리스트 존재 여부 확인
+		if (retMap != null) {
+			retMap = new HashMap<String, Object>();
+			retMap.put("reason", map.get("groupId").toString() + " is already existed.");
+			return new ResponseEntity<Object>(retMap, HttpStatus.FOUND);
+		}
+		
+		Map<String, String> insertMap = new HashMap<String, String>();
+		
+		insertMap.put("groupId", map.get("groupId").toString());
+		insertMap.put("groupDesc", map.get("groupDesc").toString());
+		insertMap.put("roleId", map.get("roleId").toString());
+		
+		groupService.insertGroupInfo(insertMap);
+		
+		return new ResponseEntity<Object>(map, HttpStatus.OK);
 	}
 
 	/**
@@ -94,11 +109,28 @@ public class GroupController {
 		@SuppressWarnings("unchecked")
 		Map<String, Object> map = mapper.readValue(body, Map.class);
 		
-		logger.debug("GROUP_ID: " + map.get("GROUP_ID").toString());
-		logger.debug("GROUP_DESC: " + map.get("GROUP_DESC").toString());
-		logger.debug("ROLE_ID: " + map.get("ROLE_ID").toString());
+		logger.debug("groupId: " + map.get("groupId").toString());
+		logger.debug("groupDesc: " + map.get("groupDesc").toString());
+		logger.debug("roleId: " + map.get("roleId").toString());
 		
-		return null;
+		HashMap<String, Object> retMap = groupService.selectGroupInfo(map);
+		
+		// Database 에 리스트 존재 여부 확인
+		if (retMap == null) {
+			retMap = new HashMap<String, Object>();
+			retMap.put("reason", map.get("groupId").toString() + " is not found.");
+			return new ResponseEntity<Object>(retMap, HttpStatus.NOT_FOUND);
+		}
+		
+		Map<String, String> updateMap = new HashMap<String, String>();
+		
+		updateMap.put("groupId", map.get("groupId").toString());
+		updateMap.put("groupDesc", map.get("groupDesc").toString());
+		updateMap.put("roleId", map.get("roleId").toString());
+		
+		groupService.updateGroupInfo(updateMap);
+		
+		return new ResponseEntity<Object>(map, HttpStatus.OK);
 	}
 	
 	/**
@@ -116,10 +148,27 @@ public class GroupController {
 		@SuppressWarnings("unchecked")
 		Map<String, Object> map = mapper.readValue(body, Map.class);
 		
-		logger.debug("GROUP_ID: " + map.get("GROUP_ID").toString());
-		logger.debug("GROUP_DESC: " + map.get("GROUP_DESC").toString());
-		logger.debug("ROLE_ID: " + map.get("ROLE_ID").toString());
+		logger.debug("groupId: " + map.get("groupId").toString());
+		logger.debug("groupDesc: " + map.get("groupDesc").toString());
+		logger.debug("roleId: " + map.get("roleId").toString());
 		
-		return null;
+		HashMap<String, Object> retMap = groupService.selectGroupInfo(map);
+		
+		// Database 에 리스트 존재 여부 확인
+		if (retMap == null) {
+			retMap = new HashMap<String, Object>();
+			retMap.put("reason", map.get("roleId").toString() + " is not found.");
+			return new ResponseEntity<Object>(retMap, HttpStatus.NOT_FOUND);
+		}
+		
+		Map<String, String> deleteMap = new HashMap<String, String>();
+		
+		deleteMap.put("groupId", map.get("groupId").toString());
+		deleteMap.put("groupDesc", map.get("groupDesc").toString());
+		deleteMap.put("roleId", map.get("roleId").toString());
+		
+		groupService.deleteGroupInfo(deleteMap);
+		
+		return new ResponseEntity<Object>(retMap, HttpStatus.OK);
 	}
 }

@@ -135,10 +135,11 @@ export default {
     /* updated 훅은 가상 DOM 이 재렌더링 되어 실제 DOM 이 되었을 때 호출된다. */
     // alert("updated() 호출");
 
-    if (this.queryUpdate === true) {
-      this.queryUpdate = false;
-
-      // 모든 권한 그룹 리스트 조회
+    // 모든 권한 그룹 리스트 조회
+    if (this.gridUpdate === true) {
+      this.gridUpdate = false;
+      this.roleId = this.roleIdTemp;
+      this.roleDesc = this.roleDescTemp;
       this.authority_refresh();
     }
   },
@@ -157,12 +158,13 @@ export default {
   data() {
     return {
       searchQuery: "",
-      //gridColumns: ["roleId", "roleDesc"], // 모든 권한 그룹 항목 정보
       gridColumns: ["roleId", "roleDesc"], // 모든 권한 그룹 항목 정보
       gridData: [], // 모든 권한 그룹 데이터 정보 (SELECT)
+      gridUpdate: false,
       roleId: "", // 권한 그룹 아이디 (NOT NULL)
       roleDesc: "", // 권한 그룹 설명 (NULL)
-      queryUpdate: false,
+      roleIdTemp: "", // 임시 권한 그룹 아이디
+      roleDescTemp: "", // 임시 권한 그룹 설명
     };
   },
 
@@ -173,10 +175,11 @@ export default {
         .get(AUTHORITY_GROUP_ALL)
         .then(
           (response) => (
-            (this.gridData = response.data), console.log(this.gridData)
+            (this.gridData = null), (this.gridData = response.data)
+            // console.log(this.gridData)
           )
         )
-        .catch((error) => console.log(error));
+        .catch((error) => alert(error));
     },
 
     // 권한 그룹 추가
@@ -184,24 +187,28 @@ export default {
       if (this.roleId === "") {
         alert(ID_INPUT_MESSAGE, "");
       } else {
+        // console.log("[vue] roleId: " + this.roleId);
+        // console.log("[vue] roleDesc: " + this.roleDesc);
+
         axios
           .post(AUTHORITY_GROUP_ADD, {
-            ROLE_ID: this.roleId,
-            ROLE_DESC: this.roleDesc,
+            roleId: this.roleId,
+            roleDesc: this.roleDesc,
           })
           .then(
             (response) =>
               // console.log(response)
               alert(AUTHORITY_GROUP_ADD_COMPLETE),
-            ((this.roleId = ""), (this.roleDesc = ""))
+            ((this.gridUpdate = true),
+            (this.roleId = ""),
+            (this.roleDesc = ""),
+            (this.roleIdTemp = ""),
+            (this.roleDescTemp = ""))
           )
           .catch((error) =>
             // console.log(error)
             alert(AUTHORITY_GROUP_ADD_FAILED)
           );
-
-        // 모든 권한 그룹 리스트 갱신
-        this.queryUpdate = true;
       }
     },
 
@@ -210,14 +217,23 @@ export default {
       if (this.roleId === "") {
         alert(ID_INPUT_MESSAGE);
       } else {
+        // console.log("[vue] roleId: " + this.roleId);
+        // console.log("[vue] roleDesc: " + this.roleDesc);
+
         axios
           .post(AUTHORITY_GROUP_MODIFY, {
-            ROLE_ID: this.roleId,
-            ROLE_DESC: this.roleDesc,
+            roleId: this.roleId,
+            roleDesc: this.roleDesc,
           })
-          .then((response) =>
-            // console.log(response)
-            alert(AUTHORITY_GROUP_MODIFY_COMPLETE)
+          .then(
+            (response) =>
+              // console.log(response)
+              alert(AUTHORITY_GROUP_MODIFY_COMPLETE),
+            ((this.gridUpdate = true),
+            (this.roleIdTemp = this.roleId),
+            (this.roleDescTemp = this.roleDesc),
+            (this.roleId = ""),
+            (this.roleDesc = ""))
           )
           .catch((error) =>
             // console.log(error)
@@ -231,24 +247,28 @@ export default {
       if (this.roleId === "") {
         alert(ID_INPUT_MESSAGE);
       } else {
+        // console.log("[vue] roleId: " + this.roleId);
+        // console.log("[vue] roleDesc: " + this.roleDesc);
+
         axios
           .post(AUTHORITY_GROUP_DELETE, {
-            ROLE_ID: this.roleId,
-            ROLE_DESC: this.roleDesc,
+            roleId: this.roleId,
+            roleDesc: this.roleDesc,
           })
           .then(
             (response) =>
               // console.log(response)
               alert(AUTHORITY_GROUP_DELETE_COMPLETE),
-            ((this.roleId = ""), (this.roleDesc = ""))
+            ((this.gridUpdate = true),
+            (this.roleId = ""),
+            (this.roleDesc = ""),
+            (this.roleIdTemp = ""),
+            (this.roleDescTemp = ""))
           )
           .catch((error) =>
             // console.log(error)
             alert(AUTHORITY_GROUP_DELETE_FAILED)
           );
-
-        // 모든 권한 그룹 리스트 갱신
-        this.queryUpdate = true;
       }
     },
   },

@@ -18,35 +18,41 @@ public class GroupServiceImpl implements GroupService {
 
 	@Override
 	public GroupInfo[] selectGroupInfoAll() {
-		// TODO Auto-generated method stub
+		// 모든 사용자 그룹 리스트 조회
+		GroupInfo[] authInfo = groupInfoDao.selectGroupInfoAll();
 		
-		GroupInfo[] groupInfo = groupInfoDao.selectGroupInfoAll();
-		return groupInfo;
+		return authInfo;
 	}
-
-//	@Override
-//	public String checkAvailableUser() {
-//		
-//		return userInfoDao.checkAvailableUser();
-//		//return retMap;
-//	}
-//
-//	@Override
-//	public HashMap<String, Object> selectUserInfo(Map<String, Object> map) {
-//		
-//		return userInfoDao.selectUserInfo(map);
-//	}
-//
-//	@Override
-//	public void updateUserToken(Map<String, String> map) {
-//	
-//		userInfoDao.updateUserToken(map);
-//		
-//	}
-//
-//	@Override
-//	public HashMap<String, Object> selectUserAndRefreshToken(String accessToken) {
-//		// TODO Auto-generated method stub
-//		return userInfoDao.selectUserAndRefreshToken(accessToken);
-//	}
+	
+	@Override
+	public GroupInfo[] selectAuthInfoAll() {
+		// 모든 사용자 그룹 리스트 조회
+		GroupInfo[] authInfo = groupInfoDao.selectAuthInfoAll();
+		
+		return authInfo;
+	}
+	
+	@Override
+	public HashMap<String, Object> selectGroupInfo(Map<String, Object> map) {
+		// 특정 사용자 그룹 리스트 조회
+		return groupInfoDao.selectGroupInfo(map);
+	}
+	
+	@Override
+	public void insertGroupInfo(Map<String, String> map) {
+		// 사용자 그룹 리스트 추가
+		groupInfoDao.insertGroupInfo(map);
+	}
+	
+	@Override
+	public void updateGroupInfo(Map<String, String> map) {
+		// 특정 사용자 그룹 리스트 설명 업데이트
+		groupInfoDao.updateGroupInfo(map);
+	}
+	
+	@Override
+	public void deleteGroupInfo(Map<String, String> map) {
+		// 사용자 그룹 리스트 삭제
+		groupInfoDao.deleteGroupInfo(map);
+	}
 }
