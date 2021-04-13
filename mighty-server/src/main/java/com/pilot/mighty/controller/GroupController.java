@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pilot.mighty.model.AuthInfo;
 import com.pilot.mighty.model.GroupInfo;
 import com.pilot.mighty.query.QueryExecutor;
 import com.pilot.mighty.service.GroupService;
@@ -75,7 +76,7 @@ public class GroupController {
 		
 		HashMap<String, Object> retMap = groupService.selectGroupInfo(map);
 		
-		// DB 에 리스트 존재 여부 확인
+		// Database 에 리스트 존재 여부 확인
 		if (retMap != null) {
 			retMap = new HashMap<String, Object>();
 			retMap.put("reason", map.get("groupId").toString() + " is already existed.");
@@ -114,7 +115,7 @@ public class GroupController {
 		
 		HashMap<String, Object> retMap = groupService.selectGroupInfo(map);
 		
-		// DB에 리스트 존재 여부 확인
+		// Database 에 리스트 존재 여부 확인
 		if (retMap == null) {
 			retMap = new HashMap<String, Object>();
 			retMap.put("reason", map.get("groupId").toString() + " is not found.");
@@ -153,7 +154,7 @@ public class GroupController {
 		
 		HashMap<String, Object> retMap = groupService.selectGroupInfo(map);
 		
-		// DB에 리스트 존재 여부 확인
+		// Database 에 리스트 존재 여부 확인
 		if (retMap == null) {
 			retMap = new HashMap<String, Object>();
 			retMap.put("reason", map.get("roleId").toString() + " is not found.");
