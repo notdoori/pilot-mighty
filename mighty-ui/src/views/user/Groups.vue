@@ -35,11 +35,12 @@
               outlined="true"
               v-model="groupDesc"
             ></v-text-field>
-            <v-combobox
+            <v-select
               label="권한 그룹 아이디"
               outlined="true"
-              v-model="roleId"
-            ></v-combobox>
+              :items="roleId"
+              @input="authority_id_info"
+            ></v-select>
           </div>
           <div>
             <v-btn
@@ -126,7 +127,6 @@ export default {
       this.gridUpdate = false;
       this.groupId = this.groupIdTemp;
       this.groupDesc = this.groupDescTemp;
-      this.roleId = this.roleIdTemp;
       this.group_refresh();
     }
   },
@@ -150,28 +150,10 @@ export default {
       gridUpdate: false,
       groupId: "", // 사용자 그룹 아이디 (NOT NULL)
       groupDesc: "", // 사용자 그룹 설명 (NULL)
-      roleId: "", // 권한 그룹 아이디 (NULL)
+      roleId: [], // 권한 그룹 아이디 (NULL)
+      selectedRoleId: [], // 선택한 권한 그룹 아이디 정보
       groupIdTemp: "", // 임시 사용자 그룹 아이디
       groupDescTemp: "", // 임시 사용자 그룹 설명
-      roleIdTemp: "", // 임시 권한 그룹 아이디
-      // roleId: [
-      //   {
-      //     text: "A1",
-      //     value: "A1",
-      //   },
-      //   {
-      //     text: "A2",
-      //     value: "A2",
-      //   },
-      //   {
-      //     text: "A3",
-      //     value: "A3",
-      //   },
-      //   {
-      //     text: "A4",
-      //     value: "A4",
-      //   },
-      // ],
     };
   },
   methods: {
@@ -181,11 +163,27 @@ export default {
         .get(USER_GROUP_ALL)
         .then(
           (response) => (
-            (this.gridData = null), (this.gridData = response.data)
-            // console.log(this.gridData)
+            (this.gridData = null),
+            (this.gridData = response.data),
+            this.authority_id_refresh(this.gridData)
           )
         )
         .catch((error) => alert(error));
+    },
+
+    // 모든 권한 그룹 ID 리스트 조회
+    authority_id_refresh: function (data) {
+      let idArray = [];
+
+      for (let i = 0; i < data.length; i++) {
+        if (data[i]["roleId"] === null) {
+          continue;
+        }
+        idArray[i] = data[i]["roleId"];
+      }
+
+      this.roleId = [];
+      this.roleId = idArray;
     },
 
     // 사용자 그룹 추가
@@ -193,32 +191,22 @@ export default {
       if (this.groupId === "") {
         alert(ID_INPUT_MESSAGE);
       } else {
-        // console.log("[vue] groupId: " + this.groupId);
-        // console.log("[vue] groupDesc: " + this.groupDesc);
-        // console.log("[vue] roleId: " + this.roleId);
-
         axios
           .post(USER_GROUP_ADD, {
             groupId: this.groupId,
             groupDesc: this.groupDesc,
-            roleId: this.roleId,
+            roleId: this.selectedRoleId,
           })
           .then(
-            (response) =>
-              // console.log(response)
-              alert(USER_GROUP_ADD_COMPLETE),
+            (response) => alert(USER_GROUP_ADD_COMPLETE),
             ((this.gridUpdate = true),
             (this.groupId = ""),
             (this.groupDesc = ""),
-            (this.roleId = ""),
+            (this.selectedRoleId = ""),
             (this.groupIdTemp = ""),
-            (this.groupDescTemp = ""),
-            (this.roleIdTemp = ""))
+            (this.groupDescTemp = ""))
           )
-          .catch((error) =>
-            // console.log(error)
-            alert(USER_GROUP_ADD_FAILED)
-          );
+          .catch((error) => alert(USER_GROUP_ADD_FAILED));
       }
     },
 
@@ -227,32 +215,22 @@ export default {
       if (this.groupId === "") {
         alert(ID_INPUT_MESSAGE);
       } else {
-        // console.log("[vue] groupId: " + this.groupId);
-        // console.log("[vue] groupDesc: " + this.groupDesc);
-        // console.log("[vue] roleId: " + this.roleId);
-
         axios
           .post(USER_GROUP_MODIFY, {
             groupId: this.groupId,
             groupDesc: this.groupDesc,
-            roleId: this.roleId,
+            roleId: this.selectedRoleId,
           })
           .then(
-            (response) =>
-              // console.log(response)
-              alert(USER_GROUP_MODIFY_COMPLETE),
+            (response) => alert(USER_GROUP_MODIFY_COMPLETE),
             ((this.gridUpdate = true),
             (this.groupIdTemp = this.groupId),
             (this.groupDescTemp = this.groupDesc),
-            (this.roleIdTemp = this.roleId),
-            (this.groupId = ""),
+            (this.selectedRoleId = ""),
             (this.groupDesc = ""),
             (this.roleId = ""))
           )
-          .catch((error) =>
-            // console.log(error)
-            alert(USER_GROUP_MODIFY_FAILED)
-          );
+          .catch((error) => alert(USER_GROUP_MODIFY_FAILED));
       }
     },
 
@@ -261,46 +239,34 @@ export default {
       if (this.groupId === "") {
         alert(ID_INPUT_MESSAGE);
       } else {
-        // console.log("[vue] groupId: " + this.groupId);
-        // console.log("[vue] groupDesc: " + this.groupDesc);
-        // console.log("[vue] roleId: " + this.roleId);
-
         axios
           .post(USER_GROUP_DELETE, {
             groupId: this.groupId,
             groupDesc: this.groupDesc,
-            roleId: this.roleId,
+            roleId: this.selectedRoleId,
           })
           .then(
-            (response) =>
-              // console.log(response)
-              alert(USER_GROUP_DELETE_COMPLETE),
+            (response) => alert(USER_GROUP_DELETE_COMPLETE),
             ((this.gridUpdate = true),
             (this.groupId = ""),
             (this.groupDesc = ""),
-            (this.roleId = ""),
+            (this.selectedRoleId = ""),
             (this.groupIdTemp = ""),
-            (this.groupDescTemp = ""),
-            (this.roleIdTemp = ""))
+            (this.groupDescTemp = ""))
           )
-          .catch((error) =>
-            // console.log(error)
-            alert(USER_GROUP_DELETE_FAILED)
-          );
+          .catch((error) => alert(USER_GROUP_DELETE_FAILED));
       }
+    },
+
+    // 이벤트
+    authority_id_info: function (event) {
+      this.selectedRoleId = event;
     },
   },
 };
 </script>
 
-<!--
-<style type="text/css">
- .v-content {
-  color: red;
-}
-</style>
--->
-
+<!-- <style type="text/css"> -->
 <style scoped="">
 .v-container {
   background-color: lightgray;
