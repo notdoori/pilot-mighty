@@ -176,7 +176,6 @@ export default {
         .then(
           (response) => (
             (this.gridData = null), (this.gridData = response.data)
-            // console.log(this.gridData)
           )
         )
         .catch((error) => alert(error));
@@ -187,28 +186,20 @@ export default {
       if (this.roleId === "") {
         alert(ID_INPUT_MESSAGE, "");
       } else {
-        // console.log("[vue] roleId: " + this.roleId);
-        // console.log("[vue] roleDesc: " + this.roleDesc);
-
         axios
           .post(AUTHORITY_GROUP_ADD, {
             roleId: this.roleId,
             roleDesc: this.roleDesc,
           })
           .then(
-            (response) =>
-              // console.log(response)
-              alert(AUTHORITY_GROUP_ADD_COMPLETE),
+            (response) => alert(AUTHORITY_GROUP_ADD_COMPLETE),
             ((this.gridUpdate = true),
             (this.roleId = ""),
             (this.roleDesc = ""),
             (this.roleIdTemp = ""),
             (this.roleDescTemp = ""))
           )
-          .catch((error) =>
-            // console.log(error)
-            alert(AUTHORITY_GROUP_ADD_FAILED)
-          );
+          .catch((error) => alert(AUTHORITY_GROUP_ADD_FAILED));
       }
     },
 
@@ -217,28 +208,20 @@ export default {
       if (this.roleId === "") {
         alert(ID_INPUT_MESSAGE);
       } else {
-        // console.log("[vue] roleId: " + this.roleId);
-        // console.log("[vue] roleDesc: " + this.roleDesc);
-
         axios
           .post(AUTHORITY_GROUP_MODIFY, {
             roleId: this.roleId,
             roleDesc: this.roleDesc,
           })
           .then(
-            (response) =>
-              // console.log(response)
-              alert(AUTHORITY_GROUP_MODIFY_COMPLETE),
+            (response) => alert(AUTHORITY_GROUP_MODIFY_COMPLETE),
             ((this.gridUpdate = true),
             (this.roleIdTemp = this.roleId),
             (this.roleDescTemp = this.roleDesc),
             (this.roleId = ""),
             (this.roleDesc = ""))
           )
-          .catch((error) =>
-            // console.log(error)
-            alert(AUTHORITY_GROUP_MODIFY_FAILED)
-          );
+          .catch((error) => alert(AUTHORITY_GROUP_MODIFY_FAILED));
       }
     },
 
@@ -247,42 +230,27 @@ export default {
       if (this.roleId === "") {
         alert(ID_INPUT_MESSAGE);
       } else {
-        // console.log("[vue] roleId: " + this.roleId);
-        // console.log("[vue] roleDesc: " + this.roleDesc);
-
         axios
           .post(AUTHORITY_GROUP_DELETE, {
             roleId: this.roleId,
             roleDesc: this.roleDesc,
           })
           .then(
-            (response) =>
-              // console.log(response)
-              alert(AUTHORITY_GROUP_DELETE_COMPLETE),
+            (response) => alert(AUTHORITY_GROUP_DELETE_COMPLETE),
             ((this.gridUpdate = true),
             (this.roleId = ""),
             (this.roleDesc = ""),
             (this.roleIdTemp = ""),
             (this.roleDescTemp = ""))
           )
-          .catch((error) =>
-            // console.log(error)
-            alert(AUTHORITY_GROUP_DELETE_FAILED)
-          );
+          .catch((error) => alert(AUTHORITY_GROUP_DELETE_FAILED));
       }
     },
   },
 };
 </script>
 
-<!--
-<style type="text/css">
- .v-content {
-  color: red;
-}
-</style>
--->
-
+<!-- <style type="text/css"> -->
 <style scoped="">
 .v-container {
   background-color: lightgray;
