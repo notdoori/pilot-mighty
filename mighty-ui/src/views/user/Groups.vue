@@ -35,12 +35,11 @@
               outlined="true"
               v-model="groupDesc"
             ></v-text-field>
-            <v-text-field
+            <v-combobox
               label="권한 그룹 아이디"
               outlined="true"
               v-model="roleId"
-              disabled="true"
-            ></v-text-field>
+            ></v-combobox>
           </div>
           <div>
             <v-btn
@@ -102,7 +101,7 @@ export default {
        beforeCreate 훅이 호출된 직후 데이터와 이벤트가 초기화되어 created 훅에서는 데이터와 이벤트에 접근할 수 있다. */
     // alert("created() 호출");
 
-    // 모든 권한 그룹 리스트 조회
+    // 모든 사용자 그룹 리스트 조회
     this.group_refresh();
   },
   beforeMount() {
@@ -121,6 +120,15 @@ export default {
   updated() {
     /* updated 훅은 가상 DOM 이 재렌더링 되어 실제 DOM 이 되었을 때 호출된다. */
     // alert("updated() 호출");
+
+    // 모든 권한 그룹 리스트 조회
+    if (this.gridUpdate === true) {
+      this.gridUpdate = false;
+      this.groupId = this.groupIdTemp;
+      this.groupDesc = this.groupDescTemp;
+      this.roleId = this.roleIdTemp;
+      this.group_refresh();
+    }
   },
   beforeDestroy() {
     /* beforeDestroy 훅은 Vue 인스턴스가 제거되기 전에 호출되는 훅이다. */
@@ -139,22 +147,45 @@ export default {
       searchQuery: "",
       gridColumns: ["groupId", "groupDesc", "roleId"], // 모든 사용자 그룹 항목 정보
       gridData: [], // 모든 사용자 그룹 데이터 정보 (SELECT)
+      gridUpdate: false,
       groupId: "", // 사용자 그룹 아이디 (NOT NULL)
       groupDesc: "", // 사용자 그룹 설명 (NULL)
       roleId: "", // 권한 그룹 아이디 (NULL)
+      groupIdTemp: "", // 임시 사용자 그룹 아이디
+      groupDescTemp: "", // 임시 사용자 그룹 설명
+      roleIdTemp: "", // 임시 권한 그룹 아이디
+      // roleId: [
+      //   {
+      //     text: "A1",
+      //     value: "A1",
+      //   },
+      //   {
+      //     text: "A2",
+      //     value: "A2",
+      //   },
+      //   {
+      //     text: "A3",
+      //     value: "A3",
+      //   },
+      //   {
+      //     text: "A4",
+      //     value: "A4",
+      //   },
+      // ],
     };
   },
   methods: {
-    // 모든 권한 그룹 리스트 조회
+    // 모든 사용자 그룹 리스트 조회
     group_refresh: function () {
       axios
         .get(USER_GROUP_ALL)
         .then(
           (response) => (
-            (this.gridData = response.data), console.log(this.gridData)
+            (this.gridData = null), (this.gridData = response.data)
+            // console.log(this.gridData)
           )
         )
-        .catch((error) => console.log(error));
+        .catch((error) => alert(error));
     },
 
     // 사용자 그룹 추가
@@ -162,9 +193,9 @@ export default {
       if (this.groupId === "") {
         alert(ID_INPUT_MESSAGE);
       } else {
-        console.log("[vue] groupId: " + this.groupId);
-        console.log("[vue] groupDesc: " + this.groupDesc);
-        console.log("[vue] roleId: " + this.roleId);
+        // console.log("[vue] groupId: " + this.groupId);
+        // console.log("[vue] groupDesc: " + this.groupDesc);
+        // console.log("[vue] roleId: " + this.roleId);
 
         axios
           .post(USER_GROUP_ADD, {
@@ -176,10 +207,13 @@ export default {
             (response) =>
               // console.log(response)
               alert(USER_GROUP_ADD_COMPLETE),
-            ((this.groupId = ""),
+            ((this.gridUpdate = true),
+            (this.groupId = ""),
             (this.groupDesc = ""),
             (this.roleId = ""),
-            this.group_refresh())
+            (this.groupIdTemp = ""),
+            (this.groupDescTemp = ""),
+            (this.roleIdTemp = ""))
           )
           .catch((error) =>
             // console.log(error)
@@ -193,9 +227,9 @@ export default {
       if (this.groupId === "") {
         alert(ID_INPUT_MESSAGE);
       } else {
-        console.log("[vue] groupId: " + this.groupId);
-        console.log("[vue] groupDesc: " + this.groupDesc);
-        console.log("[vue] roleId: " + this.roleId);
+        // console.log("[vue] groupId: " + this.groupId);
+        // console.log("[vue] groupDesc: " + this.groupDesc);
+        // console.log("[vue] roleId: " + this.roleId);
 
         axios
           .post(USER_GROUP_MODIFY, {
@@ -207,10 +241,13 @@ export default {
             (response) =>
               // console.log(response)
               alert(USER_GROUP_MODIFY_COMPLETE),
-            ((this.groupId = ""),
+            ((this.gridUpdate = true),
+            (this.groupIdTemp = this.groupId),
+            (this.groupDescTemp = this.groupDesc),
+            (this.roleIdTemp = this.roleId),
+            (this.groupId = ""),
             (this.groupDesc = ""),
-            (this.roleId = ""),
-            this.group_refresh())
+            (this.roleId = ""))
           )
           .catch((error) =>
             // console.log(error)
@@ -224,9 +261,9 @@ export default {
       if (this.groupId === "") {
         alert(ID_INPUT_MESSAGE);
       } else {
-        console.log("[vue] groupId: " + this.groupId);
-        console.log("[vue] groupDesc: " + this.groupDesc);
-        console.log("[vue] roleId: " + this.roleId);
+        // console.log("[vue] groupId: " + this.groupId);
+        // console.log("[vue] groupDesc: " + this.groupDesc);
+        // console.log("[vue] roleId: " + this.roleId);
 
         axios
           .post(USER_GROUP_DELETE, {
@@ -238,10 +275,13 @@ export default {
             (response) =>
               // console.log(response)
               alert(USER_GROUP_DELETE_COMPLETE),
-            ((this.groupId = ""),
+            ((this.gridUpdate = true),
+            (this.groupId = ""),
             (this.groupDesc = ""),
             (this.roleId = ""),
-            this.group_refresh())
+            (this.groupIdTemp = ""),
+            (this.groupDescTemp = ""),
+            (this.roleIdTemp = ""))
           )
           .catch((error) =>
             // console.log(error)
