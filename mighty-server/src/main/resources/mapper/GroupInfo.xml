@@ -25,7 +25,8 @@
 	
 	<update id="updateGroupInfo" parameterType="java.util.Map">
 		UPDATE ADM_GROUP_INFO
-		   SET GROUP_DESC = #{groupDesc}
+		   SET GROUP_DESC = #{groupDesc},
+		         ROLE_ID = #{roleId}
 		 WHERE GROUP_ID = #{groupId}
 	</update>
 	
