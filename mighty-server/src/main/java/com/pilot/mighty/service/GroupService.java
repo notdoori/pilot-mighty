@@ -9,6 +9,9 @@ public interface GroupService {
 	// 모든 사용자 그룹 리스트 조회
 	GroupInfo[] selectGroupInfoAll();
 	
+	// 모든 권한 그룹 리스트 조회
+	GroupInfo[] selectAuthInfoAll();
+	
 	// 특정 사용자 그룹 리스트 조회
 	HashMap<String, Object> selectGroupInfo(Map<String, Object> map);
 	

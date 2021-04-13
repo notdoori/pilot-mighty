@@ -25,6 +25,14 @@ public class GroupServiceImpl implements GroupService {
 	}
 	
 	@Override
+	public GroupInfo[] selectAuthInfoAll() {
+		// 모든 사용자 그룹 리스트 조회
+		GroupInfo[] authInfo = groupInfoDao.selectAuthInfoAll();
+		
+		return authInfo;
+	}
+	
+	@Override
 	public HashMap<String, Object> selectGroupInfo(Map<String, Object> map) {
 		// 특정 사용자 그룹 리스트 조회
 		return groupInfoDao.selectGroupInfo(map);

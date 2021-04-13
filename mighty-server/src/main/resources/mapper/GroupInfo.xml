@@ -4,8 +4,8 @@
  
  	<select id="selectGroupInfoAll" resultType="com.pilot.mighty.model.GroupInfo">
 		SELECT GROUP_ID as groupId,
-		       GROUP_DESC as groupDesc,
-		       ROLE_ID as roleId
+		           GROUP_DESC as groupDesc,
+		          ROLE_ID as roleId
 		  FROM ADM_GROUP_INFO
 		 ORDER BY GROUP_ID
 	</select>

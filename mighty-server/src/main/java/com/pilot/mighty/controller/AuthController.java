@@ -73,7 +73,7 @@ public class AuthController {
 		
 		HashMap<String, Object> retMap = authService.selectAuthInfo(map);
 		
-		// DB 에 리스트 존재 여부 확인
+		// Database 에 리스트 존재 여부 확인
 		if (retMap != null) {
 			retMap = new HashMap<String, Object>();
 			retMap.put("reason", map.get("roleId").toString() + " is already existed.");
@@ -110,7 +110,7 @@ public class AuthController {
 		
 		HashMap<String, Object> retMap = authService.selectAuthInfo(map);
 		
-		// DB에 리스트 존재 여부 확인
+		// Database 에 리스트 존재 여부 확인
 		if (retMap == null) {
 			retMap = new HashMap<String, Object>();
 			retMap.put("reason", map.get("roleId").toString() + " is not found.");
@@ -147,7 +147,7 @@ public class AuthController {
 		
 		HashMap<String, Object> retMap = authService.selectAuthInfo(map);
 		
-		// DB에 리스트 존재 여부 확인
+		// Database 에 리스트 존재 여부 확인
 		if (retMap == null) {
 			retMap = new HashMap<String, Object>();
 			retMap.put("reason", map.get("roleId").toString() + " is not found.");
