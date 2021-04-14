@@ -12,7 +12,7 @@
     <v-container class="v-container" row fluid>
       <v-row>
         <v-col>
-          <h2>모든 권한 그룹</h2>
+          <h2>[모든 권한 그룹]</h2>
           <br />
           <div>
             <!-- <div v-bind:key="user.userId" v-for="user in users">
@@ -32,15 +32,15 @@
               label="권한 그룹 정보 검색"
               outlined="true"
             ></v-text-field>
-            <authGrid
+            <authorityGrid
               :data="gridData"
               :columns="gridColumns"
               :filter-key="searchQuery"
-            ></authGrid>
+            ></authorityGrid>
           </div>
         </v-col>
         <v-col>
-          <h2>권한 그룹 정보</h2>
+          <h2>[권한 그룹 정보]</h2>
           <br />
           <div>
             <v-text-field
@@ -89,7 +89,8 @@
 
 <script>
 import axios from "axios";
-import authGrid from "@/views/user/Grid";
+import authorityGrid from "@/views/user/GridAuthorityList";
+import { BUS } from "@/router/EventBus";
 
 const AUTHORITY_GROUP_ALL = "/api/auth/all";
 const AUTHORITY_GROUP_ADD = "/api/auth/add";
@@ -117,6 +118,14 @@ export default {
 
     // 모든 권한 그룹 리스트 조회
     this.authority_refresh();
+
+    BUS.$on("selectedRow", (value) => {
+      this.groupInfo = value;
+      // console.log("roleId: ", this.groupInfo["roleId"]);
+      // console.log("roleDesc: ", this.groupInfo["roleDesc"]);
+      this.roleId = this.groupInfo["roleId"];
+      this.roleDesc = this.groupInfo["roleDesc"];
+    });
   },
   beforeMount() {
     /* beforeMount 훅 이후부터는 컴포넌트에 접근할 수 있다. */
@@ -153,7 +162,7 @@ export default {
   },
   name: "Auth",
   components: {
-    authGrid,
+    authorityGrid,
   },
   data() {
     return {
