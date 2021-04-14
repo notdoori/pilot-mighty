@@ -1,6 +1,6 @@
 <template>
-  <div id="gridTable">
-    <table>
+  <div>
+    <table class="gridTable">
       <thead>
         <tr>
           <th
@@ -93,39 +93,57 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped="">
-#gridTable {
-  padding-top: 10px;
-}
-table {
+.gridTable {
+  display: block;
+  width: 605px;
   border: 2px solid #df6659;
   border-radius: 3px;
   background-color: #fff;
 }
-th {
-  background-color: #df6659;
+.gridTable thead {
+  background-color: #fff;
   color: rgba(255, 255, 255, 0.66);
+}
+.gridTable th {
+  background-color: #df6659;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
 }
-td {
+.gridTable tbody {
+  display: block;
+  height: 300px;
+  overflow-y: scroll;
+}
+.gridTable td {
   background-color: #f9f9f9;
 }
-th,
+.gridTable th,
 td {
-  font-size: 80%;
-  min-width: 120px;
+  font-size: 12px;
   padding: 5px 10px;
 }
-th.active {
+.gridTable th:nth-of-type(1),
+.gridTable td:nth-of-type(1) {
+  width: 193px;
+}
+.gridTable th:nth-of-type(2),
+.gridTable td:nth-of-type(2) {
+  width: 193px;
+}
+.gridTable th:nth-of-type(3),
+.gridTable td:nth-of-type(3) {
+  width: 193px;
+}
+.gridTable th.active {
   color: #fff;
 }
-th.active .arrow {
+.gridTable th.active .arrow {
   opacity: 1;
 }
-.arrow {
+.gridTable .arrow {
   display: inline-block;
   vertical-align: middle;
   width: 0;
@@ -133,18 +151,18 @@ th.active .arrow {
   margin-left: 5px;
   opacity: 0.66;
 }
-.arrow.asc {
+.gridTable .arrow.asc {
   border-left: 4px solid transparent;
   border-right: 4px solid transparent;
   border-bottom: 4px solid #fff;
 }
-.arrow.dsc {
+.gridTable .arrow.dsc {
   border-left: 4px solid transparent;
   border-right: 4px solid transparent;
   border-top: 4px solid #fff;
 }
-.list-row:hover {
-  background-color: #e0bbb7;
+.gridTable tr:hover td {
   cursor: pointer;
+  background-color: #fbcfd0;
 }
 </style>
