@@ -4,14 +4,14 @@
  
  	<select id="selectAuthInfoAll" resultType="com.pilot.mighty.model.AuthInfo">
 		SELECT ROLE_ID as roleId,
-		       ROLE_DESC as roleDesc
-		  FROM ADM_ROLE_INFO
-		 ORDER BY ROLE_ID
+		          ROLE_DESC as roleDesc
+		 FROM ADM_ROLE_INFO
+		ORDER BY ROLE_ID
 	</select>
 	
 	<select id="selectAuthInfo" parameterType="java.util.Map" resultType="java.util.HashMap">
 		SELECT ROLE_ID as roleId,
-		       ROLE_DESC as roleDesc
+		           ROLE_DESC as roleDesc
 		  FROM ADM_ROLE_INFO
 		 WHERE ROLE_ID = #{roleId}
 	</select>
@@ -23,13 +23,13 @@
 	
 	<update id="updateAuthInfo" parameterType="java.util.Map">
 		UPDATE ADM_ROLE_INFO
-		   SET ROLE_DESC = #{roleDesc}
+		      SET ROLE_DESC = #{roleDesc}
 		 WHERE ROLE_ID = #{roleId}
 	</update>
 	
 	<delete id="deleteAuthInfo" parameterType="java.util.Map">
 		DELETE FROM ADM_ROLE_INFO
-		 WHERE ROLE_ID = #{roleId}
+	    WHERE ROLE_ID = #{roleId}
 	</delete>
 	
 </mapper>

@@ -48,6 +48,7 @@ public class AuthController {
 	@ApiOperation(value="전체 권한 그룹 조회", notes = "모든 권한 그룹을 조회합니다.")
 	@RequestMapping(value= "/all", method=RequestMethod.GET)
 	public AuthInfo[] getAuthAll() {
+		
 		AuthInfo[] authInfo = authService.selectAuthInfoAll();
 		
 		return authInfo;

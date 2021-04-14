@@ -3,14 +3,16 @@ package com.pilot.mighty.service;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.pilot.mighty.model.AuthInfo;
 import com.pilot.mighty.model.GroupInfo;
 
 public interface GroupService {
+	
 	// 모든 사용자 그룹 리스트 조회
 	GroupInfo[] selectGroupInfoAll();
 	
 	// 모든 권한 그룹 리스트 조회
-	GroupInfo[] selectAuthInfoAll();
+	AuthInfo[] selectAuthInfoAll();
 	
 	// 특정 사용자 그룹 리스트 조회
 	HashMap<String, Object> selectGroupInfo(Map<String, Object> map);

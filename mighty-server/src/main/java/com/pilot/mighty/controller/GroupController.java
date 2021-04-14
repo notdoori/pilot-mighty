@@ -23,6 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pilot.mighty.model.AuthInfo;
 import com.pilot.mighty.model.GroupInfo;
 import com.pilot.mighty.query.QueryExecutor;
+import com.pilot.mighty.service.AuthService;
 import com.pilot.mighty.service.GroupService;
 
 import io.swagger.annotations.Api;
@@ -53,6 +54,20 @@ public class GroupController {
 		GroupInfo[] groupInfo = groupService.selectGroupInfoAll();
 		
 		return groupInfo;
+	}
+	
+	/**
+	 * 전체 사용자 그룹 조회 요청
+	 * @author thkim
+	 * @return GroupInfo
+	 */
+	@ApiOperation(value="전체 권한 그룹 조회", notes = "모든 권한 그룹을 조회합니다.")
+	@RequestMapping(value= "/auth/all", method=RequestMethod.GET)
+	public AuthInfo[] getAuthAll() {
+		
+		AuthInfo[] authInfo = groupService.selectAuthInfoAll();
+		
+		return authInfo;
 	}
 	
 	/**

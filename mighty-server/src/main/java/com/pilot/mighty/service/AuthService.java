@@ -6,6 +6,7 @@ import java.util.Map;
 import com.pilot.mighty.model.AuthInfo;
 
 public interface AuthService {
+	
 	// 모든 권한 그룹 리스트 조회
 	AuthInfo[] selectAuthInfoAll();
 	
