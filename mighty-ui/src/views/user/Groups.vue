@@ -38,8 +38,9 @@
             <v-select
               label="권한 그룹 아이디"
               outlined="true"
-              :items="roleId"
+              :items="roleIdItems"
               @input="authority_id_info"
+              v-model="roleId"
             ></v-select>
           </div>
           <div>
@@ -76,12 +77,14 @@
 
 <script>
 import axios from "axios";
-import groupGrid from "@/views/user/Grid";
+import groupGrid from "@/views/user/GridUserList";
+import { BUS } from "@/router/EventBus";
 
 const USER_GROUP_ALL = "/api/group/all";
 const USER_GROUP_ADD = "/api/group/add";
 const USER_GROUP_MODIFY = "/api/group/modify";
 const USER_GROUP_DELETE = "/api/group/delete";
+const AUTHORITY_GROUP_ALL = "/api/group/auth/all";
 
 // alert() 팝업 메시지 정보
 const ID_INPUT_MESSAGE = "아이디를 입력하여 주십시오.";
@@ -104,6 +107,19 @@ export default {
 
     // 모든 사용자 그룹 리스트 조회
     this.group_refresh();
+
+    // 모든 권한 그룹 ID 리스트 조회
+    this.authority_refresh();
+
+    BUS.$on("selectedRow", (value) => {
+      this.groupInfo = value;
+      // console.log("groupId: ", this.groupInfo["groupId"]);
+      // console.log("groupDesc: ", this.groupInfo["groupDesc"]);
+      // console.log("roleId: ", this.groupInfo["roleId"]);
+      this.groupId = this.groupInfo["groupId"];
+      this.groupDesc = this.groupInfo["groupDesc"];
+      this.roleId = this.groupInfo["roleId"];
+    });
   },
   beforeMount() {
     /* beforeMount 훅 이후부터는 컴포넌트에 접근할 수 있다. */
@@ -127,7 +143,12 @@ export default {
       this.gridUpdate = false;
       this.groupId = this.groupIdTemp;
       this.groupDesc = this.groupDescTemp;
+
+      // 모든 사용자 그룹 리스트 조회
       this.group_refresh();
+
+      // 모든 권한 그룹 ID 리스트 조회
+      this.authority_refresh();
     }
   },
   beforeDestroy() {
@@ -150,8 +171,9 @@ export default {
       gridUpdate: false,
       groupId: "", // 사용자 그룹 아이디 (NOT NULL)
       groupDesc: "", // 사용자 그룹 설명 (NULL)
-      roleId: [], // 권한 그룹 아이디 (NULL)
-      selectedRoleId: [], // 선택한 권한 그룹 아이디 정보
+      roleId: "",
+      roleIdItems: [], // 모든 권한 그룹 ID 리스트
+      selectedRoleId: "", // 선택한 권한 그룹 아이디 정보
       groupIdTemp: "", // 임시 사용자 그룹 아이디
       groupDescTemp: "", // 임시 사용자 그룹 설명
     };
@@ -163,17 +185,31 @@ export default {
         .get(USER_GROUP_ALL)
         .then(
           (response) => (
-            (this.gridData = null),
-            (this.gridData = response.data),
-            this.authority_id_refresh(this.gridData)
+            (this.gridData = null), (this.gridData = response.data)
           )
         )
         .catch((error) => alert(error));
     },
 
     // 모든 권한 그룹 ID 리스트 조회
-    authority_id_refresh: function (data) {
+    authority_refresh: function () {
+      axios
+        .get(AUTHORITY_GROUP_ALL)
+        .then(
+          (response) => (
+            (this.gridDataAuth = null),
+            (this.gridDataAuth = response.data),
+            this.authority_id(this.gridDataAuth)
+          )
+        )
+        .catch((error) => alert(error));
+    },
+
+    // 모든 권한 그룹 ID 리스트 조회
+    authority_id: function (data) {
       let idArray = [];
+
+      // console.log(data);
 
       for (let i = 0; i < data.length; i++) {
         if (data[i]["roleId"] === null) {
@@ -182,8 +218,8 @@ export default {
         idArray[i] = data[i]["roleId"];
       }
 
-      this.roleId = [];
-      this.roleId = idArray;
+      this.roleIdItems = [];
+      this.roleIdItems = idArray;
     },
 
     // 사용자 그룹 추가
@@ -202,7 +238,7 @@ export default {
             ((this.gridUpdate = true),
             (this.groupId = ""),
             (this.groupDesc = ""),
-            (this.selectedRoleId = ""),
+            (this.roleId = ""),
             (this.groupIdTemp = ""),
             (this.groupDescTemp = ""))
           )
@@ -223,12 +259,11 @@ export default {
           })
           .then(
             (response) => alert(USER_GROUP_MODIFY_COMPLETE),
-            ((this.gridUpdate = true),
+            (this.gridUpdate = true),
             (this.groupIdTemp = this.groupId),
             (this.groupDescTemp = this.groupDesc),
-            (this.selectedRoleId = ""),
-            (this.groupDesc = ""),
-            (this.roleId = ""))
+            (this.groupId = ""),
+            (this.groupDesc = "")
           )
           .catch((error) => alert(USER_GROUP_MODIFY_FAILED));
       }
@@ -247,21 +282,30 @@ export default {
           })
           .then(
             (response) => alert(USER_GROUP_DELETE_COMPLETE),
-            ((this.gridUpdate = true),
+            (this.gridUpdate = true),
             (this.groupId = ""),
             (this.groupDesc = ""),
-            (this.selectedRoleId = ""),
             (this.groupIdTemp = ""),
-            (this.groupDescTemp = ""))
+            (this.groupDescTemp = "")
           )
           .catch((error) => alert(USER_GROUP_DELETE_FAILED));
       }
     },
 
-    // 이벤트
+    // 권한 그룹 아이디 선택 이벤트
     authority_id_info: function (event) {
+      console.log("[authority_id_info] " + event);
       this.selectedRoleId = event;
     },
+
+    // 사용자 그룹 선택 이벤트
+    // clickHandler: function (event) {
+    //   console.log("[clickHandler] " + event);
+    // },
+
+    // mouseDownHandler: function (event) {
+    //   console.log("[mouseDownHandler] " + event);
+    // },
   },
 };
 </script>
