@@ -170,7 +170,6 @@ export default {
       groupDesc: "", // 사용자 그룹 설명 (NULL)
       roleId: "",
       roleIdItems: [], // 모든 권한 그룹 ID 리스트
-      selectedRoleId: "", // 선택한 권한 그룹 아이디 정보
       groupIdTemp: "", // 임시 사용자 그룹 아이디
       groupDescTemp: "", // 임시 사용자 그룹 설명
     };
@@ -228,7 +227,7 @@ export default {
           .post(USER_GROUP_ADD, {
             groupId: this.groupId,
             groupDesc: this.groupDesc,
-            roleId: this.selectedRoleId,
+            roleId: this.roleId,
           })
           .then(
             (response) => alert(USER_GROUP_ADD_COMPLETE),
@@ -252,7 +251,7 @@ export default {
           .post(USER_GROUP_MODIFY, {
             groupId: this.groupId,
             groupDesc: this.groupDesc,
-            roleId: this.selectedRoleId,
+            roleId: this.roleId,
           })
           .then(
             (response) => alert(USER_GROUP_MODIFY_COMPLETE),
@@ -275,7 +274,7 @@ export default {
           .post(USER_GROUP_DELETE, {
             groupId: this.groupId,
             groupDesc: this.groupDesc,
-            roleId: this.selectedRoleId,
+            roleId: this.roleId,
           })
           .then(
             (response) => alert(USER_GROUP_DELETE_COMPLETE),
@@ -292,17 +291,8 @@ export default {
     // 권한 그룹 아이디 선택 이벤트
     authority_id_info: function (event) {
       console.log("[authority_id_info] " + event);
-      this.selectedRoleId = event;
+      this.roleId = event;
     },
-
-    // 사용자 그룹 선택 이벤트
-    // clickHandler: function (event) {
-    //   console.log("[clickHandler] " + event);
-    // },
-
-    // mouseDownHandler: function (event) {
-    //   console.log("[mouseDownHandler] " + event);
-    // },
   },
 };
 </script>
