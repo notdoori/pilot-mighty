@@ -280,6 +280,7 @@ export default {
             (response) => alert(USER_GROUP_DELETE_COMPLETE),
             (this.gridUpdate = true),
             (this.groupId = ""),
+            (this.roleId = ""),
             (this.groupDesc = ""),
             (this.groupIdTemp = ""),
             (this.groupDescTemp = "")
