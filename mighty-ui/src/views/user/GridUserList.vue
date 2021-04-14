@@ -1,14 +1,14 @@
 <template>
-  <div id="gridTable">
-    <table>
-    <colgroup>
+  <div>
+    <table class="gridTable">
+    <!--<colgroup>
       <col style="width:8%">
       <col style="width:12%">
       <col style="width:18%">
       <col style="width:24%">
       <col style="width:14%">
       <col style="width:24%">
-    </colgroup>
+    </colgroup>-->
     <thead>
       <tr>
         <th v-for="key in columns" v-bind:key="key" @click="sortBy(key)" :class="{ active: sortKey == key }">
@@ -91,40 +91,51 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped="">
-#gridTable {padding-top:10px}
-table {
+.gridTable {
+  display: block;
+  width: 730px;
   border: 2px solid #DF6659;
   border-radius: 3px;
   background-color: #FFF;
 }
-th {
-  background-color: #DF6659;
+.gridTable thead {
+  background-color: #FFF;
   color: rgba(255,255,255,0.66);
+}
+.gridTable th {
+  background-color: #DF6659;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
 }
-tr:hover td {
-  cursor: pointer;
-  background-color: #FBCFD0;
+.gridTable tbody {
+  display: block;
+  height: 300px;
+  overflow-y: scroll;
 }
-td {
+.gridTable td {
   background-color: #F9F9F9;
 }
-th, td {
-  font-size: 80%;
-  min-width: 20px;
+.gridTable th, td {
+  font-size: 12px;
   padding: 5px 10px;
 }
-th.active {
+.gridTable th:nth-of-type(1), .gridTable td:nth-of-type(1) { width: 80px; }
+.gridTable th:nth-of-type(2), .gridTable td:nth-of-type(2) { width: 120px; }
+.gridTable th:nth-of-type(3), .gridTable td:nth-of-type(3) { width: 120px; }
+.gridTable th:nth-of-type(4), .gridTable td:nth-of-type(4) { width: 140px; }
+.gridTable th:nth-of-type(5), .gridTable td:nth-of-type(5) { width: 120px; }
+.gridTable th:last-child { width: 150px; }
+.gridTable td:last-child { width: calc(150px - 19px); }
+.gridTable th.active {
   color: #FFF;
 }
-th.active .arrow {
+.gridTable th.active .arrow {
   opacity: 1;
 }
-.arrow {
+.gridTable .arrow {
   display: inline-block;
   vertical-align: middle;
   width: 0;
@@ -132,22 +143,18 @@ th.active .arrow {
   margin-left: 5px;
   opacity: 0.66;
 }
-.arrow.asc {
+.gridTable .arrow.asc {
   border-left: 4px solid transparent;
   border-right: 4px solid transparent;
   border-bottom: 4px solid #FFF;
 }
-.arrow.dsc {
+.gridTable .arrow.dsc {
   border-left: 4px solid transparent;
   border-right: 4px solid transparent;
   border-top: 4px solid #FFF;
 }
-tr.listRow:hover {
-  background-color: #E0BBB7;
+.gridTable tr:hover td {
   cursor: pointer;
-}
-td.listCell:hover {
-  background-color: #E0BBB7;
-  cursor: pointer;
+  background-color: #FBCFD0;
 }
 </style>

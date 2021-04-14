@@ -17,7 +17,6 @@
                     <v-text-field
                       label="Login"
                       name="login"
-                      clearable="true"
                       prepend-icon="mdi-account"
                       type="text"
                       v-model="userId"
@@ -26,7 +25,6 @@
                     <v-text-field
                       label="Password"
                       name="password"
-                      clearable="true"
                       prepend-icon="mdi-lock"
                       type="password"
                       v-model="password"

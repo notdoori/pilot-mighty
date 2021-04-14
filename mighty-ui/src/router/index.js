@@ -28,11 +28,16 @@ const routes = [
     // component: () => import(/* webpackChunkName: "main" */ '../views/Main.vue')
     component: Main,
     children : [  // nested routes
-      {path: 'authority', component: Authority},
-      {path: 'groups', component: Groups},
-      {path: 'users', component: users},
-      {path: 'inquiry1', component: Inquiry1},
-      {path: 'inquiry2', component: Inquiry2}
+      // {path: 'authority', component: Authority},
+      // {path: 'groups', component: Groups},
+      // {path: 'users', component: users},
+      // {path: 'inquiry1', component: Inquiry1},
+      // {path: 'inquiry2', component: Inquiry2}
+      {path: 'M0001', component: Authority},
+      {path: 'M0002', component: Groups},
+      {path: 'M0003', component: users},
+      {path: 'M0021', component: Inquiry1},
+      {path: 'M0022', component: Inquiry2}
     ]
   },
   
