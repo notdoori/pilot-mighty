@@ -4,7 +4,7 @@
     <v-container class="v-container" row fluid>
       <v-row>
         <v-col>
-          <h2>모든 사용자 그룹</h2>
+          <h2>[모든 사용자 그룹]</h2>
           <br />
           <div>
             <v-text-field
@@ -22,7 +22,7 @@
           </div>
         </v-col>
         <v-col>
-          <h2>사용자 그룹 정보</h2>
+          <h2>[사용자 그룹 정보]</h2>
           <br />
           <div>
             <v-text-field
@@ -77,7 +77,7 @@
 
 <script>
 import axios from "axios";
-import groupGrid from "@/views/user/GridUserList";
+import groupGrid from "@/views/user/GridGroupList";
 import { BUS } from "@/router/EventBus";
 
 const USER_GROUP_ALL = "/api/group/all";
@@ -113,9 +113,6 @@ export default {
 
     BUS.$on("selectedRow", (value) => {
       this.groupInfo = value;
-      // console.log("groupId: ", this.groupInfo["groupId"]);
-      // console.log("groupDesc: ", this.groupInfo["groupDesc"]);
-      // console.log("roleId: ", this.groupInfo["roleId"]);
       this.groupId = this.groupInfo["groupId"];
       this.groupDesc = this.groupInfo["groupDesc"];
       this.roleId = this.groupInfo["roleId"];
