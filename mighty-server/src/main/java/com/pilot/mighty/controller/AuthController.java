@@ -41,7 +41,7 @@ public class AuthController {
 	private final Logger logger = LogManager.getLogger(AuthController.class);
 	
 	/**
-	 * 전체 권한 그룹 조회 요청
+	 * 모든 권한 그룹 조회 요청 (SELECT)
 	 * @author thkim
 	 * @return AuthInfo
 	 */
@@ -95,7 +95,7 @@ public class AuthController {
 }
 	
 	/**
-	 * 권한 그룹 추가 요청 (INSERT)
+	 * 권한 그룹 정보 추가 요청 (INSERT)
 	 * @author thkim
 	 * @return AuthInfo
 	 */
@@ -132,7 +132,7 @@ public class AuthController {
 	}
 	
 	/**
-	 * 권한 그룹 수정 요청 (UPDATE)
+	 * 권한 그룹 정보 수정 요청 (UPDATE)
 	 * @author thkim
 	 * @return AuthInfo
 	 */
@@ -169,7 +169,7 @@ public class AuthController {
 	}
 	
 	/**
-	 * 권한 그룹 삭제 요청 (DELETE)
+	 * 권한 그룹 정보 삭제 요청 (DELETE)
 	 * @author thkim
 	 * @return AuthInfo
 	 */

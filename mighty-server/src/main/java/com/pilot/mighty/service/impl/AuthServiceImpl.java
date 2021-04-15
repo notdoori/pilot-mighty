@@ -24,7 +24,7 @@ public class AuthServiceImpl implements AuthService {
 	@Override
 	public AuthInfo[] selectAuthInfoAll() {
 		
-		// 모든 권한 그룹 리스트 조회
+		// 모든 권한 그룹 조회 요청
 		AuthInfo[] authInfo = authInfoDao.selectAuthInfoAll();
 		
 		return authInfo;
@@ -33,35 +33,35 @@ public class AuthServiceImpl implements AuthService {
 	@Override
 	public HashMap<String, Object> selectAuthInfoSearch(Map<String, Object> map) {
 		
-		// 특정 권한 그룹 정보 조회
+		// 권한 그룹 정보 조회 요청
 		return authInfoDao.selectAuthInfoSearch(map);
 	}
 	
 	@Override
 	public void insertAuthInfo(Map<String, String> map) {
 		
-		// 권한 그룹 리스트 추가
+		// 권한 그룹 정보 추가 요청
 		authInfoDao.insertAuthInfo(map);
 	}
 	
 	@Override
 	public void updateAuthInfo(Map<String, String> map) {
 		
-		// 특정 권한 그룹 리스트 설명 업데이트
+		// 권한 그룹 정보 수정 요청
 		authInfoDao.updateAuthInfo(map);
 	}
 	
 	@Override
 	public void deleteAuthInfo(Map<String, String> map) {
 		
-		// 권한 그룹 리스트 삭제
+		// 권한 그룹 정보 삭제 요청
 		authInfoDao.deleteAuthInfo(map);
 	}
 	
 	@Override
 	public HashMap<String, Object> selectAuthInfoCheck(Map<String, Object> map) {
 		
-		// 특정 권한 그룹 정보 조회
+		// 특정 권한 그룹 정보 조회 요청
 		return authInfoDao.selectAuthInfoCheck(map);
 	}
 }

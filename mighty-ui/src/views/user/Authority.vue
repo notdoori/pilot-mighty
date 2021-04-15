@@ -101,7 +101,6 @@ const AUTHORITY_GROUP_DELETE = "/api/auth/delete";
 // alert() 팝업 메시지 정보
 const NO_ID_MESSAGE = "아이디가 존재하지 않습니다.";
 const ID_INPUT_MESSAGE = "아이디를 입력하여 주십시오.";
-// const AUTHORITY_GROUP_SEARCH_COMPLETE = "권한 그룹 정보 조회를 완료하였습니다.";
 const AUTHORITY_GROUP_SEARCH_FAILED = "권한 그룹 정보 조회를 실패하였습니다.";
 const AUTHORITY_GROUP_ADD_COMPLETE = "권한 그룹 추가를 완료하였습니다.";
 const AUTHORITY_GROUP_ADD_FAILED = "권한 그룹 추가를 실패하였습니다.";
@@ -203,14 +202,6 @@ export default {
         .catch((error) => alert(error));
     },
 
-    // test001: function (data) {
-    //   console.log(data);
-    //   // this.roleId = data["roleId"];
-    //   // this.roleDesc = response.data["roleDesc"];
-    //   // this.roleIdTemp = response.data["roleId"];
-    //   // this.roleDescTemp = response.data["roleDesc"];
-    // },
-
     // 권한 그룹 정보 조회 (/search)
     authority_search: function (id, desc) {
       // console.log("ID : " + id);
@@ -226,7 +217,6 @@ export default {
           })
           .then(
             (response) => (
-              // alert(AUTHORITY_GROUP_SEARCH_COMPLETE),
               (this.roleId = response.data["roleId"]),
               (this.roleDesc = response.data["roleDesc"]),
               (this.roleIdTemp = response.data["roleId"]),
