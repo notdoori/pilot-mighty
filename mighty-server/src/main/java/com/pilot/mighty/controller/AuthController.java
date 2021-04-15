@@ -83,7 +83,6 @@ public class AuthController {
 		Map<String, Object> searchMap = new HashMap<String, Object>();
 		
 		searchMap.put("roleId", retMap.get("ROLEID").toString());
-		
 		searchMap.put("roleDesc", retMap.get("ROLEDESC").toString());
 		
 		AuthInfo authInfo = new AuthInfo();
