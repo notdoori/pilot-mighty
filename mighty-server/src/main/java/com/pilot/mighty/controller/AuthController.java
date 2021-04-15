@@ -41,7 +41,7 @@ public class AuthController {
 	private final Logger logger = LogManager.getLogger(AuthController.class);
 	
 	/**
-	 * 전체 권한 그룹 조회 요청
+	 * 모든 권한 그룹 조회 요청 (SELECT)
 	 * @author thkim
 	 * @return AuthInfo
 	 */
@@ -55,7 +55,46 @@ public class AuthController {
 	}
 	
 	/**
-	 * 권한 그룹 추가 요청 (INSERT)
+	 * 권한 그룹 정보 조회 요청 (SELECT)
+	 * @author thkim
+	 * @return AuthInfo
+	 */
+	@PostMapping(value = "/search"
+			,consumes = {MediaType.APPLICATION_JSON_VALUE}
+			,produces = {MediaType.APPLICATION_JSON_VALUE})
+	@ResponseBody
+	public AuthInfo getAuthSearch(@RequestBody String body) throws JsonParseException, IOException {
+		
+		ObjectMapper mapper = new ObjectMapper();
+		@SuppressWarnings("unchecked")
+		Map<String, Object> map = mapper.readValue(body, Map.class);
+		
+		logger.debug("roleId: " + map.get("roleId").toString());
+		logger.debug("roleDesc: " + map.get("roleDesc").toString());
+		
+		HashMap<String, Object> retMap = authService.selectAuthInfoSearch(map);
+		
+		// Database 에 리스트 존재 여부 확인
+		if (retMap == null) {
+			logger.debug(map.get("roleId").toString() + " is not found.");
+			return null;
+		}
+		
+		Map<String, Object> searchMap = new HashMap<String, Object>();
+		
+		searchMap.put("roleId", retMap.get("ROLEID").toString());
+		searchMap.put("roleDesc", retMap.get("ROLEDESC").toString());
+		
+		AuthInfo authInfo = new AuthInfo();
+		
+		authInfo.setRoleId(searchMap.get("roleId").toString());
+		authInfo.setRoleDesc(searchMap.get("roleDesc").toString());
+		
+		return authInfo;
+}
+	
+	/**
+	 * 권한 그룹 정보 추가 요청 (INSERT)
 	 * @author thkim
 	 * @return AuthInfo
 	 */
@@ -72,7 +111,7 @@ public class AuthController {
 		logger.debug("roleId: " + map.get("roleId").toString());
 		logger.debug("roleDesc: " + map.get("roleDesc").toString());
 		
-		HashMap<String, Object> retMap = authService.selectAuthInfo(map);
+		HashMap<String, Object> retMap = authService.selectAuthInfoCheck(map);
 		
 		// Database 에 리스트 존재 여부 확인
 		if (retMap != null) {
@@ -92,7 +131,7 @@ public class AuthController {
 	}
 	
 	/**
-	 * 권한 그룹 수정 요청 (UPDATE)
+	 * 권한 그룹 정보 수정 요청 (UPDATE)
 	 * @author thkim
 	 * @return AuthInfo
 	 */
@@ -109,7 +148,7 @@ public class AuthController {
 		logger.debug("roleId: " + map.get("roleId").toString());
 		logger.debug("roleDesc: " + map.get("roleDesc").toString());
 		
-		HashMap<String, Object> retMap = authService.selectAuthInfo(map);
+		HashMap<String, Object> retMap = authService.selectAuthInfoCheck(map);
 		
 		// Database 에 리스트 존재 여부 확인
 		if (retMap == null) {
@@ -129,7 +168,7 @@ public class AuthController {
 	}
 	
 	/**
-	 * 권한 그룹 삭제 요청 (DELETE)
+	 * 권한 그룹 정보 삭제 요청 (DELETE)
 	 * @author thkim
 	 * @return AuthInfo
 	 */
@@ -146,7 +185,7 @@ public class AuthController {
 		logger.debug("roleId: " + map.get("roleId").toString());
 		logger.debug("roleDesc: " + map.get("roleDesc").toString());
 		
-		HashMap<String, Object> retMap = authService.selectAuthInfo(map);
+		HashMap<String, Object> retMap = authService.selectAuthInfoCheck(map);
 		
 		// Database 에 리스트 존재 여부 확인
 		if (retMap == null) {
