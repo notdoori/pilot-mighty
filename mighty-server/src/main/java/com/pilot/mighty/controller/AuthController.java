@@ -27,7 +27,7 @@ import com.pilot.mighty.service.AuthService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-@Api(tags = {"1. Auth"})
+@Api(tags = {"3. Auth"})
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
