@@ -19,7 +19,7 @@ public class AuthServiceImpl implements AuthService {
 	@Autowired
 	AuthInfoDao authInfoDao;
 	
-	private final Logger logger = LogManager.getLogger(AuthController.class);
+//	private final Logger logger = LogManager.getLogger(AuthController.class);
 
 	@Override
 	public AuthInfo[] selectAuthInfoAll() {
@@ -31,10 +31,10 @@ public class AuthServiceImpl implements AuthService {
 	}
 	
 	@Override
-	public HashMap<String, Object> selectAuthInfo(Map<String, Object> map) {
+	public HashMap<String, Object> selectAuthInfoSearch(Map<String, Object> map) {
 		
-		// 특정 권한 그룹 리스트 조회
-		return authInfoDao.selectAuthInfo(map);
+		// 특정 권한 그룹 정보 조회
+		return authInfoDao.selectAuthInfoSearch(map);
 	}
 	
 	@Override
@@ -56,5 +56,12 @@ public class AuthServiceImpl implements AuthService {
 		
 		// 권한 그룹 리스트 삭제
 		authInfoDao.deleteAuthInfo(map);
+	}
+	
+	@Override
+	public HashMap<String, Object> selectAuthInfoCheck(Map<String, Object> map) {
+		
+		// 특정 권한 그룹 정보 조회
+		return authInfoDao.selectAuthInfoCheck(map);
 	}
 }

@@ -9,7 +9,7 @@
 		ORDER BY ROLE_ID
 	</select>
 	
-	<select id="selectAuthInfo" parameterType="java.util.Map" resultType="java.util.HashMap">
+	<select id="selectAuthInfoSearch" parameterType="java.util.Map" resultType="java.util.HashMap">
 		SELECT ROLE_ID as roleId,
 		           ROLE_DESC as roleDesc
 		  FROM ADM_ROLE_INFO
@@ -31,5 +31,12 @@
 		DELETE FROM ADM_ROLE_INFO
 	    WHERE ROLE_ID = #{roleId}
 	</delete>
+	
+	<select id="selectAuthInfoCheck" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT ROLE_ID as roleId,
+		           ROLE_DESC as roleDesc
+		  FROM ADM_ROLE_INFO
+		 WHERE ROLE_ID = #{roleId}
+	</select>
 	
 </mapper>

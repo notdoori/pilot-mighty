@@ -93,12 +93,16 @@ import authorityGrid from "@/views/user/GridAuthorityList";
 import { BUS } from "@/router/EventBus";
 
 const AUTHORITY_GROUP_ALL = "/api/auth/all";
+const AUTHORITY_GROUP_SEARCH = "/api/auth/search";
 const AUTHORITY_GROUP_ADD = "/api/auth/add";
 const AUTHORITY_GROUP_MODIFY = "/api/auth/modify";
 const AUTHORITY_GROUP_DELETE = "/api/auth/delete";
 
 // alert() 팝업 메시지 정보
+const NO_ID_MESSAGE = "아이디가 존재하지 않습니다.";
 const ID_INPUT_MESSAGE = "아이디를 입력하여 주십시오.";
+// const AUTHORITY_GROUP_SEARCH_COMPLETE = "권한 그룹 정보 조회를 완료하였습니다.";
+const AUTHORITY_GROUP_SEARCH_FAILED = "권한 그룹 정보 조회를 실패하였습니다.";
 const AUTHORITY_GROUP_ADD_COMPLETE = "권한 그룹 추가를 완료하였습니다.";
 const AUTHORITY_GROUP_ADD_FAILED = "권한 그룹 추가를 실패하였습니다.";
 const AUTHORITY_GROUP_MODIFY_COMPLETE = "권한 그룹 수정을 완료하였습니다.";
@@ -119,12 +123,21 @@ export default {
     // 모든 권한 그룹 리스트 조회
     this.authority_refresh();
 
+    // BUS.$on("selectedRow", (value) => {
+    //   this.groupInfo = value;
+    //   // console.log("roleId: ", this.groupInfo["roleId"]);
+    //   // console.log("roleDesc: ", this.groupInfo["roleDesc"]);
+    //   this.roleId = this.groupInfo["roleId"];
+    //   this.roleDesc = this.groupInfo["roleDesc"];
+    // });
+
+    // "/api/auth/search"
     BUS.$on("selectedRow", (value) => {
       this.groupInfo = value;
-      // console.log("roleId: ", this.groupInfo["roleId"]);
-      // console.log("roleDesc: ", this.groupInfo["roleDesc"]);
-      this.roleId = this.groupInfo["roleId"];
-      this.roleDesc = this.groupInfo["roleDesc"];
+      this.authority_search(
+        this.groupInfo["roleId"],
+        this.groupInfo["roleDesc"]
+      );
     });
   },
   beforeMount() {
@@ -178,7 +191,7 @@ export default {
   },
 
   methods: {
-    // 모든 권한 그룹 리스트 조회
+    // 모든 권한 그룹 리스트 조회 (/all)
     authority_refresh: function () {
       axios
         .get(AUTHORITY_GROUP_ALL)
@@ -190,7 +203,41 @@ export default {
         .catch((error) => alert(error));
     },
 
-    // 권한 그룹 추가
+    // test001: function (data) {
+    //   console.log(data);
+    //   // this.roleId = data["roleId"];
+    //   // this.roleDesc = response.data["roleDesc"];
+    //   // this.roleIdTemp = response.data["roleId"];
+    //   // this.roleDescTemp = response.data["roleDesc"];
+    // },
+
+    // 권한 그룹 정보 조회 (/search)
+    authority_search: function (id, desc) {
+      // console.log("ID : " + id);
+      // console.log("DESC : " + desc);
+
+      if (id === "") {
+        alert(NO_ID_MESSAGE);
+      } else {
+        axios
+          .post(AUTHORITY_GROUP_SEARCH, {
+            roleId: id,
+            roleDesc: desc,
+          })
+          .then(
+            (response) => (
+              // alert(AUTHORITY_GROUP_SEARCH_COMPLETE),
+              (this.roleId = response.data["roleId"]),
+              (this.roleDesc = response.data["roleDesc"]),
+              (this.roleIdTemp = response.data["roleId"]),
+              (this.roleDescTemp = response.data["roleDesc"])
+            )
+          )
+          .catch((error) => alert(AUTHORITY_GROUP_SEARCH_FAILED));
+      }
+    },
+
+    // 권한 그룹 추가 (/add)
     authority_add: function () {
       if (this.roleId === "") {
         alert(ID_INPUT_MESSAGE, "");
@@ -212,7 +259,7 @@ export default {
       }
     },
 
-    // 권한 그룹 정보 수정
+    // 권한 그룹 정보 수정 (/modify)
     authority_modify: function () {
       if (this.roleId === "") {
         alert(ID_INPUT_MESSAGE);
@@ -234,7 +281,7 @@ export default {
       }
     },
 
-    // 권한 그룹 삭제
+    // 권한 그룹 삭제 (/delete)
     authority_delete: function () {
       if (this.roleId === "") {
         alert(ID_INPUT_MESSAGE);
