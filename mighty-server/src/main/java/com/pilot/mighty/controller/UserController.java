@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -45,7 +46,7 @@ public class UserController {
 	/**
 	 * 전체 사용자 조회 요청
 	 * @author djchoi
-	 * @return UserInfo
+	 * @return UserInfo[]
 	 */
 	@ApiOperation(value="전체 사용자 조회", notes = "모든 사용자를 조회합니다.")
 	@RequestMapping(value= "/all", method=RequestMethod.GET)
@@ -54,6 +55,96 @@ public class UserController {
 		
 		return userInfo;
 		//return userService.selectUserInfo();
+	}
+	
+	/**
+	 * 사용자 등록
+	 * @author djchoi
+	 * @return ResponseEntity<Object>
+	 */
+	@ApiOperation(value="사용자 등록", notes = "사용자를 등록합니다.")
+	@RequestMapping(value= "/regist", method=RequestMethod.POST)
+	public ResponseEntity<Object> registUser(@RequestBody String body) throws JsonParseException, IOException {
+		
+		ObjectMapper mapper = new ObjectMapper();
+		@SuppressWarnings("unchecked")
+		Map<String, Object> map = mapper.readValue(body, Map.class);
+		
+		HashMap<String, Object> retMap = userService.checkRegistUser(map);
+		if (retMap != null) {
+			retMap = new HashMap<String, Object>();
+			retMap.put("reason", map.get("userId").toString() + " already exists.");
+			return new ResponseEntity<Object>(retMap, HttpStatus.FOUND);
+		}
+		
+		Map<String, String> registUserMap = new HashMap<String, String>();
+		registUserMap.put("userId", map.get("userId").toString());
+		registUserMap.put("userName", map.get("userName").toString());
+		registUserMap.put("password", map.get("password").toString());
+		registUserMap.put("langType", map.get("langType").toString());
+		registUserMap.put("depart", map.get("depart").toString());
+		registUserMap.put("userGroup", map.get("userGroup").toString());
+		
+		userService.registUser(registUserMap);
+		
+		return new ResponseEntity<Object>(retMap, HttpStatus.OK);
+	}
+	
+	/**
+	 * 사용자 수정
+	 * @author djchoi
+	 * @return ResponseEntity<Object>
+	 */
+	@ApiOperation(value="사용자 수정", notes = "사용자를 수정합니다.")
+	@RequestMapping(value= "/modify", method=RequestMethod.POST)
+	public ResponseEntity<Object> modifyUser(@RequestBody String body) throws JsonParseException, IOException {
+		
+		ObjectMapper mapper = new ObjectMapper();
+		@SuppressWarnings("unchecked")
+		Map<String, Object> map = mapper.readValue(body, Map.class);
+		
+		HashMap<String, Object> retMap = userService.checkRegistUser(map);
+		if (retMap == null) {
+			retMap = new HashMap<String, Object>();
+			retMap.put("reason", map.get("userId").toString() + " doesn't exist.");
+			return new ResponseEntity<Object>(retMap, HttpStatus.FOUND);
+		}
+		
+		Map<String, String> modifyUserMap = new HashMap<String, String>();
+		modifyUserMap.put("userId", map.get("userId").toString());
+		modifyUserMap.put("userName", map.get("userName").toString());
+		modifyUserMap.put("password", map.get("password").toString());
+		modifyUserMap.put("langType", map.get("langType").toString());
+		modifyUserMap.put("depart", map.get("depart").toString());
+		modifyUserMap.put("userGroup", map.get("userGroup").toString());
+		
+		userService.modifyUser(modifyUserMap);
+		
+		return new ResponseEntity<Object>(retMap, HttpStatus.OK);
+	}
+	
+	/**
+	 * 사용자 삭제
+	 * @author djchoi
+	 * @return ResponseEntity<Object>
+	 */
+	@ApiOperation(value="사용자 삭제", notes = "사용자를 삭제합니다.")
+	@RequestMapping(value= "/delete", method=RequestMethod.POST)
+	public ResponseEntity<Object> deleteUser(@RequestParam("userId") String userId) throws JsonParseException, IOException {
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("userId", userId);
+		
+		HashMap<String, Object> retMap = userService.checkRegistUser(map);
+		if (retMap == null) {
+			retMap = new HashMap<String, Object>();
+			retMap.put("reason", map.get("userId").toString() + " doesn't exist.");
+			return new ResponseEntity<Object>(retMap, HttpStatus.FOUND);
+		}
+		
+		userService.deleteUser(userId);
+		
+		return new ResponseEntity<Object>(HttpStatus.OK);
 	}
 	
 	@PostMapping(value = "/login"
@@ -193,5 +284,4 @@ public class UserController {
 		
 		return new ResponseEntity<Object>(retMap, HttpStatus.OK);
 	}
-
 }

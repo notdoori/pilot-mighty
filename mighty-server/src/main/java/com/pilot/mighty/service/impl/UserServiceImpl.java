@@ -23,6 +23,33 @@ public class UserServiceImpl implements UserService {
 		UserInfo[] userInfo = userInfoDao.selectUserInfoAll();
 		return userInfo;
 	}
+	
+	@Override
+	public HashMap<String, Object> checkRegistUser(Map<String, Object> map) {
+		
+		return userInfoDao.checkRegistUser(map);
+	}
+	
+	@Override
+	public void registUser(Map<String, String> map) {
+	
+		userInfoDao.registUser(map);
+		
+	}
+	
+	@Override
+	public void modifyUser(Map<String, String> map) {
+	
+		userInfoDao.modifyUser(map);
+		
+	}
+	
+	@Override
+	public void deleteUser(String userId) {
+	
+		userInfoDao.deleteUser(userId);
+		
+	}
 
 	@Override
 	public String checkAvailableUser() {
