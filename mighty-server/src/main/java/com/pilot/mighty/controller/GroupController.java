@@ -29,7 +29,7 @@ import com.pilot.mighty.service.GroupService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-@Api(tags = {"2. Group"})
+@Api(tags = {"1. Group"})
 @RestController
 @RequestMapping("/api/group")
 public class GroupController {
@@ -80,7 +80,7 @@ public class GroupController {
 			,consumes = {MediaType.APPLICATION_JSON_VALUE}
 			,produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
-	public GroupInfo getGroupSearch(@RequestBody String body) throws JsonParseException, IOException {
+	public ResponseEntity<Object> getGroupSearch(@RequestBody String body) throws JsonParseException, IOException {
 		
 		ObjectMapper mapper = new ObjectMapper();
 		@SuppressWarnings("unchecked")
@@ -98,19 +98,17 @@ public class GroupController {
 			return null;
 		}
 		
-		Map<String, Object> searchMap = new HashMap<String, Object>();
-		
-		searchMap.put("groupId", retMap.get("GROUPID").toString());
-		searchMap.put("groupDesc", retMap.get("GROUPDESC").toString());
-		searchMap.put("roleId", retMap.get("ROLEID").toString());
+		logger.debug("GROUPID: " + retMap.get("GROUPID").toString());
+		logger.debug("GROUPDESC: " + retMap.get("GROUPDESC").toString());
+		logger.debug("ROLEID: " + retMap.get("ROLEID").toString());
 		
 		GroupInfo groupInfo = new GroupInfo();
 		
-		groupInfo.setGroupId(searchMap.get("groupId").toString());
-		groupInfo.setGroupDesc(searchMap.get("groupDesc").toString());
-		groupInfo.setRoleId(searchMap.get("roleId").toString());
+		groupInfo.setGroupId(retMap.get("GROUPID").toString());
+		groupInfo.setGroupDesc(retMap.get("GROUPDESC").toString());
+		groupInfo.setRoleId(retMap.get("ROLEID").toString());
 		
-		return groupInfo;
+		return new ResponseEntity<Object>(groupInfo, HttpStatus.OK);
 }
 	
 	/**

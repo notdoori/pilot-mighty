@@ -27,7 +27,7 @@ import com.pilot.mighty.service.AuthService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-@Api(tags = {"3. Auth"})
+@Api(tags = {"1. Auth"})
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -64,7 +64,7 @@ public class AuthController {
 			,consumes = {MediaType.APPLICATION_JSON_VALUE}
 			,produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
-	public AuthInfo getAuthSearch(@RequestBody String body) throws JsonParseException, IOException {
+	public ResponseEntity<Object> getAuthSearch(@RequestBody String body) throws JsonParseException, IOException {
 		
 		ObjectMapper mapper = new ObjectMapper();
 		@SuppressWarnings("unchecked")
@@ -81,17 +81,15 @@ public class AuthController {
 			return null;
 		}
 		
-		Map<String, Object> searchMap = new HashMap<String, Object>();
-		
-		searchMap.put("roleId", retMap.get("ROLEID").toString());
-		searchMap.put("roleDesc", retMap.get("ROLEDESC").toString());
+		logger.debug("ROLEID: " + retMap.get("ROLEID").toString());
+		logger.debug("ROLEDESC: " + retMap.get("ROLEDESC").toString());
 		
 		AuthInfo authInfo = new AuthInfo();
 		
-		authInfo.setRoleId(searchMap.get("roleId").toString());
-		authInfo.setRoleDesc(searchMap.get("roleDesc").toString());
+		authInfo.setRoleId(retMap.get("ROLEID").toString());
+		authInfo.setRoleDesc(retMap.get("ROLEDESC").toString());
 		
-		return authInfo;
+		return new ResponseEntity<Object>(authInfo, HttpStatus.OK);
 }
 	
 	/**
