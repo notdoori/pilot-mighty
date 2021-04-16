@@ -9,6 +9,14 @@ public interface UserService {
 
 	UserInfo[] selectUserInfoAll();
 	
+	HashMap<String, Object> checkRegistUser(Map<String, Object> map);
+	
+	void registUser(Map<String, String> map);
+	
+	void modifyUser(Map<String, String> map);
+	
+	void deleteUser(String userId);
+	
 	HashMap<String, Object> selectUserInfo(Map<String, Object> map);
 	
 	HashMap<String, Object> selectUserAndRefreshToken(String accessToken);

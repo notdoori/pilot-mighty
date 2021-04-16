@@ -12,7 +12,7 @@
     <v-container class="v-container" row fluid>
       <v-row>
         <v-col>
-          <h2>모든 권한 그룹</h2>
+          <h2>[모든 권한 그룹]</h2>
           <br />
           <div>
             <!-- <div v-bind:key="user.userId" v-for="user in users">
@@ -32,15 +32,15 @@
               label="권한 그룹 정보 검색"
               outlined="true"
             ></v-text-field>
-            <authGrid
+            <authorityGrid
               :data="gridData"
               :columns="gridColumns"
               :filter-key="searchQuery"
-            ></authGrid>
+            ></authorityGrid>
           </div>
         </v-col>
         <v-col>
-          <h2>권한 그룹 정보</h2>
+          <h2>[권한 그룹 정보]</h2>
           <br />
           <div>
             <v-text-field
@@ -89,15 +89,19 @@
 
 <script>
 import axios from "axios";
-import authGrid from "@/views/user/Grid";
+import authorityGrid from "@/views/user/GridAuthorityList";
+import { BUS } from "@/router/EventBus";
 
 const AUTHORITY_GROUP_ALL = "/api/auth/all";
+const AUTHORITY_GROUP_SEARCH = "/api/auth/search";
 const AUTHORITY_GROUP_ADD = "/api/auth/add";
 const AUTHORITY_GROUP_MODIFY = "/api/auth/modify";
 const AUTHORITY_GROUP_DELETE = "/api/auth/delete";
 
 // alert() 팝업 메시지 정보
+const NO_ID_MESSAGE = "아이디가 존재하지 않습니다.";
 const ID_INPUT_MESSAGE = "아이디를 입력하여 주십시오.";
+const AUTHORITY_GROUP_SEARCH_FAILED = "권한 그룹 정보 조회를 실패하였습니다.";
 const AUTHORITY_GROUP_ADD_COMPLETE = "권한 그룹 추가를 완료하였습니다.";
 const AUTHORITY_GROUP_ADD_FAILED = "권한 그룹 추가를 실패하였습니다.";
 const AUTHORITY_GROUP_MODIFY_COMPLETE = "권한 그룹 수정을 완료하였습니다.";
@@ -117,6 +121,23 @@ export default {
 
     // 모든 권한 그룹 리스트 조회
     this.authority_refresh();
+
+    // BUS.$on("selectedRow", (value) => {
+    //   this.groupInfo = value;
+    //   // console.log("roleId: ", this.groupInfo["roleId"]);
+    //   // console.log("roleDesc: ", this.groupInfo["roleDesc"]);
+    //   this.roleId = this.groupInfo["roleId"];
+    //   this.roleDesc = this.groupInfo["roleDesc"];
+    // });
+
+    // "/api/auth/search"
+    BUS.$on("selectedRow", (value) => {
+      this.groupInfo = value;
+      this.authority_search(
+        this.groupInfo["roleId"],
+        this.groupInfo["roleDesc"]
+      );
+    });
   },
   beforeMount() {
     /* beforeMount 훅 이후부터는 컴포넌트에 접근할 수 있다. */
@@ -153,7 +174,7 @@ export default {
   },
   name: "Auth",
   components: {
-    authGrid,
+    authorityGrid,
   },
   data() {
     return {
@@ -169,120 +190,113 @@ export default {
   },
 
   methods: {
-    // 모든 권한 그룹 리스트 조회
+    // 모든 권한 그룹 리스트 조회 (/all)
     authority_refresh: function () {
       axios
         .get(AUTHORITY_GROUP_ALL)
         .then(
           (response) => (
             (this.gridData = null), (this.gridData = response.data)
-            // console.log(this.gridData)
           )
         )
         .catch((error) => alert(error));
     },
 
-    // 권한 그룹 추가
+    // 권한 그룹 정보 조회 (/search)
+    authority_search: function (id, desc) {
+      // console.log("ID : " + id);
+      // console.log("DESC : " + desc);
+
+      if (id === "") {
+        alert(NO_ID_MESSAGE);
+      } else {
+        axios
+          .post(AUTHORITY_GROUP_SEARCH, {
+            roleId: id,
+            roleDesc: desc,
+          })
+          .then(
+            (response) => (
+              (this.roleId = response.data["roleId"]),
+              (this.roleDesc = response.data["roleDesc"]),
+              (this.roleIdTemp = response.data["roleId"]),
+              (this.roleDescTemp = response.data["roleDesc"])
+            )
+          )
+          .catch((error) => alert(AUTHORITY_GROUP_SEARCH_FAILED));
+      }
+    },
+
+    // 권한 그룹 추가 (/add)
     authority_add: function () {
       if (this.roleId === "") {
         alert(ID_INPUT_MESSAGE, "");
       } else {
-        // console.log("[vue] roleId: " + this.roleId);
-        // console.log("[vue] roleDesc: " + this.roleDesc);
-
         axios
           .post(AUTHORITY_GROUP_ADD, {
             roleId: this.roleId,
             roleDesc: this.roleDesc,
           })
           .then(
-            (response) =>
-              // console.log(response)
-              alert(AUTHORITY_GROUP_ADD_COMPLETE),
+            (response) => alert(AUTHORITY_GROUP_ADD_COMPLETE),
             ((this.gridUpdate = true),
             (this.roleId = ""),
             (this.roleDesc = ""),
             (this.roleIdTemp = ""),
             (this.roleDescTemp = ""))
           )
-          .catch((error) =>
-            // console.log(error)
-            alert(AUTHORITY_GROUP_ADD_FAILED)
-          );
+          .catch((error) => alert(AUTHORITY_GROUP_ADD_FAILED));
       }
     },
 
-    // 권한 그룹 정보 수정
+    // 권한 그룹 정보 수정 (/modify)
     authority_modify: function () {
       if (this.roleId === "") {
         alert(ID_INPUT_MESSAGE);
       } else {
-        // console.log("[vue] roleId: " + this.roleId);
-        // console.log("[vue] roleDesc: " + this.roleDesc);
-
         axios
           .post(AUTHORITY_GROUP_MODIFY, {
             roleId: this.roleId,
             roleDesc: this.roleDesc,
           })
           .then(
-            (response) =>
-              // console.log(response)
-              alert(AUTHORITY_GROUP_MODIFY_COMPLETE),
+            (response) => alert(AUTHORITY_GROUP_MODIFY_COMPLETE),
             ((this.gridUpdate = true),
             (this.roleIdTemp = this.roleId),
             (this.roleDescTemp = this.roleDesc),
             (this.roleId = ""),
             (this.roleDesc = ""))
           )
-          .catch((error) =>
-            // console.log(error)
-            alert(AUTHORITY_GROUP_MODIFY_FAILED)
-          );
+          .catch((error) => alert(AUTHORITY_GROUP_MODIFY_FAILED));
       }
     },
 
-    // 권한 그룹 삭제
+    // 권한 그룹 삭제 (/delete)
     authority_delete: function () {
       if (this.roleId === "") {
         alert(ID_INPUT_MESSAGE);
       } else {
-        // console.log("[vue] roleId: " + this.roleId);
-        // console.log("[vue] roleDesc: " + this.roleDesc);
-
         axios
           .post(AUTHORITY_GROUP_DELETE, {
             roleId: this.roleId,
             roleDesc: this.roleDesc,
           })
           .then(
-            (response) =>
-              // console.log(response)
-              alert(AUTHORITY_GROUP_DELETE_COMPLETE),
+            (response) => alert(AUTHORITY_GROUP_DELETE_COMPLETE),
             ((this.gridUpdate = true),
             (this.roleId = ""),
             (this.roleDesc = ""),
             (this.roleIdTemp = ""),
             (this.roleDescTemp = ""))
           )
-          .catch((error) =>
-            // console.log(error)
-            alert(AUTHORITY_GROUP_DELETE_FAILED)
-          );
+          .catch((error) => alert(AUTHORITY_GROUP_DELETE_FAILED));
       }
     },
   },
 };
 </script>
 
-<!--
-<style type="text/css">
- .v-content {
-  color: red;
-}
-</style>
--->
-
+<!-- <style type="text/css"> -->
 <style scoped="">
 .v-container {
   background-color: lightgray;

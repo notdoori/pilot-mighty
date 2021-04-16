@@ -23,6 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pilot.mighty.model.AuthInfo;
 import com.pilot.mighty.model.GroupInfo;
 import com.pilot.mighty.query.QueryExecutor;
+import com.pilot.mighty.service.AuthService;
 import com.pilot.mighty.service.GroupService;
 
 import io.swagger.annotations.Api;
@@ -42,11 +43,11 @@ public class GroupController {
 	private final Logger logger = LogManager.getLogger(GroupController.class);
 	
 	/**
-	 * 전체 사용자 그룹 조회 요청
+	 * 모든 사용자 그룹 조회 요청 (SELECT)
 	 * @author thkim
 	 * @return GroupInfo
 	 */
-	@ApiOperation(value="전체 사용자 그룹 조회", notes = "모든 사용자 그룹을 조회합니다.")
+	@ApiOperation(value="모든 사용자 그룹 조회", notes = "모든 사용자 그룹을 조회합니다.")
 	@RequestMapping(value= "/all", method=RequestMethod.GET)
 	public GroupInfo[] getGroupAll() {
 		
@@ -56,10 +57,66 @@ public class GroupController {
 	}
 	
 	/**
-	 * 사용자 그룹 추가 요청 (INSERT)
+	 * 모든 권한 그룹 ID 조회 요청 (SELECT)
 	 * @author thkim
 	 * @return GroupInfo
 	 */
+	@ApiOperation(value="모든 권한 그룹 ID 조회", notes = "모든 권한 그룹 ID를 조회합니다.")
+	@RequestMapping(value= "/auth/all", method=RequestMethod.GET)
+	public AuthInfo[] getAuthAll() {
+		
+		AuthInfo[] authInfo = groupService.selectAuthInfoAll();
+		
+		return authInfo;
+	}
+	
+	/**
+	 * 사용자 그룹 정보 조회 요청 (SELECT)
+	 * @author thkim
+	 * @return GroupInfo
+	 */
+	@ApiOperation(value="사용자 그룹 정보 조회", notes = "사용자 그룹 정보를 조회합니다.")
+	@PostMapping(value = "/search"
+			,consumes = {MediaType.APPLICATION_JSON_VALUE}
+			,produces = {MediaType.APPLICATION_JSON_VALUE})
+	@ResponseBody
+	public ResponseEntity<Object> getGroupSearch(@RequestBody String body) throws JsonParseException, IOException {
+		
+		ObjectMapper mapper = new ObjectMapper();
+		@SuppressWarnings("unchecked")
+		Map<String, Object> map = mapper.readValue(body, Map.class);
+		
+		logger.debug("groupId: " + map.get("groupId").toString());
+		logger.debug("groupDesc: " + map.get("groupDesc").toString());
+		logger.debug("roleId: " + map.get("roleId").toString());
+		
+		HashMap<String, Object> retMap = groupService.selectGroupInfoSearch(map);
+		
+		// Database 에 리스트 존재 여부 확인
+		if (retMap == null) {
+			logger.debug(map.get("groupId").toString() + " is not found.");
+			return null;
+		}
+		
+		logger.debug("GROUPID: " + retMap.get("GROUPID").toString());
+		logger.debug("GROUPDESC: " + retMap.get("GROUPDESC").toString());
+		logger.debug("ROLEID: " + retMap.get("ROLEID").toString());
+		
+		GroupInfo groupInfo = new GroupInfo();
+		
+		groupInfo.setGroupId(retMap.get("GROUPID").toString());
+		groupInfo.setGroupDesc(retMap.get("GROUPDESC").toString());
+		groupInfo.setRoleId(retMap.get("ROLEID").toString());
+		
+		return new ResponseEntity<Object>(groupInfo, HttpStatus.OK);
+}
+	
+	/**
+	 * 사용자 그룹 정보 추가 요청 (INSERT)
+	 * @author thkim
+	 * @return GroupInfo
+	 */
+	@ApiOperation(value="사용자 그룹 정보 추가", notes = "사용자 그룹 정보를 추가합니다.")
 	@PostMapping(value = "/add"
 			,consumes = {MediaType.APPLICATION_JSON_VALUE}
 			,produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -74,7 +131,7 @@ public class GroupController {
 		logger.debug("groupDesc: " + map.get("groupDesc").toString());
 		logger.debug("roleId: " + map.get("roleId").toString());
 		
-		HashMap<String, Object> retMap = groupService.selectGroupInfo(map);
+		HashMap<String, Object> retMap = groupService.selectGroupInfoCheck(map);
 		
 		// Database 에 리스트 존재 여부 확인
 		if (retMap != null) {
@@ -95,10 +152,11 @@ public class GroupController {
 	}
 
 	/**
-	 * 권한 그룹 수정 요청 (UPDATE)
+	 * 사용자 그룹 정보 수정 요청 (UPDATE)
 	 * @author thkim
 	 * @return GroupInfo
 	 */
+	@ApiOperation(value="사용자 그룹 정보 수정", notes = "사용자 그룹 정보를 수정합니다.")
 	@PostMapping(value = "/modify"
 			,consumes = {MediaType.APPLICATION_JSON_VALUE}
 			,produces = {MediaType.APPLICATION_JSON_VALUE} )
@@ -113,7 +171,7 @@ public class GroupController {
 		logger.debug("groupDesc: " + map.get("groupDesc").toString());
 		logger.debug("roleId: " + map.get("roleId").toString());
 		
-		HashMap<String, Object> retMap = groupService.selectGroupInfo(map);
+		HashMap<String, Object> retMap = groupService.selectGroupInfoCheck(map);
 		
 		// Database 에 리스트 존재 여부 확인
 		if (retMap == null) {
@@ -134,10 +192,11 @@ public class GroupController {
 	}
 	
 	/**
-	 * 사용자 그룹 삭제 요청 (DELETE)
+	 * 사용자 그룹 정보 삭제 요청 (DELETE)
 	 * @author thkim
 	 * @return GroupInfo
 	 */
+	@ApiOperation(value="사용자 그룹 정보 삭제", notes = "사용자 그룹 정보를 삭제합니다.")
 	@PostMapping(value = "/delete"
 			,consumes = {MediaType.APPLICATION_JSON_VALUE}
 			,produces = {MediaType.APPLICATION_JSON_VALUE} )
@@ -152,7 +211,7 @@ public class GroupController {
 		logger.debug("groupDesc: " + map.get("groupDesc").toString());
 		logger.debug("roleId: " + map.get("roleId").toString());
 		
-		HashMap<String, Object> retMap = groupService.selectGroupInfo(map);
+		HashMap<String, Object> retMap = groupService.selectGroupInfoCheck(map);
 		
 		// Database 에 리스트 존재 여부 확인
 		if (retMap == null) {

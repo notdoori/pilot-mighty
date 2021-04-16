@@ -4,7 +4,7 @@
     <v-container class="v-container" row fluid>
       <v-row>
         <v-col>
-          <h2>모든 사용자 그룹</h2>
+          <h2>[모든 사용자 그룹]</h2>
           <br />
           <div>
             <v-text-field
@@ -22,7 +22,7 @@
           </div>
         </v-col>
         <v-col>
-          <h2>사용자 그룹 정보</h2>
+          <h2>[사용자 그룹 정보]</h2>
           <br />
           <div>
             <v-text-field
@@ -35,11 +35,13 @@
               outlined="true"
               v-model="groupDesc"
             ></v-text-field>
-            <v-combobox
+            <v-select
               label="권한 그룹 아이디"
               outlined="true"
+              :items="roleIdItems"
+              @input="authority_id_info"
               v-model="roleId"
-            ></v-combobox>
+            ></v-select>
           </div>
           <div>
             <v-btn
@@ -75,15 +77,20 @@
 
 <script>
 import axios from "axios";
-import groupGrid from "@/views/user/Grid";
+import groupGrid from "@/views/user/GridGroupList";
+import { BUS } from "@/router/EventBus";
 
 const USER_GROUP_ALL = "/api/group/all";
+const USER_GROUP_SEARCH = "/api/group/search";
 const USER_GROUP_ADD = "/api/group/add";
 const USER_GROUP_MODIFY = "/api/group/modify";
 const USER_GROUP_DELETE = "/api/group/delete";
+const AUTHORITY_GROUP_ALL = "/api/group/auth/all";
 
 // alert() 팝업 메시지 정보
+const NO_ID_MESSAGE = "아이디가 존재하지 않습니다.";
 const ID_INPUT_MESSAGE = "아이디를 입력하여 주십시오.";
+const USER_GROUP_SEARCH_FAILED = "권한 그룹 정보 조회를 실패하였습니다.";
 const USER_GROUP_ADD_COMPLETE = "사용자 그룹 추가를 완료하였습니다.";
 const USER_GROUP_ADD_FAILED = "사용자 그룹 추가를 실패하였습니다.";
 const USER_GROUP_MODIFY_COMPLETE = "사용자 그룹 수정을 완료하였습니다.";
@@ -103,6 +110,26 @@ export default {
 
     // 모든 사용자 그룹 리스트 조회
     this.group_refresh();
+
+    // 모든 권한 그룹 ID 리스트 조회
+    this.authority_refresh();
+
+    // BUS.$on("selectedRow", (value) => {
+    //   this.groupInfo = value;
+    //   this.groupId = this.groupInfo["groupId"];
+    //   this.groupDesc = this.groupInfo["groupDesc"];
+    //   this.roleId = this.groupInfo["roleId"];
+    // });
+
+    // "/api/group/search"
+    BUS.$on("selectedRow", (value) => {
+      this.groupInfo = value;
+      this.group_search(
+        this.groupInfo["groupId"],
+        this.groupInfo["groupDesc"],
+        this.groupInfo["roleId"]
+      );
+    });
   },
   beforeMount() {
     /* beforeMount 훅 이후부터는 컴포넌트에 접근할 수 있다. */
@@ -126,8 +153,12 @@ export default {
       this.gridUpdate = false;
       this.groupId = this.groupIdTemp;
       this.groupDesc = this.groupDescTemp;
-      this.roleId = this.roleIdTemp;
+
+      // 모든 사용자 그룹 리스트 조회
       this.group_refresh();
+
+      // 모든 권한 그룹 ID 리스트 조회
+      this.authority_refresh();
     }
   },
   beforeDestroy() {
@@ -150,28 +181,10 @@ export default {
       gridUpdate: false,
       groupId: "", // 사용자 그룹 아이디 (NOT NULL)
       groupDesc: "", // 사용자 그룹 설명 (NULL)
-      roleId: "", // 권한 그룹 아이디 (NULL)
+      roleId: "",
       groupIdTemp: "", // 임시 사용자 그룹 아이디
       groupDescTemp: "", // 임시 사용자 그룹 설명
-      roleIdTemp: "", // 임시 권한 그룹 아이디
-      // roleId: [
-      //   {
-      //     text: "A1",
-      //     value: "A1",
-      //   },
-      //   {
-      //     text: "A2",
-      //     value: "A2",
-      //   },
-      //   {
-      //     text: "A3",
-      //     value: "A3",
-      //   },
-      //   {
-      //     text: "A4",
-      //     value: "A4",
-      //   },
-      // ],
+      roleIdItems: [], // 모든 권한 그룹 ID 리스트
     };
   },
   methods: {
@@ -182,21 +195,75 @@ export default {
         .then(
           (response) => (
             (this.gridData = null), (this.gridData = response.data)
-            // console.log(this.gridData)
           )
         )
         .catch((error) => alert(error));
     },
 
-    // 사용자 그룹 추가
+    // 모든 권한 그룹 ID 리스트 조회
+    authority_refresh: function () {
+      axios
+        .get(AUTHORITY_GROUP_ALL)
+        .then(
+          (response) => (
+            (this.gridDataAuth = null),
+            (this.gridDataAuth = response.data),
+            this.authority_id(this.gridDataAuth)
+          )
+        )
+        .catch((error) => alert(error));
+    },
+
+    // 모든 권한 그룹 ID 리스트 조회
+    authority_id: function (data) {
+      let idArray = [];
+
+      // console.log(data);
+
+      for (let i = 0; i < data.length; i++) {
+        if (data[i]["roleId"] === null) {
+          continue;
+        }
+        idArray[i] = data[i]["roleId"];
+      }
+
+      this.roleIdItems = [];
+      this.roleIdItems = idArray;
+    },
+
+    // 사용자 그룹 정보 조회 (/search)
+    group_search: function (groupId, groupDesc, roleId) {
+      // console.log("GROUP ID : " + groupId);
+      // console.log("GROUP DESC : " + groupDesc);
+      // console.log("ROLE ID : " + roleId);
+
+      if (groupId === "") {
+        alert(NO_ID_MESSAGE);
+      } else {
+        axios
+          .post(USER_GROUP_SEARCH, {
+            groupId: groupId,
+            groupDesc: groupDesc,
+            roleId: roleId,
+          })
+          .then(
+            (response) => (
+              (this.groupId = response.data["groupId"]),
+              (this.groupDesc = response.data["groupDesc"]),
+              (this.roleId = response.data["roleId"]),
+              (this.groupIdTemp = response.data["groupId"]),
+              (this.groupDescTemp = response.data["groupDesc"])
+            )
+          )
+          .catch((error) => alert(USER_GROUP_SEARCH_FAILED));
+      }
+    },
+
+    // 사용자 그룹 추가 (/add)
     user_group_add: function () {
       if (this.groupId === "") {
         alert(ID_INPUT_MESSAGE);
       } else {
-        // console.log("[vue] groupId: " + this.groupId);
-        // console.log("[vue] groupDesc: " + this.groupDesc);
-        // console.log("[vue] roleId: " + this.roleId);
-
         axios
           .post(USER_GROUP_ADD, {
             groupId: this.groupId,
@@ -204,33 +271,23 @@ export default {
             roleId: this.roleId,
           })
           .then(
-            (response) =>
-              // console.log(response)
-              alert(USER_GROUP_ADD_COMPLETE),
+            (response) => alert(USER_GROUP_ADD_COMPLETE),
             ((this.gridUpdate = true),
             (this.groupId = ""),
             (this.groupDesc = ""),
             (this.roleId = ""),
             (this.groupIdTemp = ""),
-            (this.groupDescTemp = ""),
-            (this.roleIdTemp = ""))
+            (this.groupDescTemp = ""))
           )
-          .catch((error) =>
-            // console.log(error)
-            alert(USER_GROUP_ADD_FAILED)
-          );
+          .catch((error) => alert(USER_GROUP_ADD_FAILED));
       }
     },
 
-    // 사용자 그룹 정보 수정
+    // 사용자 그룹 정보 수정 (/modify)
     user_group_modify: function () {
       if (this.groupId === "") {
         alert(ID_INPUT_MESSAGE);
       } else {
-        // console.log("[vue] groupId: " + this.groupId);
-        // console.log("[vue] groupDesc: " + this.groupDesc);
-        // console.log("[vue] roleId: " + this.roleId);
-
         axios
           .post(USER_GROUP_MODIFY, {
             groupId: this.groupId,
@@ -238,33 +295,22 @@ export default {
             roleId: this.roleId,
           })
           .then(
-            (response) =>
-              // console.log(response)
-              alert(USER_GROUP_MODIFY_COMPLETE),
-            ((this.gridUpdate = true),
+            (response) => alert(USER_GROUP_MODIFY_COMPLETE),
+            (this.gridUpdate = true),
             (this.groupIdTemp = this.groupId),
             (this.groupDescTemp = this.groupDesc),
-            (this.roleIdTemp = this.roleId),
             (this.groupId = ""),
-            (this.groupDesc = ""),
-            (this.roleId = ""))
+            (this.groupDesc = "")
           )
-          .catch((error) =>
-            // console.log(error)
-            alert(USER_GROUP_MODIFY_FAILED)
-          );
+          .catch((error) => alert(USER_GROUP_MODIFY_FAILED));
       }
     },
 
-    // 사용자 그룹 삭제
+    // 사용자 그룹 삭제 (/delete)
     user_group_delete: function () {
       if (this.groupId === "") {
         alert(ID_INPUT_MESSAGE);
       } else {
-        // console.log("[vue] groupId: " + this.groupId);
-        // console.log("[vue] groupDesc: " + this.groupDesc);
-        // console.log("[vue] roleId: " + this.roleId);
-
         axios
           .post(USER_GROUP_DELETE, {
             groupId: this.groupId,
@@ -272,35 +318,28 @@ export default {
             roleId: this.roleId,
           })
           .then(
-            (response) =>
-              // console.log(response)
-              alert(USER_GROUP_DELETE_COMPLETE),
-            ((this.gridUpdate = true),
+            (response) => alert(USER_GROUP_DELETE_COMPLETE),
+            (this.gridUpdate = true),
             (this.groupId = ""),
-            (this.groupDesc = ""),
             (this.roleId = ""),
+            (this.groupDesc = ""),
             (this.groupIdTemp = ""),
-            (this.groupDescTemp = ""),
-            (this.roleIdTemp = ""))
+            (this.groupDescTemp = "")
           )
-          .catch((error) =>
-            // console.log(error)
-            alert(USER_GROUP_DELETE_FAILED)
-          );
+          .catch((error) => alert(USER_GROUP_DELETE_FAILED));
       }
+    },
+
+    // 권한 그룹 아이디 선택 이벤트
+    authority_id_info: function (event) {
+      // console.log("[authority_id_info] " + event);
+      this.roleId = event;
     },
   },
 };
 </script>
 
-<!--
-<style type="text/css">
- .v-content {
-  color: red;
-}
-</style>
--->
-
+<!-- <style type="text/css"> -->
 <style scoped="">
 .v-container {
   background-color: lightgray;

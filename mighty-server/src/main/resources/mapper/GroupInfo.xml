@@ -5,15 +5,22 @@
  	<select id="selectGroupInfoAll" resultType="com.pilot.mighty.model.GroupInfo">
 		SELECT GROUP_ID as groupId,
 		           GROUP_DESC as groupDesc,
-		          ROLE_ID as roleId
+		           ROLE_ID as roleId
 		  FROM ADM_GROUP_INFO
 		 ORDER BY GROUP_ID
 	</select>
 	
-	<select id="selectGroupInfo" parameterType="java.util.Map" resultType="java.util.HashMap">
+	<select id="selectAuthInfoAll" resultType="com.pilot.mighty.model.AuthInfo">
+		SELECT ROLE_ID as roleId,
+		           ROLE_DESC as roleDesc
+		 FROM ADM_ROLE_INFO
+		ORDER BY ROLE_ID
+	</select>
+	
+	<select id="selectGroupInfoSearch" parameterType="java.util.Map" resultType="java.util.HashMap">
 		SELECT GROUP_ID as groupId,
-		          GROUP_DESC as groupDesc,
-		          ROLE_ID as roleId
+		           GROUP_DESC as groupDesc,
+		           ROLE_ID as roleId
 		  FROM ADM_GROUP_INFO
 		 WHERE GROUP_ID = #{groupId}
 	</select>
@@ -25,13 +32,22 @@
 	
 	<update id="updateGroupInfo" parameterType="java.util.Map">
 		UPDATE ADM_GROUP_INFO
-		   SET GROUP_DESC = #{groupDesc}
-		 WHERE GROUP_ID = #{groupId}
+		      SET GROUP_DESC = #{groupDesc},
+		            ROLE_ID = #{roleId}
+	     WHERE GROUP_ID = #{groupId}
 	</update>
 	
 	<delete id="deleteGroupInfo" parameterType="java.util.Map">
 		DELETE FROM ADM_GROUP_INFO
-		 WHERE GROUP_ID = #{groupId}
+		WHERE GROUP_ID = #{groupId}
 	</delete>
+	
+	<select id="selectGroupInfoCheck" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT GROUP_ID as groupId,
+		           GROUP_DESC as groupDesc,
+		           ROLE_ID as roleId
+		  FROM ADM_GROUP_INFO
+		 WHERE GROUP_ID = #{groupId}
+	</select>
 	
 </mapper>

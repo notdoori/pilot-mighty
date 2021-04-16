@@ -1,55 +1,119 @@
 <template>
     <div>
-        <div class="left">
-            <form id="search">
-                <span class="input input--jiro">
-                    <input
-                        class="input__field input__field--jiro"
-                        type="text"
-                        id="queryinput"
-                        name="query"
-                        v-model="searchQuery"
-                    />
-                    <label
-                        class="input__label input__label--jiro"
-                        for="queryinput"
-                    >
-                        <span
-                            class="input__label-content input__label-content--jiro"
-                            >Search</span
-                        >
-                    </label>
-                </span>
-            </form>
-            <userGrid
-                :data="gridData"
-                :columns="gridColumns"
-                :filter-key="searchQuery"
-            ></userGrid>
-        </div>
-        <div class="contTitle">
-				사용자 정보
-		</div>
-		<div class="right">
-			<div class="textbox">
-                <label for="userId">User ID</label>
-                <input type="text" v-model="userInfo.userId" />
+        <div class="content">
+            <div class="left">
+                <div class="contTitle">
+                    <ul>
+                        <li>등록된 사용자 목록</li>
+                    </ul>
+                </div>
+                <div class="search">
+                    <form id="search">
+                        <span class="input input--jiro">
+                            <input
+                                class="input__field input__field--jiro"
+                                type="text"
+                                id="queryinput"
+                                name="query"
+                                v-model="searchQuery"
+                            />
+                            <label
+                                class="input__label input__label--jiro"
+                                for="queryinput"
+                            >
+                                <span
+                                    class="input__label-content input__label-content--jiro"
+                                    >Search</span
+                                >
+                            </label>
+                        </span>
+                    </form>
+                </div>
+                <div class="grid">
+                    <userGrid
+                        :data="gridData"
+                        :columns="gridColumns"
+                        :filter-key="searchQuery"
+                    ></userGrid>
+                </div>
             </div>
-            <div class="textbox">
-                <label for="userName">User Name</label>
-                <input type="text" v-model="userInfo.userName" />
+            <div class="right">
+                <div class="contTitle">
+                    <ul>
+                        <li>사용자 정보</li>
+                    </ul>
+                </div>
+                <div class="contDetail">
+                    <div class="textbox">
+                        <table class="inputTable">
+                            <tr>
+                                <td class="inputTitle">
+                                    <label for="userId">User ID</label>
+                                </td>
+                                <td>
+                                    <input
+                                        type="text"
+                                        v-model="userInfo.userId"
+                                    />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="inputTitle">
+                                    <label for="userName">User Name</label>
+                                </td>
+                                <td>
+                                    <input
+                                        type="text"
+                                        v-model="userInfo.userName"
+                                    />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="inputTitle">
+                                    <label for="depart">Department</label>
+                                </td>
+                                <td>
+                                    <input
+                                        type="text"
+                                        v-model="userInfo.depart"
+                                    />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="inputTitle">
+                                    <label for="langType">Language Type</label>
+                                </td>
+                                <td>
+                                    <input
+                                        type="text"
+                                        v-model="userInfo.langType"
+                                    />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="inputTitle">
+                                    <label for="userGroup">User Group</label>
+                                </td>
+                                <td>
+                                    <input
+                                        type="text"
+                                        v-model="userInfo.userGroup"
+                                    />
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
             </div>
-            <div class="textbox">
-                <label for="depart">Department</label>
-                <input type="text" v-model="userInfo.depart" />
-            </div>
-            <div class="textbox">
-                <label for="langType">Language Type</label>
-                <input type="text" v-model="userInfo.langType" />
-            </div>
-            <div class="textbox">
-                <label for="userGroup">User Group</label>
-                <input type="text" v-model="userInfo.userGroup" />
+            <div class="bottom">
+                <div class="highlightButtonGroup">
+                    <a class="highlightButton">초기화</a>
+                </div>
+                <div class="normalButtonGroup">
+                    <a class="normalButton">입력</a>
+                    <a class="normalButton">수정</a>
+                    <a class="normalButton">삭제</a>
+                </div>
             </div>
         </div>
     </div>
@@ -77,23 +141,24 @@ export default {
                 "userGroup",
             ],
             gridData: [],
-			userInfo: []
+            userInfo: [],
+            titleBulet: "@./assets/images/titleBullet1.png",
         };
     },
     created() {
         this.load();
-		BUS.$on("selectedRow", (value) => {
+        BUS.$on("selectedRow", (value) => {
             this.userInfo = value;
-			console.log("User ID: ", this.userInfo["userId"]);
+            console.log("User ID: ", this.userInfo["userId"]);
             console.log("User Name: ", this.userInfo["userName"]);
             console.log("Department: ", this.userInfo["depart"]);
             console.log("Language Type: ", this.userInfo["langType"]);
             console.log("User Group: ", this.userInfo["userGroup"]);
-			this.userId = this.userInfo["userId"];
+            this.userId = this.userInfo["userId"];
             this.userName = this.userInfo["userName"];
-			this.depart = this.userInfo["depart"];
-			this.langType = this.userInfo["langType"];
-			this.userGroup = this.userInfo["userGroup"];
+            this.depart = this.userInfo["depart"];
+            this.langType = this.userInfo["langType"];
+            this.userGroup = this.userInfo["userGroup"];
         });
     },
     methods: {
@@ -106,32 +171,69 @@ export default {
                 .catch((e) => {
                     console.error(e);
                 });
-        }
-    }
+        },
+    },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped="">
-.contTitle {
-	padding-top: 100px;
+html,
+body {
+    padding: 10px;
+    padding-right: 20px;
+    height: 95%;
+}
+.content {
+    float: left;
+    width: 100%;
+    height: 100%;
+    margin: 20px auto;
+    padding: 20px;
+    border: 3px solid #1976d2;
+    border-radius: 10px;
 }
 .left {
     float: left;
-    width: 55%;
-    min-width: 600px;
-	padding-left: 20px;
+    width: 730px;
+}
+.search {
+}
+.grid {
 }
 .right {
     float: left;
-    width: 45%;
+    width: 50%;
     height: 100%;
-    margin: 0 auto;
-    border-left: 1px solid #BEBEBE;
-    border-right: 1px solid #BEBEBE;
-    background-color: #F2F2F2;
-	padding-top: 20px;
     padding-left: 20px;
+    min-width: 480px;
+}
+.contTitle {
+    padding-top: 20px;
+}
+.contDetail {
+    height: 415px;
+    margin-top: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border: 1px solid #bebebe;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+}
+.bottom {
+    clear: both;
+}
+.inputTable {
+    width: 100%;
+}
+.inputTable th,
+td {
+    font-size: 80%;
+    min-width: 20px;
+    padding: 5px 10px;
+}
+.inputTitle {
+    width: 150px;
 }
 .input {
     position: relative;
@@ -286,7 +388,7 @@ export default {
 
 .textbox {
     position: relative;
-	padding: 0.4em 0.2em;
+    padding: 0.4em 0.2em;
 }
 .textbox label {
     padding: 0.8em 0.5em; /* input 요소의 padding 값 만큼 */
@@ -300,6 +402,64 @@ export default {
     padding: 0.8em 0.5em; /* 원하는 여백 설정, 상하단 여백으로 높이를 조절 */
     font-family: inherit; /* 폰트 상속 */
     border: 1px solid #999;
-	background-color: #FFF;
+    background-color: #fff;
+}
+.normalButtonGroup {
+    float: right;
+    padding: 10px;
+}
+.normalButton {
+    margin: 5px;
+    box-shadow: inset 0px 1px 0px 0px #bee2f9;
+    background: linear-gradient(to bottom, #63b8ee 5%, #468ccf 100%);
+    background-color: #63b8ee;
+    border-radius: 6px;
+    border: 1px solid #3866a3;
+    display: inline-block;
+    cursor: pointer;
+    color: #14396a;
+    font-family: Arial;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 6px 24px;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #7cacde;
+}
+.normalButton:hover {
+    background: linear-gradient(to bottom, #468ccf 5%, #63b8ee 100%);
+    background-color: #468ccf;
+}
+.normalButton:active {
+    position: relative;
+    top: 1px;
+}
+.highlightButtonGroup {
+    float: left;
+    padding: 10px;
+}
+.highlightButton {
+    margin: 5px;
+    box-shadow: inset 0px 1px 0px 0px #fff6af;
+    background: linear-gradient(to bottom, #ffec64 5%, #ffab23 100%);
+    background-color: #ffec64;
+    border-radius: 6px;
+    border: 1px solid #ffaa22;
+    display: inline-block;
+    cursor: pointer;
+    color: #333333;
+    font-family: Arial;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 6px 24px;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #ffee66;
+}
+.highlightButton:hover {
+    background: linear-gradient(to bottom, #ffab23 5%, #ffec64 100%);
+    background-color: #ffab23;
+}
+.highlightButton:active {
+    position: relative;
+    top: 1px;
 }
 </style>
