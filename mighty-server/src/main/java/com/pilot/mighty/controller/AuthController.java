@@ -45,7 +45,7 @@ public class AuthController {
 	 * @author thkim
 	 * @return AuthInfo
 	 */
-	@ApiOperation(value="전체 권한 그룹 조회", notes = "모든 권한 그룹을 조회합니다.")
+	@ApiOperation(value="모든 권한 그룹 조회", notes = "모든 권한 그룹을 조회합니다.")
 	@RequestMapping(value= "/all", method=RequestMethod.GET)
 	public AuthInfo[] getAuthAll() {
 		
@@ -59,6 +59,7 @@ public class AuthController {
 	 * @author thkim
 	 * @return AuthInfo
 	 */
+	@ApiOperation(value="권한 그룹 정보 조회", notes = "권한 그룹 정보를 조회합니다.")
 	@PostMapping(value = "/search"
 			,consumes = {MediaType.APPLICATION_JSON_VALUE}
 			,produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -98,6 +99,7 @@ public class AuthController {
 	 * @author thkim
 	 * @return AuthInfo
 	 */
+	@ApiOperation(value="권한 그룹 정보 추가", notes = "권한 그룹 정보를 추가합니다.")
 	@PostMapping(value = "/add"
 			,consumes = {MediaType.APPLICATION_JSON_VALUE}
 			,produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -135,6 +137,7 @@ public class AuthController {
 	 * @author thkim
 	 * @return AuthInfo
 	 */
+	@ApiOperation(value="권한 그룹 정보 수정", notes = "권한 그룹 정보를 수정합니다.")
 	@PostMapping(value = "/modify"
 			,consumes = {MediaType.APPLICATION_JSON_VALUE}
 			,produces = {MediaType.APPLICATION_JSON_VALUE} )
@@ -172,6 +175,7 @@ public class AuthController {
 	 * @author thkim
 	 * @return AuthInfo
 	 */
+	@ApiOperation(value="권한 그룹 정보 삭제", notes = "권한 그룹 정보를 삭제합니다.")
 	@PostMapping(value = "/delete"
 			,consumes = {MediaType.APPLICATION_JSON_VALUE}
 			,produces = {MediaType.APPLICATION_JSON_VALUE} )
