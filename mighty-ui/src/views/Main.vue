@@ -17,7 +17,7 @@
         color="primary"
         height="38"
       >
-        <v-tab v-for="tab in tabs" :key="tab.id" exact @click="updateTab(tab)">
+        <v-tab v-for="(tab, index) in tabs" :key="index" exact @click="updateTab(tab)">
           {{ tab.name }}
           <v-icon small left @click="removeTab(tab)">mdi-minus-circle</v-icon>
         </v-tab>
@@ -67,16 +67,25 @@ import Menu from '@/components/menu/Menu';
       updateTab(tab) {
         //console.log('updateTab: ', tab);
         //this.$router.push({path: tab.route}, function(){}, function(){});
+        this.$router.replace({path: tab.route}, function(){}, function(){});
         this.activeTab = this.tabs.findIndex(t => t.id === tab.id);
+        console.log('update activeTab: ', this.activeTab);
       },
-      removeTab(tab){
+      removeTab(tab) {
+
+        let removeIdx = this.tabs.findIndex(t => t.id === tab.id);
+
         this.tabs = this.tabs.filter(t => t.id !== tab.id);
-        //console.log('tab: ', tab);
-        this.$router.go(-1);
-        if (this.tabs.length === 0) {
-          this.$router.content = "";
+
+        if (this.tabs.length <= 0) {
+          this.$router.replace({path: this.curRoutePath}, function(){}, function(){});
+        } else {
+          let maxIdx = this.tabs.length - 1;
+          let tabIdx = removeIdx >= maxIdx ? maxIdx : removeIdx;
+          console.log('maxIdx: ', maxIdx, ' removeIdx: ', removeIdx, ' tabIdx: ', tabIdx);
+          this.activeTab = tabIdx;                 
+          this.$router.replace({path: this.tabs[tabIdx].route}, function(){}, function(){});  
         }
-        // console.log('activeTab: ', this.activeTab);
       },
       clickMenu(item) {
         //console.log('id: ', item.id, ' name: ', item.name);
@@ -93,12 +102,15 @@ import Menu from '@/components/menu/Menu';
         if (this.tabs.some(t => t.id === item.id)) {
           console.log('already exist id: ', item.id, ' name: ', item.name);         
         } else {
-            this.tabs.push({
-                  id: item.id,
-                  name: item.name,
-                });
+          let nextRoutePath=this.curRoutePath + '/' + item.id;
 
-            let nextRoutePath=this.curRoutePath + '/' + item.id;
+          this.tabs.push({
+                id: item.id,
+                name: item.name,
+                route: nextRoutePath
+              });
+
+            
 
             //console.log('next route path: ', nextRoutePath);
 
@@ -106,6 +118,7 @@ import Menu from '@/components/menu/Menu';
         }
 
         this.activeTab = this.tabs.findIndex(t => t.id === item.id);
+        console.log('new activeTab: ', this.activeTab);
       }
     },
     data() {
