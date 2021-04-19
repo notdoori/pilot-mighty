@@ -78,7 +78,7 @@
 <script>
 import axios from "axios";
 import groupGrid from "@/views/user/GridGroupList";
-import { BUS } from "@/router/EventBus";
+import { BUS_GROUPS } from "@/router/EventBus";
 
 const USER_GROUP_ALL = "/api/group/all";
 const USER_GROUP_SEARCH = "/api/group/search";
@@ -114,7 +114,7 @@ export default {
     // 모든 권한 그룹 ID 리스트 조회
     this.authority_refresh();
 
-    // BUS.$on("selectedRow", (value) => {
+    // BUS_GROUPS.$on("selectedRow", (value) => {
     //   this.groupInfo = value;
     //   this.groupId = this.groupInfo["groupId"];
     //   this.groupDesc = this.groupInfo["groupDesc"];
@@ -122,7 +122,7 @@ export default {
     // });
 
     // "/api/group/search"
-    BUS.$on("groupSelectedRow", (value) => {
+    BUS_GROUPS.$on("selectedRow", (value) => {
       this.groupInfo = value;
       this.group_search(
         this.groupInfo["groupId"],

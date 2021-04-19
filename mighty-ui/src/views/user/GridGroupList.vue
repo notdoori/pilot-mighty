@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { BUS } from "@/router/EventBus";
+import { BUS_GROUPS } from "@/router/EventBus";
 
 export default {
   name: "Grid",
@@ -85,7 +85,7 @@ export default {
       this.sortOrders[key] = this.sortOrders[key] * -1;
     },
     doMouseClick: function (entry) {
-      BUS.$emit("groupSelectedRow", entry);
+      BUS_GROUPS.$emit("selectedRow", entry);
     },
   },
 };
