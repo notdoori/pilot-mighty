@@ -122,14 +122,13 @@ export default {
     // });
 
     // "/api/group/search"
-    BUS.$on("selectedRow", (value) => {
+    BUS.$on("groupSelectedRow", (value) => {
       this.groupInfo = value;
       this.group_search(
         this.groupInfo["groupId"],
         this.groupInfo["groupDesc"],
         this.groupInfo["roleId"]
       );
-      this.busUpdate = true;
     });
   },
   beforeMount() {
@@ -148,23 +147,8 @@ export default {
   updated() {
     /* updated 훅은 가상 DOM 이 재렌더링 되어 실제 DOM 이 되었을 때 호출된다. */
     // alert("updated() 호출");
-    // console.log("updated() 호출" + "_busUpdate : " + this.busUpdate);
-    // console.log("updated() 호출" + "_ : gridUpdate" + this.gridUpdate);
 
-    if (this.busUpdate === false) {
-      // "/api/group/search"
-      BUS.$on("selectedRow", (value) => {
-        this.groupInfo = value;
-        this.group_search(
-          this.groupInfo["groupId"],
-          this.groupInfo["groupDesc"],
-          this.groupInfo["roleId"]
-        );
-        this.busUpdate = true;
-      });
-    }
-    // 모든 권한 그룹 리스트 조회
-    else if (this.gridUpdate === true) {
+    if (this.gridUpdate === true) {
       this.gridUpdate = false;
       this.groupId = this.groupIdTemp;
       this.groupDesc = this.groupDescTemp;
@@ -179,11 +163,6 @@ export default {
   beforeDestroy() {
     /* beforeDestroy 훅은 Vue 인스턴스가 제거되기 전에 호출되는 훅이다. */
     // alert("beforeDestroy() 호출");
-    // console.log("beforeDestroy() 호출");
-
-    BUS.$off("selectedRow");
-    this.busUpdate = false;
-    this.gridUpdate = false;
   },
   destroyed() {
     /* destroyed 훅은 Vue 인스턴스가 제거된 후에 실행되는 훅이다 */
@@ -205,7 +184,6 @@ export default {
       groupIdTemp: "", // 임시 사용자 그룹 아이디
       groupDescTemp: "", // 임시 사용자 그룹 설명
       roleIdItems: [], // 모든 권한 그룹 ID 리스트
-      busUpdate: false,
     };
   },
   methods: {

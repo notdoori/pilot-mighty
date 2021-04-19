@@ -85,7 +85,7 @@ export default {
       this.sortOrders[key] = this.sortOrders[key] * -1;
     },
     doMouseClick: function (entry) {
-      BUS.$emit("selectedRow", entry);
+      BUS.$emit("groupSelectedRow", entry);
     },
   },
 };
