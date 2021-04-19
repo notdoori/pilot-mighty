@@ -50,4 +50,21 @@
 		 WHERE GROUP_ID = #{groupId}
 	</select>
 	
+	<insert id="insertGroupInfoSwagger" parameterType="java.util.Map">
+		INSERT INTO ADM_GROUP_INFO (GROUP_ID, GROUP_DESC, ROLE_ID)
+		VALUES (#{groupId}, #{groupDesc}, #{roleId})
+	</insert>
+	
+	<update id="updateGroupInfoSwagger" parameterType="java.util.Map">
+		UPDATE ADM_GROUP_INFO
+		      SET GROUP_DESC = #{groupDesc},
+		            ROLE_ID = #{roleId}
+	     WHERE GROUP_ID = #{groupId}
+	</update>
+	
+	<delete id="deleteGroupInfoSwagger" parameterType="java.util.Map">
+		DELETE FROM ADM_GROUP_INFO
+		WHERE GROUP_ID = #{groupId}
+	</delete>
+	
 </mapper>

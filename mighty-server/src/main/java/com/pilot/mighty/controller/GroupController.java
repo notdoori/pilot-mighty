@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -148,7 +149,7 @@ public class GroupController {
 		
 		groupService.insertGroupInfo(insertMap);
 		
-		return new ResponseEntity<Object>(map, HttpStatus.OK);
+		return new ResponseEntity<Object>(insertMap, HttpStatus.OK);
 	}
 
 	/**
@@ -188,7 +189,7 @@ public class GroupController {
 		
 		groupService.updateGroupInfo(updateMap);
 		
-		return new ResponseEntity<Object>(map, HttpStatus.OK);
+		return new ResponseEntity<Object>(updateMap, HttpStatus.OK);
 	}
 	
 	/**
@@ -228,6 +229,85 @@ public class GroupController {
 		
 		groupService.deleteGroupInfo(deleteMap);
 		
-		return new ResponseEntity<Object>(retMap, HttpStatus.OK);
+		return new ResponseEntity<Object>(deleteMap, HttpStatus.OK);
+	}
+	
+	@ApiOperation(value="사용자 그룹 정보 추가", notes = "사용자 그룹 정보를 추가합니다.")
+	@RequestMapping(value= "/addSwagger", method=RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<Object> groupAddSwagger(@RequestParam String groupId, String groupDesc, String roleId) throws JsonParseException, IOException {
+		// Swagger 프로그램
+		
+		logger.debug("groupId : " + groupId);
+		logger.debug("groupDesc : " + groupDesc);
+		logger.debug("roleId : " + roleId);
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("groupId",  groupId);
+		
+		HashMap<String, Object> retMap = groupService.selectGroupInfoCheck(map);
+		
+		// Database 에 리스트 존재 여부 확인
+		if (retMap != null) {
+			retMap = new HashMap<String, Object>();
+			retMap.put("reason", map.get("groupId").toString() + " is already existed.");
+			return new ResponseEntity<Object>(retMap, HttpStatus.FOUND);
+		}
+		
+		groupService.insertGroupInfoSwagger(groupId, groupDesc, roleId);
+		
+		return new ResponseEntity<Object>(HttpStatus.OK);
+	}
+	
+	@ApiOperation(value="사용자 그룹 정보 수정", notes = "사용자 그룹 정보를 수정합니다.")
+	@RequestMapping(value= "/modifySwagger", method=RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<Object> groupModify(@RequestParam String groupId, String groupDesc, String roleId) throws JsonParseException, IOException {
+		// Swagger 프로그램
+		
+		logger.debug("groupId : " + groupId);
+		logger.debug("groupDesc : " + groupDesc);
+		logger.debug("roleId : " + roleId);
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("groupId",  groupId);
+		
+		HashMap<String, Object> retMap = groupService.selectGroupInfoCheck(map);
+		
+		// Database 에 리스트 존재 여부 확인
+		if (retMap == null) {
+			retMap = new HashMap<String, Object>();
+			retMap.put("reason", map.get("groupId").toString() + " is not found.");
+			return new ResponseEntity<Object>(retMap, HttpStatus.NOT_FOUND);
+		}
+		
+		groupService.updateGroupInfoSwagger(groupId, groupDesc, roleId);
+		
+		return new ResponseEntity<Object>(HttpStatus.OK);
+	}
+	
+	@ApiOperation(value="사용자 그룹 정보 삭제", notes = "사용자 그룹 정보를 삭제합니다.")
+	@RequestMapping(value= "/deleteSwagger", method=RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<Object> groupDeleteSwagger(@RequestParam String groupId) throws JsonParseException, IOException {
+		// Swagger 프로그램
+		
+		logger.debug("groupId : " + groupId);
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("groupId",  groupId);
+		
+		HashMap<String, Object> retMap = groupService.selectGroupInfoCheck(map);
+		
+		// Database 에 리스트 존재 여부 확인
+		if (retMap == null) {
+			retMap = new HashMap<String, Object>();
+			retMap.put("reason", map.get("groupId").toString() + " is not found.");
+			return new ResponseEntity<Object>(retMap, HttpStatus.NOT_FOUND);
+		}
+		
+		groupService.deleteGroupInfoSwagger(groupId);
+		
+		return new ResponseEntity<Object>(HttpStatus.OK);
 	}
 }

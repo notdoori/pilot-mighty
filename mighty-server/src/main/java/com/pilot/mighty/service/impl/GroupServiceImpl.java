@@ -73,4 +73,25 @@ public class GroupServiceImpl implements GroupService {
 		// 특정 사용자 그룹 리스트 조회
 		return groupInfoDao.selectGroupInfoCheck(map);
 	}
+	
+	@Override
+	public void insertGroupInfoSwagger(String groupId, String groupDesc, String roleId) {
+		
+		// (Swagger 프로그램) 사용자 그룹 정보 추가 요청
+		groupInfoDao.insertGroupInfoSwagger(groupId, groupDesc, roleId);
+	}
+	
+	@Override
+	public void updateGroupInfoSwagger(String groupId, String groupDesc, String roleId) {
+		
+		// (Swagger 프로그램) 사용자 그룹 정보 수정 요청
+		groupInfoDao.updateGroupInfoSwagger(groupId, groupDesc, roleId);
+	}
+	
+	@Override
+	public void deleteGroupInfoSwagger(String roleId) {
+		
+		// (Swagger 프로그램) 사용자 그룹 정보 삭제 요청
+		groupInfoDao.deleteGroupInfoSwagger(roleId);
+	}
 }
