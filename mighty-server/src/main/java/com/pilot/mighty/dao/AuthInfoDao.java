@@ -24,4 +24,13 @@ public interface AuthInfoDao {
 	
 	// 특정 권한 그룹 정보 조회 요청
 	HashMap<String, Object> selectAuthInfoCheck(Map<String, Object> map);
+	
+	// 권한 그룹 정보 추가 요청
+	void insertAuthInfoSwagger(String roleId, String roleDesc);
+	
+	// 권한 그룹 정보 수정 요청
+	void updateAuthInfoSwagger(String roleId, String roleDesc);
+	
+	// 권한 그룹 정보 삭제 요청
+	void deleteAuthInfoSwagger(String roleId);
 }

@@ -39,4 +39,20 @@
 		 WHERE ROLE_ID = #{roleId}
 	</select>
 	
+	<insert id="insertAuthInfoSwagger" parameterType="java.util.Map">
+		INSERT INTO ADM_ROLE_INFO (ROLE_ID, ROLE_DESC)
+		VALUES (#{roleId}, #{roleDesc})
+	</insert>
+	
+	<update id="updateAuthInfoSwagger" parameterType="java.util.Map">
+		UPDATE ADM_ROLE_INFO
+		      SET ROLE_DESC = #{roleDesc}
+		 WHERE ROLE_ID = #{roleId}
+	</update>
+	
+	<delete id="deleteAuthInfoSwagger" parameterType="java.util.Map">
+		DELETE FROM ADM_ROLE_INFO
+	    WHERE ROLE_ID = #{roleId}
+	</delete>
+	
 </mapper>
