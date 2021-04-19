@@ -270,7 +270,8 @@ export default {
             roleId: this.roleId,
           })
           .then(
-            (response) => alert(USER_GROUP_ADD_COMPLETE),
+            (response) =>
+              alert(response.data["groupId"] + " " + USER_GROUP_ADD_COMPLETE),
             ((this.gridUpdate = true),
             (this.groupId = ""),
             (this.groupDesc = ""),
@@ -294,7 +295,10 @@ export default {
             roleId: this.roleId,
           })
           .then(
-            (response) => alert(USER_GROUP_MODIFY_COMPLETE),
+            (response) =>
+              alert(
+                response.data["groupId"] + " " + USER_GROUP_MODIFY_COMPLETE
+              ),
             (this.gridUpdate = true),
             (this.groupIdTemp = this.groupId),
             (this.groupDescTemp = this.groupDesc),
@@ -317,7 +321,10 @@ export default {
             roleId: this.roleId,
           })
           .then(
-            (response) => alert(USER_GROUP_DELETE_COMPLETE),
+            (response) =>
+              alert(
+                response.data["groupId"] + " " + USER_GROUP_DELETE_COMPLETE
+              ),
             (this.gridUpdate = true),
             (this.groupId = ""),
             (this.roleId = ""),

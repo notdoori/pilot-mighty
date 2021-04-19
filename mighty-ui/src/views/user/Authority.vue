@@ -237,7 +237,10 @@ export default {
             roleDesc: this.roleDesc,
           })
           .then(
-            (response) => alert(AUTHORITY_GROUP_ADD_COMPLETE),
+            (response) =>
+              alert(
+                response.data["roleId"] + " " + AUTHORITY_GROUP_ADD_COMPLETE
+              ),
             ((this.gridUpdate = true),
             (this.roleId = ""),
             (this.roleDesc = ""),
@@ -259,7 +262,10 @@ export default {
             roleDesc: this.roleDesc,
           })
           .then(
-            (response) => alert(AUTHORITY_GROUP_MODIFY_COMPLETE),
+            (response) =>
+              alert(
+                response.data["roleId"] + " " + AUTHORITY_GROUP_MODIFY_COMPLETE
+              ),
             ((this.gridUpdate = true),
             (this.roleIdTemp = this.roleId),
             (this.roleDescTemp = this.roleDesc),
@@ -281,7 +287,10 @@ export default {
             roleDesc: this.roleDesc,
           })
           .then(
-            (response) => alert(AUTHORITY_GROUP_DELETE_COMPLETE),
+            (response) =>
+              alert(
+                response.data["roleId"] + " " + AUTHORITY_GROUP_DELETE_COMPLETE
+              ),
             ((this.gridUpdate = true),
             (this.roleId = ""),
             (this.roleDesc = ""),
