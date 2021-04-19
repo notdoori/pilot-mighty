@@ -36,5 +36,5 @@ public interface GroupInfoDao {
 	void updateGroupInfoSwagger(String groupId, String groupDesc, String roleId);
 	
 	// (Swagger 프로그램) 사용자 그룹 정보 삭제 요청
-	void deleteGroupInfoSwagger(String roleId);
+	void deleteGroupInfoSwagger(String groupId);
 }

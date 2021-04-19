@@ -29,12 +29,12 @@ public interface GroupService {
 	// 특정 사용자 그룹 리스트 조회
 	HashMap<String, Object> selectGroupInfoCheck(Map<String, Object> map);
 	
-	// 사용자 그룹 정보 추가 요청
+	// (Swagger 프로그램) 사용자 그룹 정보 추가 요청
 	void insertGroupInfoSwagger(String groupId, String groupDesc, String roleId);
 		
 	// (Swagger 프로그램) 사용자 그룹 정보 수정 요청
 	void updateGroupInfoSwagger(String groupId, String groupDesc, String roleId);
 	
 	// (Swagger 프로그램) 사용자 그룹 정보 삭제 요청
-	void deleteGroupInfoSwagger(String roleId);
+	void deleteGroupInfoSwagger(String groupId);
 }

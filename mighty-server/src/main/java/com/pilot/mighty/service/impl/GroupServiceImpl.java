@@ -89,9 +89,9 @@ public class GroupServiceImpl implements GroupService {
 	}
 	
 	@Override
-	public void deleteGroupInfoSwagger(String roleId) {
+	public void deleteGroupInfoSwagger(String groupId) {
 		
 		// (Swagger 프로그램) 사용자 그룹 정보 삭제 요청
-		groupInfoDao.deleteGroupInfoSwagger(roleId);
+		groupInfoDao.deleteGroupInfoSwagger(groupId);
 	}
 }
