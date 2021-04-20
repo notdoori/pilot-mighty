@@ -3,14 +3,18 @@
  <mapper namespace="com.pilot.mighty.dao.UserInfoDao">
  
  	<select id="selectUserInfoAll" resultType="com.pilot.mighty.model.UserInfo">
-		SELECT ROWNUM as no
-			  ,USER_ID as userId
-		      ,USER_NAME as userName
-		      ,LANGUAGE_TYPE as langType
-		      ,DEPARTMENT as depart
-		      ,USER_GROUP_ID as userGroup
-		  FROM ADM_USER_INFO 
-		 ORDER BY USER_ID
+		SELECT ROWNUM AS NO, T.*
+		  FROM (SELECT USER_ID			AS USERID,
+		  			   PASSWORD			AS PASSWORD,
+		               USER_NAME     	AS USERNAME,
+		               EMAIL			AS EMAIL,
+		               PHONE			AS PHONE,
+		               DEPARTMENT    	AS DEPART,
+		               USER_GROUP_ID 	AS USERGROUP,
+		               LANGUAGE_TYPE 	AS LANGTYPE,
+		               USE_YN			AS USE
+		          FROM ADM_USER_INFO
+		         ORDER BY USER_ID) T
 	</select>
 	
 	<select id="checkRegistUser" parameterType="java.util.Map" resultType="java.util.HashMap">

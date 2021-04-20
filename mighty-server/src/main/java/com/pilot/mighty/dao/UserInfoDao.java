@@ -15,7 +15,7 @@ public interface UserInfoDao {
 	
 	void modifyUser(Map<String, String> map);
 	
-	void deleteUser(String userId);
+	void deleteUser(Map<String, String> map);
 	
 	HashMap<String, Object> selectUserInfo(Map<String, Object> map);
 	

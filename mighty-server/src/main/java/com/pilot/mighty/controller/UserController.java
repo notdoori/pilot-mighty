@@ -78,7 +78,7 @@ public class UserController {
 		}
 		
 		Map<String, String> registUserMap = new HashMap<String, String>();
-		registUserMap.put("userId", map.get("userId").toString());
+		registUserMap.put("userId", map.get("userId").toString().toUpperCase());
 		registUserMap.put("userName", map.get("userName").toString());
 		registUserMap.put("password", map.get("password").toString());
 		registUserMap.put("langType", map.get("langType").toString());
@@ -130,10 +130,11 @@ public class UserController {
 	 */
 	@ApiOperation(value="사용자 삭제", notes = "사용자를 삭제합니다.")
 	@RequestMapping(value= "/delete", method=RequestMethod.POST)
-	public ResponseEntity<Object> deleteUser(@RequestParam("userId") String userId) throws JsonParseException, IOException {
+	public ResponseEntity<Object> deleteUser(@RequestBody String body) throws JsonParseException, IOException {
 		
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("userId", userId);
+		ObjectMapper mapper = new ObjectMapper();
+		@SuppressWarnings("unchecked")
+		Map<String, Object> map = mapper.readValue(body, Map.class);
 		
 		HashMap<String, Object> retMap = userService.checkRegistUser(map);
 		if (retMap == null) {
@@ -142,9 +143,12 @@ public class UserController {
 			return new ResponseEntity<Object>(retMap, HttpStatus.FOUND);
 		}
 		
-		userService.deleteUser(userId);
+		Map<String, String> deleteUserMap = new HashMap<String, String>();
+		deleteUserMap.put("userId", map.get("userId").toString());
 		
-		return new ResponseEntity<Object>(HttpStatus.OK);
+		userService.deleteUser(deleteUserMap);
+		
+		return new ResponseEntity<Object>(retMap, HttpStatus.OK);
 	}
 	
 	@PostMapping(value = "/login"

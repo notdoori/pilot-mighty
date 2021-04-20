@@ -45,9 +45,9 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public void deleteUser(String userId) {
+	public void deleteUser(Map<String, String> map) {
 	
-		userInfoDao.deleteUser(userId);
+		userInfoDao.deleteUser(map);
 		
 	}
 
