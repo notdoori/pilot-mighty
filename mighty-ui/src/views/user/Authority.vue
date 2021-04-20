@@ -90,7 +90,7 @@
 <script>
 import axios from "axios";
 import authorityGrid from "@/views/user/GridAuthorityList";
-import { BUS } from "@/router/EventBus";
+import { BUS_AUTHORITY } from "@/router/EventBus";
 
 const AUTHORITY_GROUP_ALL = "/api/auth/all";
 const AUTHORITY_GROUP_SEARCH = "/api/auth/search";
@@ -122,7 +122,7 @@ export default {
     // 모든 권한 그룹 리스트 조회
     this.authority_refresh();
 
-    // BUS.$on("selectedRow", (value) => {
+    // BUS_AUTHORITY.$on("selectedRow", (value) => {
     //   this.groupInfo = value;
     //   // console.log("roleId: ", this.groupInfo["roleId"]);
     //   // console.log("roleDesc: ", this.groupInfo["roleDesc"]);
@@ -131,7 +131,7 @@ export default {
     // });
 
     // "/api/auth/search"
-    BUS.$on("authoritySelectedRow", (value) => {
+    BUS_AUTHORITY.$on("selectedRow", (value) => {
       this.groupInfo = value;
       this.authority_search(
         this.groupInfo["roleId"],
@@ -237,7 +237,10 @@ export default {
             roleDesc: this.roleDesc,
           })
           .then(
-            (response) => alert(AUTHORITY_GROUP_ADD_COMPLETE),
+            (response) =>
+              alert(
+                response.data["roleId"] + " " + AUTHORITY_GROUP_ADD_COMPLETE
+              ),
             ((this.gridUpdate = true),
             (this.roleId = ""),
             (this.roleDesc = ""),
@@ -259,7 +262,10 @@ export default {
             roleDesc: this.roleDesc,
           })
           .then(
-            (response) => alert(AUTHORITY_GROUP_MODIFY_COMPLETE),
+            (response) =>
+              alert(
+                response.data["roleId"] + " " + AUTHORITY_GROUP_MODIFY_COMPLETE
+              ),
             ((this.gridUpdate = true),
             (this.roleIdTemp = this.roleId),
             (this.roleDescTemp = this.roleDesc),
@@ -281,7 +287,10 @@ export default {
             roleDesc: this.roleDesc,
           })
           .then(
-            (response) => alert(AUTHORITY_GROUP_DELETE_COMPLETE),
+            (response) =>
+              alert(
+                response.data["roleId"] + " " + AUTHORITY_GROUP_DELETE_COMPLETE
+              ),
             ((this.gridUpdate = true),
             (this.roleId = ""),
             (this.roleDesc = ""),
