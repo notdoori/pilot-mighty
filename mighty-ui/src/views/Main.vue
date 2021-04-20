@@ -212,8 +212,14 @@ import axios from 'axios';
   }
 </script>
 
+<!--
 <style scoped>
   .d1 {
       margin-left: 0.25em;  
   }
+</style>
+-->
+
+<style lang="scss">
+@import "..\\assets\\css\\default.css";
 </style>
