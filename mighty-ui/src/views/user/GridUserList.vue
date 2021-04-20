@@ -1,14 +1,6 @@
 <template>
   <div>
     <table class="gridTable">
-    <!--<colgroup>
-      <col style="width:8%">
-      <col style="width:12%">
-      <col style="width:18%">
-      <col style="width:24%">
-      <col style="width:14%">
-      <col style="width:24%">
-    </colgroup>-->
     <thead>
       <tr>
         <th v-for="key in columns" v-bind:key="key" @click="sortBy(key)" :class="{ active: sortKey == key }">
@@ -30,7 +22,7 @@
 </template>
 
 <script>
-import { BUS } from '@/router/EventBus';
+import { userBUS } from '@/router/EventBus';
 
 export default {
   name: 'Grid',
@@ -83,7 +75,7 @@ export default {
       this.sortOrders[key] = this.sortOrders[key] * -1
     },
     doMouseClick: function(entry) {
-        BUS.$emit('selectedRow', entry);
+        userBUS.$emit('selectedRow', entry);
     }
   }
 }
@@ -93,12 +85,16 @@ export default {
 <style scoped="">
 .gridTable {
   display: block;
-  width: 730px;
+  white-space: nowrap;
+  overflow-x: scroll;
+  width: 100%;
+  max-width: 500px;
   border: 2px solid #DF6659;
   border-radius: 3px;
   background-color: #FFF;
 }
 .gridTable thead {
+  display: block;
   background-color: #FFF;
   color: rgba(255,255,255,0.66);
 }
@@ -124,11 +120,15 @@ export default {
 }
 .gridTable th:nth-of-type(1), .gridTable td:nth-of-type(1) { width: 80px; }
 .gridTable th:nth-of-type(2), .gridTable td:nth-of-type(2) { width: 120px; }
-.gridTable th:nth-of-type(3), .gridTable td:nth-of-type(3) { width: 120px; }
-.gridTable th:nth-of-type(4), .gridTable td:nth-of-type(4) { width: 140px; }
+.gridTable th:nth-of-type(3), .gridTable td:nth-of-type(3) { width: 100px; }
+.gridTable th:nth-of-type(4), .gridTable td:nth-of-type(4) { width: 120px; }
 .gridTable th:nth-of-type(5), .gridTable td:nth-of-type(5) { width: 120px; }
-.gridTable th:last-child { width: 150px; }
-.gridTable td:last-child { width: calc(150px - 19px); }
+.gridTable th:nth-of-type(6), .gridTable td:nth-of-type(6) { width: 100px; }
+.gridTable th:nth-of-type(7), .gridTable td:nth-of-type(7) { width: 140px; }
+.gridTable th:nth-of-type(8), .gridTable td:nth-of-type(8) { width: 150px; }
+.gridTable th:nth-of-type(9), .gridTable td:nth-of-type(9) { width: 80px; }
+.gridTable th:last-child { width: 80px; }
+.gridTable td:last-child { width: calc(80px - 19px); }
 .gridTable th.active {
   color: #FFF;
 }
