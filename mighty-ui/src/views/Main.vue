@@ -6,7 +6,7 @@
       </v-btn>
       
       <span v-for="(menu, index) in menuList" :key="index">
-        <Menu :menuGroup="menu" :key="menuKey"></Menu>
+        <Menu :menuGroup="menu" :key="menuKey" @clickMenu="clickMenu"></Menu>
       </span>
     </v-app-bar>
 
@@ -90,15 +90,15 @@ import axios from 'axios';
           this.$router.replace({path: this.tabs[tabIdx].route}, function(){}, function(){});  
         }
       },
-      // clickMenu(item) {
-      //   console.log('id: ', item.id, ' name: ', item.name);
+      clickMenu(item) {
+        console.log('id: ', item.id, ' name: ', item.name);
 
-      //   if (item.id === 'M0004') {
-      //     this.$store.dispatch('actLogoutYN');
-      //   } else {
-      //     this.addMenuTab(item);
-      //   }
-      // },
+        if (item.id === 'M0004') {
+          this.$store.dispatch('actLogoutYN');
+        } else {
+          this.addMenuTab(item);
+        }
+      },
       addMenuTab(item) {
         //console.log('id: ', item.id, ' name: ', item.name);
 

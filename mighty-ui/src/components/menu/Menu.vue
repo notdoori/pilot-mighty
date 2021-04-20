@@ -1,5 +1,5 @@
 <template>
-  <v-menu :close-on-content-click="false" bottom offset-y v-model="showMenu" >
+  <v-menu :close-on-content-click="false" bottom offset-y :key="menuKey">
       <template v-slot:activator="{ on, attrs }">
         <v-btn
             tile
@@ -12,6 +12,9 @@
         </v-btn>
       </template>
 
+        <!-- <div v-for="(node, index) in menuGroup.children" :key="index">
+            <MenuTree :treeData="node" :key="componentKey"></MenuTree>
+        </div> -->
       <v-list dense subheader v-for="(node, index) in menuGroup.children" :key="index">
         <div :key="componentKey" v-if="hasChild(node)">
             <v-list-group >
@@ -41,9 +44,7 @@
 export default {
     components: {
     },
-    props: {
-        menuGroup: Object
-    },
+    props: ['menuGroup', 'menuKey'],
     methods: {
         hasChild(item) {
           if (item.children !== null) {

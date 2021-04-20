@@ -29,8 +29,7 @@ import { BUS_MENU } from "@/router/EventBus";
 
 export default {
     name: "tree-node",
-    // props: ['treeData', 'componentKey'],
-    props: ['treeData'],
+    props: ['treeData', 'componentKey'],
     computed: {
         isFolder: function() {
             return this.treeData.children && this.treeData.children.length;
