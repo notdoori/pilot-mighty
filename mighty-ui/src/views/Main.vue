@@ -6,7 +6,7 @@
       </v-btn>
       
       <span v-for="(menu, index) in menuList" :key="index">
-        <Menu :menuGroup="menu" @clickMenu="clickMenu"></Menu>
+        <Menu :menuGroup="menu" :key="menuKey"></Menu>
       </span>
     </v-app-bar>
 
@@ -48,6 +48,9 @@
 import {mapState, mapActions} from 'vuex';
 import VRuntimeTemplate from "v-runtime-template";
 import Menu from '@/components/menu/Menu';
+import { BUS_MENU } from "@/router/EventBus";
+
+import axios from 'axios';
 
   export default {
     components: {
@@ -87,15 +90,15 @@ import Menu from '@/components/menu/Menu';
           this.$router.replace({path: this.tabs[tabIdx].route}, function(){}, function(){});  
         }
       },
-      clickMenu(item) {
-        //console.log('id: ', item.id, ' name: ', item.name);
+      // clickMenu(item) {
+      //   console.log('id: ', item.id, ' name: ', item.name);
 
-        if (item.id === 'M0004') {
-          this.$store.dispatch('actLogoutYN');
-        } else {
-          this.addMenuTab(item);
-        }
-      },
+      //   if (item.id === 'M0004') {
+      //     this.$store.dispatch('actLogoutYN');
+      //   } else {
+      //     this.addMenuTab(item);
+      //   }
+      // },
       addMenuTab(item) {
         //console.log('id: ', item.id, ' name: ', item.name);
 
@@ -114,11 +117,14 @@ import Menu from '@/components/menu/Menu';
 
             //console.log('next route path: ', nextRoutePath);
 
-            this.$router.push({path: nextRoutePath}, function(){}, function(){});
+            this.$router.replace({path: nextRoutePath}, function(){}, function(){});
         }
 
         this.activeTab = this.tabs.findIndex(t => t.id === item.id);
         console.log('new activeTab: ', this.activeTab);
+      },
+      forceRerender() {
+          this.menuKey += 1;
       }
     },
     data() {
@@ -135,7 +141,8 @@ import Menu from '@/components/menu/Menu';
           //                       </div>
           //                     </v-tab-item>      
           //                   </v-tabs-items>`
-          menuList: []
+          menuList: [],
+          menuKey: 0
       }
     },
     // tab, broswer 닫는 경우 처리 => 새로 고침 버튼에도 영향을 줌.
@@ -147,27 +154,51 @@ import Menu from '@/components/menu/Menu';
       window.addEventListener('unload', function(e) {
         this.$store.dispatch('actLogout');
       });
+
+      BUS_MENU.$on('clickTreeMenu', item => {
+        // console.log('clickTreeMenu id: ', item.id, ' name: ', item.name);
+
+        if (item.id === 'M0004') {
+          this.$store.dispatch('actLogoutYN');
+        } else {
+          this.addMenuTab(item);
+          
+          this.forceRerender();
+        }
+        
+      })
     },
     mounted() {
       this.curRoutePath = this.$route.path;
-      this.menuList = [
-                       {id: "K0001", name: "SYSTEN", desc: "",
-                        children: [{id: "M0001", name: "권한 관리", desc: "권한 관리 메뉴", children: []},
-                                   {id: "M0002", name: "사용자 그룹 관리", desc: "사용자 그룹 관리 메뉴", children:[]},
-                                   {id: "M0003", name: "사용자 관리", desc: "사용자 관리 메뉴", children:[]},
-                                   {id: "M0004", name: "로그 아웃", desc: "로그 아웃 메뉴", children:[]}
-                                  ]
-                       },
-                       {id: "K0002", name: "INQUIRY", desc: "",
-                        children: [{id: "M0020", name: "Sub Group", desc: "", 
-                                    children:[{id: "M0021", name: "Sub Menu1", desc: "", children:[]},
-                                              {id: "M0022", name: "Sub Menu2", desc: "", children:[]}
-                                             ]
-                                   }
-                                  //  ,{id: "M0023", name: "INQUIRY1", desc: "메뉴 테스트 2", children:[]}
-                                  ]
-                       }
-                      ];
+      // this.menuList = [
+      //                  {id: "K0001", name: "SYSTEN", desc: "",
+      //                   children: [{id: "M0001", name: "권한 관리", desc: "권한 관리 메뉴", children: []},
+      //                              {id: "M0002", name: "사용자 그룹 관리", desc: "사용자 그룹 관리 메뉴", children:[]},
+      //                              {id: "M0003", name: "사용자 관리", desc: "사용자 관리 메뉴", children:[]},
+      //                              {id: "M0004", name: "로그 아웃", desc: "로그 아웃 메뉴", children:[]}
+      //                             ]
+      //                  },
+      //                  {id: "K0002", name: "INQUIRY", desc: "",
+      //                   children: [{id: "M0020", name: "Sub Group", desc: "", 
+      //                               children:[{id: "M0021", name: "Sub Menu1", desc: "", children:[]},
+      //                                         {id: "M0022", name: "Sub Menu2", desc: "", children:[]}
+      //                                        ]
+      //                              }
+      //                             //  ,{id: "M0023", name: "INQUIRY1", desc: "메뉴 테스트 2", children:[]}
+      //                             ]
+      //                  }
+      //                 ];
+      let userId = localStorage.getItem("user_id");
+      //console.log('userId: ', userId);
+      let url = '/api/menu/all?userId=' + `${userId}`;
+      axios.get(url)
+        .then(response => {
+            if (response.data) {
+              this.menuList = response.data;
+              //console.log(this.menuList);
+            }
+        })
+        .catch((error) => alert(error));
     }
     // beforeRouteLeave (to, from, next) {
     //   console.log('from: ', from);
