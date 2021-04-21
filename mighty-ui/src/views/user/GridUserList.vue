@@ -86,9 +86,8 @@ export default {
 .gridTable {
   display: block;
   white-space: nowrap;
-  overflow-x: scroll;
+  overflow-y: scroll;
   width: 100%;
-  max-width: 500px;
   border: 2px solid #DF6659;
   border-radius: 3px;
   background-color: #FFF;
@@ -108,8 +107,7 @@ export default {
 }
 .gridTable tbody {
   display: block;
-  height: 300px;
-  overflow-y: scroll;
+  max-height: 600px;
 }
 .gridTable td {
   background-color: #F9F9F9;
