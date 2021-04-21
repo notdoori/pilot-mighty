@@ -1,35 +1,34 @@
 <template>
-  <div>
-    <v-app-bar app tile color="white" height="80">
-      <div class="d1">
-        <v-btn icon small>
-          <v-icon>mdi-dots-vertical</v-icon>
-        </v-btn>
-
-        <span v-for="(menu, index) in menuList" :key="index">
-          <Menu :menuGroup="menu" :key="menuKey" @clickMenu="clickMenu"></Menu>
-        </span>
-
+    <div>
+    <v-app-bar app tile color="white" height="40" extension-height="38">
+      <v-btn icon small>
+        <v-icon>mdi-dots-vertical</v-icon>
+      </v-btn>
+      
+      <span v-for="(menu, index) in menuList" :key="index">
+        <Menu :menuGroup="menu" :key="menuKey" @clickMenu="clickMenu"></Menu>
+      </span>
+    
+      <template v-slot:extension v-if="hasTab">
         <v-tabs
           v-model="activeTab"
-          background-color="white"
+          background-color="transparent"
           color="primary"
           height="38"
         >
-          <v-tab
-            v-for="(tab, index) in tabs"
-            :key="index"
-            exact
-            @click="updateTab(tab)"
-          >
+          <v-tab v-for="(tab, index) in tabs" :key="index" exact @click="updateTab(tab)">
             {{ tab.name }}
             <v-icon small left @click="removeTab(tab)">mdi-minus-circle</v-icon>
           </v-tab>
         </v-tabs>
+      </template>
+    </v-app-bar>
 
-        <!-- <router-view></router-view> -->
+    <div class="d1">
+      <router-view></router-view>
 
-        <!-- <v-tabs-items v-model="activeTab">
+      
+      <!-- <v-tabs-items v-model="activeTab">
         <v-tab-item v-for="tab in tabs" :key="tab.id">
             <div>
               <keep-alive><Authority v-show="tab.id === 0"></Authority></keep-alive>
@@ -41,10 +40,8 @@
         </v-tab-item>      
       </v-tabs-items> -->
 
-        <!-- <v-runtime-template :template="tabItemTemplate"></v-runtime-template> -->
-      </div>
-    </v-app-bar>
-    <router-view></router-view>
+      <!-- <v-runtime-template :template="tabItemTemplate"></v-runtime-template> -->
+    </div>
   </div>
 </template>
 
@@ -66,6 +63,9 @@ export default {
     ...mapState(["isLogIn"]),
     //...mapState({mTab: state => state.MainStore.mTab})
     ...mapState("MainStore", { mTab: (state) => state.mTab }),
+    hasTab() {
+      return this.tabs.length;
+    }
   },
   methods: {
     ...mapActions(["actLogout", "actLogoutYN"]),
