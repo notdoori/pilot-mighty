@@ -9,10 +9,59 @@
     </v-app-bar> -->
 
     <br />
-    <v-container class="v-container" row fluid>
+    <v-container class="common_container_style" row fluid>
       <v-row>
         <v-col>
-          <h2>[모든 권한 그룹]</h2>
+          <div>
+            <v-row>
+              <v-col cols="12">
+                <v-icon>mdi-cloud</v-icon>
+                모든 권한 그룹
+              </v-col>
+            </v-row>
+
+            <!-- <v-row>
+              <v-col cols="12">
+                <v-icon>mdi-ab-testing</v-icon>[모든 권한 그룹]
+              </v-col>
+            </v-row>
+
+            <v-row>
+              <v-col cols="12">
+                <v-img
+                  src="@/assets/image/test_image_2.png"
+                  width="27px"
+                  height="27px"
+                ></v-img
+                >[모든 권한 그룹]
+              </v-col>
+            </v-row>
+
+            <v-row>
+              <v-col>
+                <v-img
+                  src="@/assets/image/test_image_2.png"
+                  width="27px"
+                  height="27px"
+                ></v-img>
+              </v-col>
+              <v-col> [모든 권한 그룹] </v-col>
+            </v-row>
+
+            <v-row>
+              <v-col cols="1">
+                <v-img
+                  src="@/assets/image/test_image_2.png"
+                  width="27px"
+                  height="27px"
+                ></v-img>
+              </v-col>
+              <v-col cols="11"> [모든 권한 그룹] </v-col>
+            </v-row> -->
+          </div>
+
+          <!-- <v-icon>mdi-abacus</v-icon> -->
+          <!-- <h2>[모든 권한 그룹]</h2> -->
           <br />
           <div>
             <!-- <div v-bind:key="user.userId" v-for="user in users">
@@ -40,7 +89,13 @@
           </div>
         </v-col>
         <v-col>
-          <h2>[권한 그룹 정보]</h2>
+          <v-row>
+            <v-col cols="12">
+              <v-icon>mdi-account-edit</v-icon>
+              권한 그룹 정보
+            </v-col>
+          </v-row>
+          <!-- <h2>[권한 그룹 정보]</h2> -->
           <br />
           <div>
             <v-text-field
@@ -55,27 +110,13 @@
             ></v-text-field>
           </div>
           <div>
-            <v-btn
-              class="v-btn"
-              @click="authority_add"
-              color="deep-orange lighten-3"
-              width="120px"
-            >
+            <v-btn class="common_button_style" @click="authority_add">
               추가
             </v-btn>
-            <v-btn
-              class="v-btn"
-              @click="authority_modify"
-              color="deep-orange lighten-3"
-              width="120px"
-            >
+            <v-btn class="common_button_style" @click="authority_modify">
               수정
             </v-btn>
-            <v-btn
-              @click="authority_delete"
-              color="deep-orange lighten-3"
-              width="120px"
-            >
+            <v-btn class="common_button_style" @click="authority_delete">
               삭제
             </v-btn>
           </div>
@@ -303,13 +344,3 @@ export default {
   },
 };
 </script>
-
-<!-- <style type="text/css"> -->
-<style scoped="">
-.v-container {
-  background-color: lightgray;
-}
-.v-btn {
-  margin-right: 10px;
-}
-</style>

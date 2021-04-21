@@ -1,10 +1,16 @@
 <template>
   <v-app>
     <br />
-    <v-container class="v-container" row fluid>
+    <v-container class="common_container_style" row fluid>
       <v-row>
         <v-col>
-          <h2>[모든 사용자 그룹]</h2>
+          <!-- <h2>[모든 사용자 그룹]</h2> -->
+          <v-row>
+            <v-col cols="12">
+              <v-icon>mdi-cloud</v-icon>
+              모든 사용자 그룹
+            </v-col>
+          </v-row>
           <br />
           <div>
             <v-text-field
@@ -22,7 +28,13 @@
           </div>
         </v-col>
         <v-col>
-          <h2>[사용자 그룹 정보]</h2>
+          <!-- <h2>[사용자 그룹 정보]</h2> -->
+          <v-row>
+            <v-col cols="12">
+              <v-icon>mdi-account-edit</v-icon>
+              사용자 사용자 그룹
+            </v-col>
+          </v-row>
           <br />
           <div>
             <v-text-field
@@ -44,27 +56,13 @@
             ></v-select>
           </div>
           <div>
-            <v-btn
-              class="v-btn"
-              @click="user_group_add"
-              color="deep-orange lighten-3"
-              width="120px"
-            >
+            <v-btn class="common_button_style" @click="user_group_add">
               추가
             </v-btn>
-            <v-btn
-              class="v-btn"
-              @click="user_group_modify"
-              color="deep-orange lighten-3"
-              width="120px"
-            >
+            <v-btn class="common_button_style" @click="user_group_modify">
               수정
             </v-btn>
-            <v-btn
-              @click="user_group_delete"
-              color="deep-orange lighten-3"
-              width="120px"
-            >
+            <v-btn class="common_button_style" @click="user_group_delete">
               삭제
             </v-btn>
           </div>
@@ -344,13 +342,3 @@ export default {
   },
 };
 </script>
-
-<!-- <style type="text/css"> -->
-<style scoped="">
-.v-container {
-  background-color: lightgray;
-}
-.v-btn {
-  margin-right: 10px;
-}
-</style>

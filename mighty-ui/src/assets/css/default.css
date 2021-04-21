@@ -1,0 +1,8 @@
+.common_container_style {
+    background-color: lightgray;
+}
+
+.common_button_style {
+    margin-right: 10px;
+    width: 120px;
+}

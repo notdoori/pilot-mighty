@@ -209,8 +209,6 @@ import axios from 'axios';
   }
 </style>
 
-<!--
 <style lang="scss">
-@import "..\\assets\\css\\default.css";
+  @import "..\\assets\\css\\default.css";
 </style>
--->
