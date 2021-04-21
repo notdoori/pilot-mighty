@@ -42,8 +42,8 @@ public class MenuController {
 	
 	/**
 	 * 사용자 권한 별 메뉴 구성 정보 조회
-	 * @author djchoi
-	 * @return UserInfo[]
+	 * @author islee
+	 * @return menu 구성 정보
 	 * @throws JsonProcessingException 
 	 * @throws JsonMappingException 
 	 */
