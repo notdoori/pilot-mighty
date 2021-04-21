@@ -113,7 +113,7 @@ public class MenuController {
 		}
 		
 		if (groupList.size() <= 0) {
-			return new ResponseEntity<Object>("[]", HttpStatus.OK);
+			return new ResponseEntity<Object>(null, HttpStatus.OK);
 		}
 		
 		sb.setLength(0);
