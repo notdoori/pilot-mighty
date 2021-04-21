@@ -171,7 +171,7 @@ import axios from 'axios';
     mounted() {
       this.curRoutePath = this.$route.path;
       this.menuList = [
-                       {id: "K0001", name: "SYSTEN",
+                       {id: "K0001", name: "SYSTEM",
                         children: [{id: "M0001", name: "권한 관리", children: []},
                                    {id: "M0002", name: "사용자 그룹 관리", children:[]},
                                    {id: "M0003", name: "사용자 관리", children:[]},
