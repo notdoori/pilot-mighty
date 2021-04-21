@@ -178,25 +178,18 @@ import axios from 'axios';
                                    {id: "M0004", name: "로그 아웃", desc: "로그 아웃 메뉴", children:[]}
                                   ]
                        },
-                       {id: "K0002", name: "INQUIRY", desc: "",
-                        children: [{id: "M0020", name: "Sub Group", desc: "", 
-                                    children:[{id: "M0021", name: "Sub Menu1", desc: "", children:[]},
-                                              {id: "M0022", name: "Sub Menu2", desc: "", children:[]}
-                                             ]
-                                   }
-                                  //  ,{id: "M0023", name: "INQUIRY1", desc: "메뉴 테스트 2", children:[]}
-                                  ]
+                       {id: "K0002", name: "INQUIRY", desc: "", children: []
                        }
                       ];
-      // let userId = localStorage.getItem("user_id");
-      // let url = '/api/menu/all?userId=' + `${userId}`;
-      // axios.get(url)
-      //   .then(response => {
-      //       if (response.data) {
-      //         this.menuList = response.data;
-      //       }
-      //   })
-      //   .catch((error) => alert(error));
+      let userId = localStorage.getItem("user_id");
+      let url = '/api/menu/all?userId=' + `${userId}`;
+      axios.get(url)
+        .then(response => {
+            if (response.data) {
+              this.menuList = response.data;
+            }
+        })
+        .catch((error) => alert(error));
     }
     // beforeRouteLeave (to, from, next) {
     //   console.log('from: ', from);

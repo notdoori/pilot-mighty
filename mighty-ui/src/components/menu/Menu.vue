@@ -12,10 +12,10 @@
         </v-btn>
       </template>
 
-        <!-- <div v-for="(node, index) in menuGroup.children" :key="index">
-            <MenuTree :treeData="node" :key="componentKey"></MenuTree>
-        </div> -->
-      <v-list dense subheader v-for="(node, index) in menuGroup.children" :key="index">
+        <div v-for="(node, index) in menuGroup.children" :key="index">
+            <MenuTree :key="componentKey" :treeData="node" ></MenuTree>
+        </div>
+      <!-- <v-list dense subheader v-for="(node, index) in menuGroup.children" :key="index">
         <div :key="componentKey" v-if="hasChild(node)">
             <v-list-group >
                 <template v-slot:activator>
@@ -34,15 +34,18 @@
                 <v-list-item-title>{{node.name}}</v-list-item-title>         
             </v-list-item>
         </div>        
-      </v-list> 
+      </v-list>  -->
 
   </v-menu>  
 </template>
 
 <script>
 
+import MenuTree from '@/components/menu/MenuTree'
+
 export default {
     components: {
+        MenuTree
     },
     props: ['menuGroup', 'menuKey'],
     methods: {
@@ -67,7 +70,6 @@ export default {
     },
     data() {
         return {
-            showMenu: false,
             componentKey: 0,
         }
     }
