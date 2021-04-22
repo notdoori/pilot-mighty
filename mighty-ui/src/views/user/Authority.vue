@@ -232,7 +232,8 @@ export default {
 
     // 입력 정보 초기화
     clear: function () {
-      (this.roleId = ""),
+      (this.searchQuery = ""),
+        (this.roleId = ""),
         (this.roleDesc = ""),
         (this.roleIdTemp = ""),
         (this.roleDescTemp = "");

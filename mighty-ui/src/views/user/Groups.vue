@@ -64,6 +64,7 @@
             <v-row>
               <v-col>
                 <v-select
+                  filled
                   label="권한 그룹 아이디"
                   v-model="roleId"
                   :items="roleIdItems"
@@ -287,7 +288,8 @@ export default {
 
     // 입력 정보 초기화
     clear: function () {
-      (this.groupId = ""),
+      (this.searchQuery = ""),
+        (this.groupId = ""),
         (this.groupDesc = ""),
         (this.roleId = ""),
         (this.groupIdTemp = ""),
