@@ -207,8 +207,8 @@ export default {
 
     // 권한 그룹 정보 조회 (/search)
     authority_search: function (id, desc) {
-      console.log("ID : " + id);
-      console.log("DESC : " + desc);
+      // console.log("ID : " + id);
+      // console.log("DESC : " + desc);
 
       if (id === "") {
         alert(NO_ID_MESSAGE);
