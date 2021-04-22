@@ -1,129 +1,91 @@
 <template>
   <v-app>
-    <!-- <v-navigation-drawer app>
-      v-navigation-drawer
-    </v-navigation-drawer> -->
-
-    <!-- <v-app-bar app>
-      <h1>기준정보 시스템 - 권한 관리</h1>
-    </v-app-bar> -->
-
-    <br />
-    <v-container class="common_container_style" row fluid>
+    <v-container fluid>
       <v-row>
-        <v-col>
-          <div>
-            <v-row>
-              <v-col cols="12">
-                <v-icon>mdi-cloud</v-icon>
-                모든 권한 그룹
+        <v-col cols="7">
+          <div class="common_content_box">
+            <div class="common_title_bullet">
+              <v-img
+                :src="srcTitleImage"
+                max-width="22px"
+                max-height="22px"
+              ></v-img>
+            </div>
+            <div class="common_title_text">
+              <h3>모든 권한 그룹</h3>
+            </div>
+            <v-row class="common_clear_all">
+              <v-spacer></v-spacer>
+              <v-col cols="4" class="common_grid_search">
+                <v-text-field
+                  v-model="searchQuery"
+                  label="권한 그룹 정보 검색"
+                  clearable
+                  class="common_grid_search_field"
+                >
+                </v-text-field>
               </v-col>
             </v-row>
-
-            <!-- <v-row>
-              <v-col cols="12">
-                <v-icon>mdi-ab-testing</v-icon>[모든 권한 그룹]
+            <v-row>
+              <v-col class="common_grid">
+                <authorityGrid
+                  :data="gridData"
+                  :columns="gridColumns"
+                  :filter-key="searchQuery"
+                ></authorityGrid>
               </v-col>
             </v-row>
-
-            <v-row>
-              <v-col cols="12">
-                <v-img
-                  src="@/assets/image/test_image_2.png"
-                  width="27px"
-                  height="27px"
-                ></v-img
-                >[모든 권한 그룹]
-              </v-col>
-            </v-row>
-
-            <v-row>
-              <v-col>
-                <v-img
-                  src="@/assets/image/test_image_2.png"
-                  width="27px"
-                  height="27px"
-                ></v-img>
-              </v-col>
-              <v-col> [모든 권한 그룹] </v-col>
-            </v-row>
-
-            <v-row>
-              <v-col cols="1">
-                <v-img
-                  src="@/assets/image/test_image_2.png"
-                  width="27px"
-                  height="27px"
-                ></v-img>
-              </v-col>
-              <v-col cols="11"> [모든 권한 그룹] </v-col>
-            </v-row> -->
-          </div>
-
-          <!-- <v-icon>mdi-abacus</v-icon> -->
-          <!-- <h2>[모든 권한 그룹]</h2> -->
-          <br />
-          <div>
-            <!-- <div v-bind:key="user.userId" v-for="user in users">
-              <span>{{ user.userId }}, </span>
-              <span>{{ user.userName }}, </span>
-              <span>{{ user.depart }}, </span>
-              <span>{{ user.langType }}</span>
-            </div> -->
-            <!-- <form id="search"> -->
-            <!-- 권한 정보 검색 -->
-            <!-- <input id="queryinput" name="query" v-model="searchQuery" /> -->
-            <!-- </form> -->
-            <v-text-field
-              id="queryinput"
-              name="query"
-              v-model="searchQuery"
-              label="권한 그룹 정보 검색"
-              outlined="true"
-            ></v-text-field>
-            <authorityGrid
-              :data="gridData"
-              :columns="gridColumns"
-              :filter-key="searchQuery"
-            ></authorityGrid>
           </div>
         </v-col>
         <v-col>
-          <v-row>
-            <v-col cols="12">
-              <v-icon>mdi-account-edit</v-icon>
-              권한 그룹 정보
-            </v-col>
-          </v-row>
-          <!-- <h2>[권한 그룹 정보]</h2> -->
-          <br />
-          <div>
-            <v-text-field
-              label="권한 그룹 아이디"
-              outlined="true"
-              v-model="roleId"
-            ></v-text-field>
-            <v-text-field
-              label="권한 그룹 설명"
-              outlined="true"
-              v-model="roleDesc"
-            ></v-text-field>
-          </div>
-          <div>
-            <v-btn class="common_button_style" @click="authority_add">
-              추가
-            </v-btn>
-            <v-btn class="common_button_style" @click="authority_modify">
-              수정
-            </v-btn>
-            <v-btn class="common_button_style" @click="authority_delete">
-              삭제
-            </v-btn>
+          <div class="common_content_box">
+            <div class="common_title_bullet">
+              <v-img
+                :src="srcTitleImage"
+                max-width="22px"
+                max-height="22px"
+              ></v-img>
+            </div>
+            <div class="common_title_text">
+              <h3>권한 그룹 정보</h3>
+            </div>
+            <v-row class="common_clear_all">
+              <v-col>
+                <v-text-field label="권한 그룹 아이디" v-model="roleId">
+                </v-text-field>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col>
+                <v-text-field label="권한 그룹 설명" v-model="roleDesc">
+                </v-text-field>
+              </v-col>
+            </v-row>
           </div>
         </v-col>
       </v-row>
+      <v-row justify="center" class="common_button_bottom">
+        <v-col cols="auto">
+          <v-btn class="common_button_1" @click="clear">초기화</v-btn>
+        </v-col>
+        <v-spacer></v-spacer>
+        <v-col cols="auto">
+          <v-btn class="common_default_button" @click="authority_add">
+            추가
+          </v-btn>
+        </v-col>
+        <v-col cols="auto">
+          <v-btn class="common_default_button" @click="authority_modify">
+            수정
+          </v-btn>
+        </v-col>
+        <v-col cols="auto">
+          <v-btn class="common_default_button" @click="authority_delete">
+            삭제
+          </v-btn>
+        </v-col>
+      </v-row>
     </v-container>
-
     <v-footer app> 권한 그룹 관리 메뉴 화면 입니다. </v-footer>
   </v-app>
 </template>
@@ -226,6 +188,7 @@ export default {
       roleDesc: "", // 권한 그룹 설명 (NULL)
       roleIdTemp: "", // 임시 권한 그룹 아이디
       roleDescTemp: "", // 임시 권한 그룹 설명
+      srcTitleImage: require("@/assets/images/titleBullet1.png"),
     };
   },
 
@@ -244,8 +207,8 @@ export default {
 
     // 권한 그룹 정보 조회 (/search)
     authority_search: function (id, desc) {
-      // console.log("ID : " + id);
-      // console.log("DESC : " + desc);
+      console.log("ID : " + id);
+      console.log("DESC : " + desc);
 
       if (id === "") {
         alert(NO_ID_MESSAGE);
@@ -265,6 +228,14 @@ export default {
           )
           .catch((error) => alert(AUTHORITY_GROUP_SEARCH_FAILED));
       }
+    },
+
+    // 입력 정보 초기화
+    clear: function () {
+      (this.roleId = ""),
+        (this.roleDesc = ""),
+        (this.roleIdTemp = ""),
+        (this.roleDescTemp = "");
     },
 
     // 권한 그룹 추가 (/add)

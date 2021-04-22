@@ -17,9 +17,8 @@
       </thead>
       <tbody>
         <tr
-          v-for="entry in filteredData"
-          v-bind:key="entry"
-          class="list-row"
+          v-for="(entry, key) in filteredData"
+          v-bind:key="key"
           @click="doMouseClick(entry)"
         >
           <td v-for="key in columns" v-bind:key="key">
@@ -95,12 +94,15 @@ export default {
 <style scoped="">
 .gridTable {
   display: block;
-  width: 605px;
+  white-space: nowrap;
+  overflow-y: scroll;
+  width: 100%;
   border: 2px solid #df6659;
   border-radius: 3px;
   background-color: #fff;
 }
 .gridTable thead {
+  display: block;
   background-color: #fff;
   color: rgba(255, 255, 255, 0.66);
 }
@@ -114,8 +116,7 @@ export default {
 }
 .gridTable tbody {
   display: block;
-  height: 300px;
-  overflow-y: scroll;
+  max-height: 600px;
 }
 .gridTable td {
   background-color: #f9f9f9;
@@ -127,15 +128,15 @@ td {
 }
 .gridTable th:nth-of-type(1),
 .gridTable td:nth-of-type(1) {
-  width: 193px;
+  width: 340px;
 }
 .gridTable th:nth-of-type(2),
 .gridTable td:nth-of-type(2) {
-  width: 193px;
+  width: 340px;
 }
 .gridTable th:nth-of-type(3),
 .gridTable td:nth-of-type(3) {
-  width: 193px;
+  width: 340px;
 }
 .gridTable th.active {
   color: #fff;

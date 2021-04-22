@@ -1,71 +1,99 @@
 <template>
   <v-app>
-    <br />
-    <v-container class="common_container_style" row fluid>
+    <v-container fluid>
       <v-row>
-        <v-col>
-          <!-- <h2>[모든 사용자 그룹]</h2> -->
-          <v-row>
-            <v-col cols="12">
-              <v-icon>mdi-cloud</v-icon>
-              모든 사용자 그룹
-            </v-col>
-          </v-row>
-          <br />
-          <div>
-            <v-text-field
-              id="queryinput"
-              name="query"
-              v-model="searchQuery"
-              label="사용자 그룹 정보 검색"
-              outlined="true"
-            ></v-text-field>
-            <groupGrid
-              :data="gridData"
-              :columns="gridColumns"
-              :filter-key="searchQuery"
-            ></groupGrid>
+        <v-col cols="7">
+          <div class="common_content_box">
+            <div class="common_title_bullet">
+              <v-img
+                :src="srcTitleImage"
+                max-width="22px"
+                max-height="22px"
+              ></v-img>
+            </div>
+            <div class="common_title_text">
+              <h3>모든 사용자 그룹</h3>
+            </div>
+            <v-row class="common_clear_all">
+              <v-spacer></v-spacer>
+              <v-col cols="4" class="common_grid_search">
+                <v-text-field
+                  v-model="searchQuery"
+                  label="사용자 그룹 정보 검색"
+                  clearable
+                  class="common_grid_search_field"
+                >
+                </v-text-field>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col class="common_grid">
+                <groupGrid
+                  :data="gridData"
+                  :columns="gridColumns"
+                  :filter-key="searchQuery"
+                ></groupGrid>
+              </v-col>
+            </v-row>
           </div>
         </v-col>
         <v-col>
-          <!-- <h2>[사용자 그룹 정보]</h2> -->
-          <v-row>
-            <v-col cols="12">
-              <v-icon>mdi-account-edit</v-icon>
-              사용자 사용자 그룹
-            </v-col>
-          </v-row>
-          <br />
-          <div>
-            <v-text-field
-              label="사용자 그룹 아이디"
-              outlined="true"
-              v-model="groupId"
-            ></v-text-field>
-            <v-text-field
-              label="사용자 그룹 설명"
-              outlined="true"
-              v-model="groupDesc"
-            ></v-text-field>
-            <v-select
-              label="권한 그룹 아이디"
-              outlined="true"
-              :items="roleIdItems"
-              @input="authority_id_info"
-              v-model="roleId"
-            ></v-select>
+          <div class="common_content_box">
+            <div class="common_title_bullet">
+              <v-img
+                :src="srcTitleImage"
+                max-width="22px"
+                max-height="22px"
+              ></v-img>
+            </div>
+            <div class="common_title_text">
+              <h3>사용자 그룹 정보</h3>
+            </div>
+            <v-row class="common_clear_all">
+              <v-col>
+                <v-text-field label="사용자 그룹 아이디" v-model="groupId">
+                </v-text-field>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col>
+                <v-text-field label="사용자 그룹 설명" v-model="groupDesc">
+                </v-text-field>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col>
+                <v-select
+                  label="권한 그룹 아이디"
+                  v-model="roleId"
+                  :items="roleIdItems"
+                  @input="authority_id_info"
+                >
+                </v-select>
+              </v-col>
+            </v-row>
           </div>
-          <div>
-            <v-btn class="common_button_style" @click="user_group_add">
-              추가
-            </v-btn>
-            <v-btn class="common_button_style" @click="user_group_modify">
-              수정
-            </v-btn>
-            <v-btn class="common_button_style" @click="user_group_delete">
-              삭제
-            </v-btn>
-          </div>
+        </v-col>
+      </v-row>
+      <v-row justify="center" class="common_button_bottom">
+        <v-col cols="auto">
+          <v-btn class="common_button_1" @click="clear">초기화</v-btn>
+        </v-col>
+        <v-spacer></v-spacer>
+        <v-col cols="auto">
+          <v-btn class="common_default_button" @click="user_group_add">
+            추가
+          </v-btn>
+        </v-col>
+        <v-col cols="auto">
+          <v-btn class="common_default_button" @click="user_group_modify">
+            수정
+          </v-btn>
+        </v-col>
+        <v-col cols="auto">
+          <v-btn class="common_default_button" @click="user_group_delete">
+            삭제
+          </v-btn>
         </v-col>
       </v-row>
     </v-container>
@@ -182,6 +210,7 @@ export default {
       groupIdTemp: "", // 임시 사용자 그룹 아이디
       groupDescTemp: "", // 임시 사용자 그룹 설명
       roleIdItems: [], // 모든 권한 그룹 ID 리스트
+      srcTitleImage: require("@/assets/images/titleBullet1.png"),
     };
   },
   methods: {
@@ -254,6 +283,15 @@ export default {
           )
           .catch((error) => alert(USER_GROUP_SEARCH_FAILED));
       }
+    },
+
+    // 입력 정보 초기화
+    clear: function () {
+      (this.groupId = ""),
+        (this.groupDesc = ""),
+        (this.roleId = ""),
+        (this.groupIdTemp = ""),
+        (this.groupDescTemp = "");
     },
 
     // 사용자 그룹 추가 (/add)
