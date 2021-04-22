@@ -1,8 +1,102 @@
-.common_container_style {
-    background-color: lightgray;
+.common_clear_all {
+    clear: both;
 }
 
-.common_button_style {
-    margin-right: 10px;
-    width: 120px;
+
+/* Default layout */
+
+.common_content_box {
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    border: 3px solid #1976d2;
+    border-radius: 10px;
+    padding-top: 20px;
+    margin-top: 10px;
+}
+
+.common_title_bullet {
+    float: left;
+    width: 30px;
+    padding-top: 2px;
+}
+
+.common_title_text {}
+
+
+/* Grid layout */
+
+.common_grid {
+    padding-top: 0px;
+}
+
+.common_grid_search {
+    padding: 0px 40px 0px 0px;
+}
+
+.common_grid_search_field {
+    padding-top: 0px;
+    margin-top: 0px;
+}
+
+
+/* Button style (Default) */
+
+.common_default_button {
+    width: 150px;
+    box-shadow: inset 0px 1px 0px 0px #bee2f9;
+    background: linear-gradient(to bottom, #63b8ee 5%, #468ccf 100%);
+    border-radius: 6px;
+    border: 1px solid #3866a3;
+    display: inline-block;
+    cursor: pointer;
+    color: #14396a;
+    font-family: Arial;
+    font-size: 15px;
+    font-weight: bold;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #7cacde;
+}
+
+.common_default_button:hover {
+    background: linear-gradient(to bottom, #468ccf 5%, #63b8ee 100%);
+    background-color: #468ccf;
+}
+
+.common_default_button:active {
+    position: relative;
+    top: 1px;
+}
+
+
+/* Button style (Highlight) */
+
+.common_button_1 {
+    width: 150px;
+    box-shadow: inset 0px 1px 0px 0px #fff6af;
+    background: linear-gradient(to bottom, #ffec64 5%, #ffab23 100%);
+    border-radius: 6px;
+    border: 1px solid #ffaa22;
+    display: inline-block;
+    cursor: pointer;
+    color: #333333;
+    font-family: Arial;
+    font-size: 15px;
+    font-weight: bold;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #ffee66;
+}
+
+.common_button_1:hover {
+    background: linear-gradient(to bottom, #ffab23 5%, #ffec64 100%);
+    background-color: #ffab23;
+}
+
+.common_button_1:active {
+    position: relative;
+    top: 1px;
+}
+
+.common_button_bottom {
+    padding: 0px 40px;
 }

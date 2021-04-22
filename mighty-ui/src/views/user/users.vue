@@ -2,30 +2,31 @@
     <v-app>
         <v-container fluid>
             <v-row>
-                <v-col cols="8">
-                    <div class="contentBox">
-                        <div class="titleImage">
+                <v-col cols="7">
+                    <div class="common_content_box">
+                        <div class="common_title_bullet">
                             <v-img
                             :src="srcTitleImage"
                             max-width="22px"
                             max-height="22px"
                             ></v-img>
                         </div>
-                        <div class="titleText">
+                        <div class="common_title_text">
                             <h3>등록된 사용자</h3>
                         </div>
-                        <v-row class="clearAll">
+                        <v-row class="common_clear_all">
                             <v-spacer></v-spacer>
-                            <v-col cols="4">
+                            <v-col cols="4" class="common_grid_search">
                                 <v-text-field
                                     v-model="searchQuery"
                                     label="Search"
-                                    clearable>
+                                    clearable
+                                    class="common_grid_search_field">
                                 </v-text-field>
                             </v-col>
                         </v-row>
                         <v-row>
-                            <v-col>
+                            <v-col class="common_grid">
                                 <userGrid
                             :data="gridData"
                             :columns="gridColumns"
@@ -36,18 +37,18 @@
                     </div>
                 </v-col>
                 <v-col>
-                    <div class="contentBox">
-                        <div class="titleImage">
+                    <div class="common_content_box">
+                        <div class="common_title_bullet">
                             <v-img
                             :src="srcTitleImage"
                             max-width="22px"
                             max-height="22px"
                             ></v-img>
                         </div>
-                        <div class="titleText">
+                        <div class="common_title_text">
                             <h3>사용자 정보</h3>
                         </div>
-                        <v-row class="clearAll">
+                        <v-row class="common_clear_all">
                             <v-col>
                                 <v-text-field
                                     v-model="userId"
@@ -132,19 +133,19 @@
                     </div>
                 </v-col>
             </v-row>
-            <v-row justify="center">
+            <v-row justify="center" class="common_button_bottom">
                 <v-col cols="auto">
-                    <v-btn class="highlightButton" @click="clear">초기화</v-btn>
+                    <v-btn class="common_button_1" @click="clear">초기화</v-btn>
                 </v-col>
                 <v-spacer></v-spacer>
                 <v-col cols="auto">
-                    <v-btn class="normalButton" @click="user_regist">입력</v-btn>
+                    <v-btn class="common_default_button" @click="user_regist">입력</v-btn>
                 </v-col>
                 <v-col cols="auto">
-                    <v-btn class="normalButton" @click="user_modify">수정</v-btn>
+                    <v-btn class="common_default_button" @click="user_modify">수정</v-btn>
                 </v-col>
                 <v-col cols="auto">
-                    <v-btn class="normalButton" @click="user_delete">삭제</v-btn>
+                    <v-btn class="common_default_button" @click="user_delete">삭제</v-btn>
                 </v-col>
             </v-row>
         </v-container>
@@ -354,74 +355,6 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped="">
-html,
-body {
-    padding: 10px;
-    padding-right: 20px;
-    height: 95%;
-}
-.contentBox {
-    width: 100%;
-    height: 100%;
-    padding: 10px;
-    border: 3px solid #1976d2;
-    border-radius: 10px;
-}
-.titleImage {
-    float: left;
-    width: 30px;
-    padding-top: 2px;
-}
-.titleText {
-}
-.clearAll {
-    clear: both;
-}
-.normalButton {
-    width: 150px;
-    box-shadow: inset 0px 1px 0px 0px #bee2f9;
-    background: linear-gradient(to bottom, #63b8ee 5%, #468ccf 100%);
-    border-radius: 6px;
-    border: 1px solid #3866a3;
-    display: inline-block;
-    cursor: pointer;
-    color: #14396a;
-    font-family: Arial;
-    font-size: 15px;
-    font-weight: bold;
-    text-decoration: none;
-    text-shadow: 0px 1px 0px #7cacde;
-}
-.normalButton:hover {
-    background: linear-gradient(to bottom, #468ccf 5%, #63b8ee 100%);
-    background-color: #468ccf;
-}
-.normalButton:active {
-    position: relative;
-    top: 1px;
-}
-.highlightButton {
-    width: 150px;
-    box-shadow: inset 0px 1px 0px 0px #fff6af;
-    background: linear-gradient(to bottom, #ffec64 5%, #ffab23 100%);
-    border-radius: 6px;
-    border: 1px solid #ffaa22;
-    display: inline-block;
-    cursor: pointer;
-    color: #333333;
-    font-family: Arial;
-    font-size: 15px;
-    font-weight: bold;
-    text-decoration: none;
-    text-shadow: 0px 1px 0px #ffee66;
-}
-.highlightButton:hover {
-    background: linear-gradient(to bottom, #ffab23 5%, #ffec64 100%);
-    background-color: #ffab23;
-}
-.highlightButton:active {
-    position: relative;
-    top: 1px;
-}
+<style scoped>
+
 </style>
