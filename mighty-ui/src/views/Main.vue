@@ -206,7 +206,7 @@ export default {
       { id: "K0002", name: "INQUIRY", children: [] },
     ];
     let userId = localStorage.getItem("user_id");
-    let url = "/api/menu/all?userId=" + `${userId}`;
+    let url = "/api/menu/structurebyid?userId=" + `${userId}`;
     axios
       .get(url)
       .then((response) => {

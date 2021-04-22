@@ -48,7 +48,7 @@ public class MenuController {
 	 * @throws JsonMappingException 
 	 */
 	@ApiOperation(value="메뉴 구성 정보 조회", notes = "사용자 권한 별 메뉴 구성 정보 조회")
-	@RequestMapping(value= "/all", method=RequestMethod.GET)
+	@RequestMapping(value= "/structurebyid", method=RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<Object> getMenuStructureByUser(@RequestParam String userId) throws JsonMappingException, JsonProcessingException {	
 		
