@@ -50,7 +50,7 @@ public class MenuController {
 	@ApiOperation(value="메뉴 구성 정보 조회", notes = "사용자 권한 별 메뉴 구성 정보 조회")
 	@RequestMapping(value= "/structurebyid", method=RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity<Object> getMenuStructureByUser(@RequestParam String userId) throws JsonMappingException, JsonProcessingException {	
+	public ResponseEntity<Object> getMenuStructureByUser(@RequestParam String userId, @RequestParam String System) throws JsonMappingException, JsonProcessingException {	
 		
 		StringBuffer sb = new StringBuffer();
 		sb.append(" SELECT A.PARENT_KEY  AS PARENT                                                          \n");
@@ -68,10 +68,12 @@ public class MenuController {
 		sb.append("             AND A.USER_GROUP_ID = B.GROUP_ID) C                                         \n");
 		sb.append("  WHERE A.PARENT_KEY = B.STRUCTURE_ID                                                    \n");
 		sb.append("    AND C.ROLE_ID = B.ROLE_GROUP_ID                                                      \n");
+		sb.append("    AND B.SYSTEM = :System                                                               \n");
 		sb.append("  ORDER BY A.PARENT_KEY                                                                  \n");
 		
 		Map<String, Object> bindVal = new HashMap<String, Object>();
 		bindVal.put("userId", userId);
+		bindVal.put("System", System);
 		
 		List<Map<String, Object>> menuGroupList = qe.selectList(sb.toString(), bindVal);
 		
@@ -128,10 +130,12 @@ public class MenuController {
 		sb.append("             AND A.USER_GROUP_ID = B.GROUP_ID) C \n");
 		sb.append("  WHERE A.ROLE_GROUP_ID = C.ROLE_ID              \n");
 		sb.append("    AND A.HAS_CHILD = 'N'                        \n");
+		sb.append("    AND A.SYSTEM = :System                       \n");
 		sb.append("  ORDER BY A.STRUCTURE_ID                        \n");
 		
 		bindVal.clear();
 		bindVal.put("userId", userId);
+		bindVal.put("System", System);
 		
 		List<Map<String, Object>> menuList = qe.selectList(sb.toString(), bindVal);
 		List<Map<String, Object>> menuMapList = new ArrayList<Map<String, Object>>();
