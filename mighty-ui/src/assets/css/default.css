@@ -39,6 +39,10 @@
     margin-top: 0px;
 }
 
+.common_grid_row_pointer>.v-data-table__wrapper>table>tbody>tr :hover {  
+    cursor: pointer;
+}
+
 
 /* Button style (Default) */
 
