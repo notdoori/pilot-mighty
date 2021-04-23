@@ -6,32 +6,33 @@
                     <div class="common_content_box">
                         <div class="common_title_bullet">
                             <v-img
-                            :src="srcTitleImage"
-                            max-width="22px"
-                            max-height="22px"
+                                :src="srcTitleImage"
+                                max-width="22px"
+                                max-height="22px"
                             ></v-img>
                         </div>
                         <div class="common_title_text">
                             <h3>등록된 사용자</h3>
                         </div>
-                        <v-row class="common_clear_all">
+                        <!--<v-row class="common_clear_all">
                             <v-spacer></v-spacer>
                             <v-col cols="4" class="common_grid_search">
                                 <v-text-field
                                     v-model="searchQuery"
                                     label="Search"
                                     clearable
-                                    class="common_grid_search_field">
+                                    class="common_grid_search_field"
+                                >
                                 </v-text-field>
                             </v-col>
-                        </v-row>
-                        <v-row>
+                        </v-row>-->
+                        <v-row class="common_clear_all">
                             <v-col class="common_grid">
                                 <userGrid
-                            :data="gridData"
-                            :columns="gridColumns"
-                            :filter-key="searchQuery"
-                        ></userGrid>
+                                    :data="gridData"
+                                    :columns="gridColumns"
+                                    :filter-key="searchQuery"
+                                ></userGrid>
                             </v-col>
                         </v-row>
                     </div>
@@ -40,9 +41,9 @@
                     <div class="common_content_box">
                         <div class="common_title_bullet">
                             <v-img
-                            :src="srcTitleImage"
-                            max-width="22px"
-                            max-height="22px"
+                                :src="srcTitleImage"
+                                max-width="22px"
+                                max-height="22px"
                             ></v-img>
                         </div>
                         <div class="common_title_text">
@@ -53,18 +54,22 @@
                                 <v-text-field
                                     v-model="userId"
                                     :rules="[rules.required]"
-                                    label="User ID">
+                                    label="User ID"
+                                >
                                 </v-text-field>
                             </v-col>
                             <v-divider vertical></v-divider>
                             <v-col>
                                 <v-text-field
                                     v-model="password"
-                                    :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
+                                    :append-icon="
+                                        showPass ? 'mdi-eye' : 'mdi-eye-off'
+                                    "
                                     :rules="[rules.required]"
                                     :type="showPass ? 'text' : 'password'"
                                     label="Password"
-                                    @click:append="showPass = !showPass">
+                                    @click:append="showPass = !showPass"
+                                >
                                 </v-text-field>
                             </v-col>
                         </v-row>
@@ -73,14 +78,13 @@
                                 <v-text-field
                                     v-model="userName"
                                     :rules="[rules.required]"
-                                    label="User Name">
+                                    label="User Name"
+                                >
                                 </v-text-field>
                             </v-col>
                             <v-divider vertical></v-divider>
                             <v-col>
-                                <v-text-field
-                                    v-model="email"
-                                    label="E-Mail">
+                                <v-text-field v-model="email" label="E-Mail">
                                 </v-text-field>
                             </v-col>
                         </v-row>
@@ -88,14 +92,16 @@
                             <v-col>
                                 <v-text-field
                                     v-model="phone"
-                                    label="Phone Number">
+                                    label="Phone Number"
+                                >
                                 </v-text-field>
                             </v-col>
                             <v-divider vertical></v-divider>
                             <v-col>
                                 <v-text-field
                                     v-model="depart"
-                                    label="Department">
+                                    label="Department"
+                                >
                                 </v-text-field>
                             </v-col>
                         </v-row>
@@ -103,7 +109,8 @@
                             <v-col>
                                 <v-text-field
                                     v-model="userGroup"
-                                    label="User Group">
+                                    label="User Group"
+                                >
                                 </v-text-field>
                             </v-col>
                             <v-divider vertical></v-divider>
@@ -113,20 +120,20 @@
                             <v-col>
                                 <v-select
                                     :items="itemsLangType"
-                                    filled
                                     :rules="[rules.required]"
                                     label="Language Type"
-                                    v-model="langType">
+                                    v-model="langType"
+                                >
                                 </v-select>
                             </v-col>
                             <v-divider vertical></v-divider>
                             <v-col>
                                 <v-select
                                     :items="itemsYN"
-                                    filled
                                     :rules="[rules.required]"
                                     label="Use YN"
-                                    v-model="use">
+                                    v-model="use"
+                                >
                                 </v-select>
                             </v-col>
                         </v-row>
@@ -139,13 +146,19 @@
                 </v-col>
                 <v-spacer></v-spacer>
                 <v-col cols="auto">
-                    <v-btn class="common_default_button" @click="user_regist">입력</v-btn>
+                    <v-btn class="common_default_button" @click="user_regist"
+                        >입력</v-btn
+                    >
                 </v-col>
                 <v-col cols="auto">
-                    <v-btn class="common_default_button" @click="user_modify">수정</v-btn>
+                    <v-btn class="common_default_button" @click="user_modify"
+                        >수정</v-btn
+                    >
                 </v-col>
                 <v-col cols="auto">
-                    <v-btn class="common_default_button" @click="user_delete">삭제</v-btn>
+                    <v-btn class="common_default_button" @click="user_delete"
+                        >삭제</v-btn
+                    >
                 </v-col>
             </v-row>
         </v-container>
@@ -154,7 +167,7 @@
 
 <script>
 import axios from "axios";
-import userGrid from "@/views/user/GridUserList";
+import userGrid from "@/views/user/GridUserListNew";
 import { userBUS } from "@/router/EventBus";
 
 const USER_ALL = "/api/users/all";
@@ -190,7 +203,7 @@ export default {
                 "depart",
                 "userGroup",
                 "langType",
-                "use"
+                "use",
             ],
             gridData: [],
             userId: "",
@@ -204,13 +217,14 @@ export default {
             use: "",
             showPass: false,
             rules: {
-            required: value => !!value || 'Required.',
-            min: v => v.length >= 8 || 'Min 8 characters',
-            emailMatch: () => (`The email and password you entered don't match`),
+                required: (value) => !!value || "Required.",
+                min: (v) => v.length >= 8 || "Min 8 characters",
+                emailMatch: () =>
+                    `The email and password you entered don't match`,
             },
-            itemsLangType: ['KO', 'EN', 'CN'],
-            itemsYN: ['Y', 'N'],
-            srcTitleImage: require('@/assets/images/titleBullet1.png')
+            itemsLangType: ["KO", "EN", "CN"],
+            itemsYN: ["Y", "N"],
+            srcTitleImage: require("@/assets/images/titleBullet1.png"),
         };
     },
     created() {
@@ -248,113 +262,109 @@ export default {
                     console.error(e);
                 });
         },
-        clear: function() {
-            this.searchQuery = "",
-            this.userId = "",
-            this.password = "",
-            this.userName = "",
-            this.email = "",
-            this.phone = "",
-            this.depart = "",
-            this.userGroup = "",
-            this.langType = "",
-            this.use = ""
+        clear: function () {
+            (this.searchQuery = ""),
+                (this.userId = ""),
+                (this.password = ""),
+                (this.userName = ""),
+                (this.email = ""),
+                (this.phone = ""),
+                (this.depart = ""),
+                (this.userGroup = ""),
+                (this.langType = ""),
+                (this.use = "");
         },
-        checkRequired: function() {
-            if(this.userId === "") {
+        checkRequired: function () {
+            if (this.userId === "") {
                 alert(ID_INPUT_MESSAGE);
                 return false;
-            } else if(this.password === "") {
+            } else if (this.password === "") {
                 alert(PW_INPUT_MESSAGE);
                 return false;
-            } else if(this.userName === "") {
+            } else if (this.userName === "") {
                 alert(NAME_INPUT_MESSAGE);
                 return false;
             }
             return true;
         },
-        user_regist: function() {
-            if(!this.checkRequired()) {
+        user_regist: function () {
+            if (!this.checkRequired()) {
                 return;
             } else {
                 console.log(this.userId);
                 axios
-                .post(USER_REGIST, {
-                    userId: this.userId,
-                    password: this.password,
-                    userName: this.userName,
-                    email: this.email,
-                    phone: this.phone,
-                    depart: this.depart,
-                    userGroup: this.userGroup,
-                    langType: this.langType,
-                    use: this.use
-                })
-                .then(res => {
-                    console.log(res.data),
-                    alert(USER_REGIST_COMPLETE),
-                    this.clear(),
-                    this.load()
-                })
-                .catch(error => {
-                    console.log(error.data),
-                    alert(USER_REGIST_FAILED)
-                });
+                    .post(USER_REGIST, {
+                        userId: this.userId,
+                        password: this.password,
+                        userName: this.userName,
+                        email: this.email,
+                        phone: this.phone,
+                        depart: this.depart,
+                        userGroup: this.userGroup,
+                        langType: this.langType,
+                        use: this.use,
+                    })
+                    .then((res) => {
+                        console.log(res.data),
+                            alert(USER_REGIST_COMPLETE),
+                            this.clear(),
+                            this.load();
+                    })
+                    .catch((error) => {
+                        console.log(error.data), alert(USER_REGIST_FAILED);
+                    });
             }
         },
-        user_modify: function() {
-            if(this.userId === "") {
+        user_modify: function () {
+            if (this.userId === "") {
                 alert(ID_INPUT_MESSAGE);
             } else {
                 axios
-                .post(USER_MODIFY, {
-                    userId: this.userId,
-                    password: this.password,
-                    userName: this.userName,
-                    email: this.email,
-                    phone: this.phone,
-                    depart: this.depart,
-                    userGroup: this.userGroup,
-                    langType: this.langType,
-                    use: this.use
-                })
-                .then(res => {
-                    console.log(res.data),
-                    alert(USER_MODIFY_COMPLETE),
-                    this.clear(),
-                    this.load()
-                })
-                .catch(error => {
-                    console.log(error.data),
-                    alert(USER_MODIFY_FAILED)
-                });
+                    .post(USER_MODIFY, {
+                        userId: this.userId,
+                        password: this.password,
+                        userName: this.userName,
+                        email: this.email,
+                        phone: this.phone,
+                        depart: this.depart,
+                        userGroup: this.userGroup,
+                        langType: this.langType,
+                        use: this.use,
+                    })
+                    .then((res) => {
+                        console.log(res.data),
+                            alert(USER_MODIFY_COMPLETE),
+                            this.clear(),
+                            this.load();
+                    })
+                    .catch((error) => {
+                        console.log(error.data), alert(USER_MODIFY_FAILED);
+                    });
             }
         },
-        user_delete: function() {
-            if(this.userId === "") {
+        user_delete: function () {
+            if (this.userId === "") {
                 alert(ID_INPUT_MESSAGE);
             } else {
                 axios
-                .post(USER_DELETE, {
-                    userId: this.userId
-                })
-                .then(res => {
-                    console.log(res.data),
-                    alert(USER_DELETE_COMPLETE),
-                    this.clear(),
-                    this.load()
-                })
-                .catch(error => {
-                    console.log(error.data),
-                    alert(USER_DELETE_FAILED)
-                });
+                    .post(USER_DELETE, {
+                        userId: this.userId,
+                    })
+                    .then((res) => {
+                        console.log(res.data),
+                            alert(USER_DELETE_COMPLETE),
+                            this.clear(),
+                            this.load();
+                    })
+                    .catch((error) => {
+                        console.log(error.data), alert(USER_DELETE_FAILED);
+                    });
             }
-        }
-    }
+        },
+    },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
 </style>
