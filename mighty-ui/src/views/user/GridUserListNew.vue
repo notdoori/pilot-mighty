@@ -14,6 +14,7 @@
             :items="data"
             :search="search"
             @click:row="doMouseClick"
+            class="common_grid_row_pointer"
         ></v-data-table>
     </v-card>
 </template>
