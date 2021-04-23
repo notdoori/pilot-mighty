@@ -104,3 +104,9 @@
 .common_button_bottom {
     padding: 0px 40px;
 }
+
+.theme--light.v-label {
+    color: #9F9F9F;
+    font-weight: normal;
+    font-size: small;
+}

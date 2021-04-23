@@ -13,6 +13,7 @@
             :headers="headers"
             :items="data"
             :search="search"
+            :items-per-page="5"
             @click:row="doMouseClick"
             class="common_grid_row_pointer"
         ></v-data-table>
@@ -24,29 +25,29 @@ import { userBUS } from "@/router/EventBus";
 
 export default {
     props: {
-        data: Array,
-        search: String,
+        data: Array
     },
     data() {
         return {
             search: "",
-            columns: Array,
             headers: [
                 {
                     text: "NO.",
                     align: "start",
                     filterable: false,
                     value: "no",
+                    width: "80px",
+                    fixed: true
                 },
-                { text: "User ID", value: "userId" },
-                { text: "PW", value: "password", visibility: "hidden" },
-                { text: "User Name", value: "userName" },
-                { text: "E-Mail", value: "email" },
-                { text: "Phone", value: "phone" },
-                { text: "Department", value: "depart" },
-                { text: "User Group", value: "userGroup" },
-                { text: "Language", value: "langType" },
-                { text: "Use", value: "use" },
+                { text: "User ID", value: "userId", width: "80px", fixed: true },
+                { text: "PW", value: "password",width: "0px", fixed: true },
+                { text: "User Name", value: "userName", width: "120px", fixed: true },
+                { text: "E-Mail", value: "eMail", width: "150px" },
+                { text: "Phone", value: "phone", width: "150px" },
+                { text: "Department", value: "depart", width: "120px" },
+                { text: "User Group", value: "userGroup", width: "200px" },
+                { text: "Language", value: "langType", width: "80px" },
+                { text: "Use", value: "use", width: "80px" },
             ],
         };
     },
