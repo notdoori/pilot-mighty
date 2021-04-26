@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { userBUS } from '@/router/EventBus';
+import { userBUS } from '@/etc/EventBus';
 
 export default {
   name: 'Grid',

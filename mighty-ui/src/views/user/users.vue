@@ -40,6 +40,7 @@
                                         v-model="userId"
                                         :rules="[rules.required]"
                                         label="User ID"
+                                        @keyup="uppercase"
                                     >
                                     </v-text-field>
                                 </v-col>
@@ -169,7 +170,7 @@
 import axios from "axios";
 import userGrid from "@/views/user/GridUserListNew";
 //import userGrid from "@/views/user/GridTest";
-import { userBUS } from "@/router/EventBus";
+import { userBUS } from "@/etc/EventBus";
 
 const USER_ALL = "/api/users/all";
 const USER_REGIST = "/api/users/regist";
@@ -298,7 +299,8 @@ export default {
                             this.load();
                     })
                     .catch((error) => {
-                        console.log(error.data), alert(USER_REGIST_FAILED);
+                        console.log(error),
+                        alert(USER_REGIST_FAILED);
                     });
             }
         },
@@ -325,7 +327,7 @@ export default {
                             this.load();
                     })
                     .catch((error) => {
-                        console.log(error.data), alert(USER_MODIFY_FAILED);
+                        alert(USER_MODIFY_FAILED);
                     });
             }
         },
@@ -366,6 +368,9 @@ export default {
                 return false;
             }
         },
+        uppercase() {
+            this.userId = this.userId.toUpperCase();
+        }
     },
 };
 </script>

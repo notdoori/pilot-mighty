@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { BUS_GROUPS } from "@/router/EventBus";
+import { BUS_GROUPS } from "@/etc/EventBus";
 
 export default {
   name: "Grid",

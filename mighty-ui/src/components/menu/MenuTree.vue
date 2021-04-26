@@ -25,7 +25,7 @@
 
 <script>
 
-import { BUS_MENU } from "@/router/EventBus";
+import { BUS_MENU } from "@/etc/EventBus";
 
 export default {
     name: "tree-node",

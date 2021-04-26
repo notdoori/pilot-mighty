@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { BUS_AUTHORITY } from "@/router/EventBus";
+import { BUS_AUTHORITY } from "@/etc/EventBus";
 
 export default {
   name: "Grid",

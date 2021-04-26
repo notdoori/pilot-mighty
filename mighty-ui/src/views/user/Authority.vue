@@ -78,7 +78,7 @@
 import axios from "axios";
 import authorityGrid from "@/views/user/GridAuthorityListNew";
 // import authorityGrid from "@/views/user/GridAuthorityList";
-import { BUS_AUTHORITY } from "@/router/EventBus";
+import { BUS_AUTHORITY } from "@/etc/EventBus";
 
 const AUTHORITY_GROUP_ALL = "/api/auth/all";
 const AUTHORITY_GROUP_SEARCH = "/api/auth/search";

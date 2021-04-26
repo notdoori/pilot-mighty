@@ -49,7 +49,7 @@
 import { mapState, mapActions } from "vuex";
 import VRuntimeTemplate from "v-runtime-template";
 import Menu from "@/components/menu/Menu";
-import { BUS_MENU } from "@/router/EventBus";
+import { BUS_MENU } from "@/etc/EventBus";
 
 import axios from "axios";
 

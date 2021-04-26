@@ -90,7 +90,7 @@
 import axios from "axios";
 import groupGrid from "@/views/user/GridGroupListNew";
 // import groupGrid from "@/views/user/GridGroupList";
-import { BUS_GROUPS } from "@/router/EventBus";
+import { BUS_GROUPS } from "@/etc/EventBus";
 
 const USER_GROUP_ALL = "/api/group/all";
 const USER_GROUP_SEARCH = "/api/group/search";
