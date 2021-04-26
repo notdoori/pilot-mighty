@@ -15,24 +15,8 @@
               <h3>모든 권한 그룹</h3>
             </div>
             <v-row class="common_clear_all">
-              <v-spacer></v-spacer>
-              <v-col cols="4" class="common_grid_search">
-                <v-text-field
-                  v-model="searchQuery"
-                  label="권한 그룹 정보 검색"
-                  clearable
-                  class="common_grid_search_field"
-                >
-                </v-text-field>
-              </v-col>
-            </v-row>
-            <v-row>
               <v-col class="common_grid">
-                <authorityGrid
-                  :data="gridData"
-                  :columns="gridColumns"
-                  :filter-key="searchQuery"
-                ></authorityGrid>
+                <authorityGrid :data="gridData"></authorityGrid>
               </v-col>
             </v-row>
           </div>
@@ -92,7 +76,8 @@
 
 <script>
 import axios from "axios";
-import authorityGrid from "@/views/user/GridAuthorityList";
+import authorityGrid from "@/views/user/GridAuthorityListNew";
+// import authorityGrid from "@/views/user/GridAuthorityList";
 import { BUS_AUTHORITY } from "@/router/EventBus";
 
 const AUTHORITY_GROUP_ALL = "/api/auth/all";
@@ -181,7 +166,6 @@ export default {
   data() {
     return {
       searchQuery: "",
-      gridColumns: ["roleId", "roleDesc"], // 모든 권한 그룹 항목 정보
       gridData: [], // 모든 권한 그룹 데이터 정보 (SELECT)
       gridUpdate: false,
       roleId: "", // 권한 그룹 아이디 (NOT NULL)

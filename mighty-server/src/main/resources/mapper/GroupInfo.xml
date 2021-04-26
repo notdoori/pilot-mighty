@@ -3,11 +3,12 @@
  <mapper namespace="com.pilot.mighty.dao.GroupInfoDao">
  
  	<select id="selectGroupInfoAll" resultType="com.pilot.mighty.model.GroupInfo">
-		SELECT GROUP_ID as groupId,
+ 		SELECT ROWNUM AS NO, T.*
+		FROM  (SELECT GROUP_ID as groupId,
 		           GROUP_DESC as groupDesc,
 		           ROLE_ID as roleId
 		  FROM ADM_GROUP_INFO
-		 ORDER BY GROUP_ID
+		 ORDER BY GROUP_ID) T
 	</select>
 	
 	<select id="selectAuthInfoAll" resultType="com.pilot.mighty.model.AuthInfo">

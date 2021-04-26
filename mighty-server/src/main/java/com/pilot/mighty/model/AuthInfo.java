@@ -2,15 +2,25 @@ package com.pilot.mighty.model;
 
 public class AuthInfo {
 	
+	private int no;
 	private String roleId;
 	private String roleDesc;
 	
 	public AuthInfo() {}
 	
-	public AuthInfo(String roleId, String roleDesc) {
+	public AuthInfo(int no, String roleId, String roleDesc) {
 		super();
-		this.roleId = roleId;			// 권한 그룹 아이디
+		this.no = no;						// 카운트 번호
+		this.roleId = roleId;				// 권한 그룹 아이디
 		this.roleDesc = roleDesc;		// 권한 그룹 설명
+	}
+	
+	public int getNo() {
+		return no;
+	}
+
+	public void setNo(int no) {
+		this.no = no;
 	}
 
 	public String getRoleId() {

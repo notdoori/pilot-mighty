@@ -15,24 +15,8 @@
               <h3>모든 사용자 그룹</h3>
             </div>
             <v-row class="common_clear_all">
-              <v-spacer></v-spacer>
-              <v-col cols="4" class="common_grid_search">
-                <v-text-field
-                  v-model="searchQuery"
-                  label="사용자 그룹 정보 검색"
-                  clearable
-                  class="common_grid_search_field"
-                >
-                </v-text-field>
-              </v-col>
-            </v-row>
-            <v-row>
               <v-col class="common_grid">
-                <groupGrid
-                  :data="gridData"
-                  :columns="gridColumns"
-                  :filter-key="searchQuery"
-                ></groupGrid>
+                <groupGrid :data="gridData"></groupGrid>
               </v-col>
             </v-row>
           </div>
@@ -104,7 +88,8 @@
 
 <script>
 import axios from "axios";
-import groupGrid from "@/views/user/GridGroupList";
+import groupGrid from "@/views/user/GridGroupListNew";
+// import groupGrid from "@/views/user/GridGroupList";
 import { BUS_GROUPS } from "@/router/EventBus";
 
 const USER_GROUP_ALL = "/api/group/all";
@@ -202,7 +187,6 @@ export default {
   data() {
     return {
       searchQuery: "",
-      gridColumns: ["groupId", "groupDesc", "roleId"], // 모든 사용자 그룹 항목 정보
       gridData: [], // 모든 사용자 그룹 데이터 정보 (SELECT)
       gridUpdate: false,
       groupId: "", // 사용자 그룹 아이디 (NOT NULL)
