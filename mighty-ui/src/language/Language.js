@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const LANGUAGE_PATH = "/api/language/search";
-const LANGAUGE_CODE = "KO";
+const LANGAUGE_CODE = "CN";
 
 // ========== (Common) ========== //
 const COMMON_ID = "COMMON_ID"; // 아이디
@@ -10,6 +10,9 @@ const COMMON_RESET = "COMMON_RESET"; // 초기화
 const COMMON_ADD = "COMMON_ADD"; // 추가
 const COMMON_MODIFY = "COMMON_MODIFY"; // 수정
 const COMMON_DELETE = "COMMON_DELETE"; // 삭제
+const COMMON_KEYWORD = "COMMON_KEYWORD"; // 키워드
+const COMMON_CODE = "COMMON_CODE"; // 코드
+const COMMON_TEXT = "COMMON_TEXT"; // 문자열
 // ============================== //
 
 // ========== (Authority.vue) ========== //
@@ -52,6 +55,15 @@ const multiLanguageSet = () => {
 
     // 삭제
     language(COMMON_DELETE);
+
+    // 키워드
+    language(COMMON_KEYWORD);
+
+    // 코드
+    language(COMMON_CODE);
+
+    // 문자열
+    language(COMMON_TEXT);
 
     // 모든 권한 그룹
     language(AUTHORITY_GROUP_LIST);
