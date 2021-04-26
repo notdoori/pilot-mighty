@@ -11,3 +11,6 @@ export const userBUS = new Vue();
 
 // 메뉴 관리 BUS
 export const BUS_MENU = new Vue();
+
+// 다국어 정보 관리 BUS
+export const BUS_LANGUAGE = new Vue();
