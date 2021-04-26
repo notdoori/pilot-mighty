@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.pilot.mighty.controller.MultiLanguageController;
 import com.pilot.mighty.dao.MultiLanguageInfoDao;
+import com.pilot.mighty.model.AuthInfo;
 import com.pilot.mighty.model.MultiLanguageInfo;
 import com.pilot.mighty.service.MultiLanguageService;
 
@@ -20,9 +21,18 @@ public class MultiLanguageServiceImpl implements MultiLanguageService {
 	MultiLanguageInfoDao multiLanguageInfoDao;
 	
 	@Override
+	public MultiLanguageInfo[] selectLanguageInfoAll() {
+		
+		// 모든 권한 그룹 조회 요청
+		MultiLanguageInfo[] multiLanguageInfo = multiLanguageInfoDao.selectLanguageInfoAll();
+		
+		return multiLanguageInfo;
+	}
+	
+	@Override
 	public HashMap<String, Object> selectMultiLanguageInfo(Map<String, String> map) {
 		
-		// 권한 그룹 정보 수정 요청
+		// 특정 다국어 정보 조회
 		return multiLanguageInfoDao.selectMultiLanguageInfo(map);
 	}
 }
