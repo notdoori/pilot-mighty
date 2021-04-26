@@ -12,12 +12,17 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pilot.mighty.model.MultiLanguageInfo;
 import com.pilot.mighty.query.QueryExecutor;
 import com.pilot.mighty.service.MultiLanguageService;
+
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 public class MultiLanguageController {
@@ -30,7 +35,21 @@ public class MultiLanguageController {
 	
 	private final Logger logger = LogManager.getLogger(MultiLanguageController.class);
 	
-	@PostMapping(value = "api/language"
+	/**
+	 * 모든 다국어 정보 조회 요청 (SELECT)
+	 * @author thkim
+	 * @return MultiLanguageInfo
+	 */
+	@ApiOperation(value="모든 다국어 정보 조회", notes = "모든 다국어 정보를 조회합니다.")
+	@RequestMapping(value= "api/language/all", method=RequestMethod.GET)
+	public MultiLanguageInfo[] getLanguageAll() {
+		
+		MultiLanguageInfo[] multiLanguageInfo = multiLanguageService.selectLanguageInfoAll();
+		
+		return multiLanguageInfo;
+	}
+	
+	@PostMapping(value = "api/language/search"
 			,consumes = {MediaType.APPLICATION_JSON_VALUE}
 			,produces = {MediaType.APPLICATION_JSON_VALUE} )
 	public ResponseEntity<Object> getMultiLanguage(@RequestBody String body) throws JsonParseException, IOException {

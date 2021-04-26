@@ -2,6 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="com.pilot.mighty.dao.MultiLanguageInfoDao">
  
+ <select id="selectLanguageInfoAll" resultType="com.pilot.mighty.model.MultiLanguageInfo">
+		SELECT ROWNUM AS NO, T.*
+		FROM  (SELECT LANG_KEYWORD as langKeyword,
+		           LANG_CODE as langCode,
+		           LANG_TEXT as langText
+		 FROM ADM_MULTI_LANGUAGE
+		ORDER BY LANG_KEYWORD) T
+	</select>
+	
 	<select id="selectMultiLanguageInfo" parameterType="java.util.Map" resultType="java.util.HashMap">
 		SELECT LANG_TEXT as langText
 		  FROM ADM_MULTI_LANGUAGE
