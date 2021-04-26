@@ -46,7 +46,7 @@ export default {
           fixed: true,
         },
         {
-          text: "사용자 그룹 설명",
+          text: "권한 그룹 설명",
           value: "roleDesc",
           width: "480px",
           fixed: true,
