@@ -22,11 +22,28 @@ const AUTHORITY_GROUP_INFO = "AUTHORITY_GROUP_INFO"; // 권한 그룹 정보
 
 let langText = new Object();
 
+// const language = (keyword) => {
+//     axios
+//         .post(LANGUAGE_PATH, {
+//             keyword: keyword,
+//             code: LANGAUGE_CODE,
+//         })
+//         .then(
+//             (response) => (
+//                 (langText["keyword"] = keyword),
+//                 (langText[langText["keyword"]] = response.data)
+//             )
+//         )
+//         .catch((error) => alert(keyword + "/" + code + "-" + error));
+// }
+
 const language = (keyword) => {
     axios
-        .post(LANGUAGE_PATH, {
-            keyword: keyword,
-            code: LANGAUGE_CODE,
+        .get(LANGUAGE_PATH, {
+            params: {
+                keyword: keyword,
+                code: LANGAUGE_CODE,
+            }
         })
         .then(
             (response) => (
