@@ -46,7 +46,7 @@ public class GroupController {
 	/**
 	 * 모든 사용자 그룹 조회 요청 (SELECT)
 	 * @author thkim
-	 * @return GroupInfo
+	 * @return GroupInfo 리스트 정보
 	 */
 	@ApiOperation(value="모든 사용자 그룹 조회", notes = "모든 사용자 그룹을 조회합니다.")
 	@RequestMapping(value= "/all", method=RequestMethod.GET)
@@ -60,7 +60,7 @@ public class GroupController {
 	/**
 	 * 모든 권한 그룹 ID 조회 요청 (SELECT)
 	 * @author thkim
-	 * @return GroupInfo
+	 * @return AuthInfo 리스트 정보
 	 */
 	@ApiOperation(value="모든 권한 그룹 ID 조회", notes = "모든 권한 그룹 ID를 조회합니다.")
 	@RequestMapping(value= "/auth/all", method=RequestMethod.GET)
@@ -74,7 +74,7 @@ public class GroupController {
 	/**
 	 * 사용자 그룹 정보 조회 요청 (SELECT)
 	 * @author thkim
-	 * @return GroupInfo
+	 * @return GroupInfo 정보
 	 */
 	@ApiOperation(value="사용자 그룹 정보 조회", notes = "사용자 그룹 정보를 조회합니다.")
 	@PostMapping(value = "/search"
@@ -115,7 +115,7 @@ public class GroupController {
 	/**
 	 * 사용자 그룹 정보 추가 요청 (INSERT)
 	 * @author thkim
-	 * @return GroupInfo
+	 * @return HttpStatus 정보
 	 */
 	@ApiOperation(value="사용자 그룹 정보 추가", notes = "사용자 그룹 정보를 추가합니다.")
 	@PostMapping(value = "/add"
@@ -155,7 +155,7 @@ public class GroupController {
 	/**
 	 * 사용자 그룹 정보 수정 요청 (UPDATE)
 	 * @author thkim
-	 * @return GroupInfo
+	 * @return HttpStatus 정보
 	 */
 	@ApiOperation(value="사용자 그룹 정보 수정", notes = "사용자 그룹 정보를 수정합니다.")
 	@PostMapping(value = "/modify"
@@ -195,7 +195,7 @@ public class GroupController {
 	/**
 	 * 사용자 그룹 정보 삭제 요청 (DELETE)
 	 * @author thkim
-	 * @return GroupInfo
+	 * @return HttpStatus 정보
 	 */
 	@ApiOperation(value="사용자 그룹 정보 삭제", notes = "사용자 그룹 정보를 삭제합니다.")
 	@PostMapping(value = "/delete"
@@ -232,6 +232,11 @@ public class GroupController {
 		return new ResponseEntity<Object>(deleteMap, HttpStatus.OK);
 	}
 	
+	/**
+	 * (Swagger 전용) 권한 그룹 정보 추가 요청 (INSERT)
+	 * @author thkim
+	 * @return HttpStatus 정보
+	 */
 	@ApiOperation(value="사용자 그룹 정보 추가", notes = "사용자 그룹 정보를 추가합니다.")
 	@RequestMapping(value= "/addSwagger", method=RequestMethod.POST)
 	@ResponseBody
@@ -259,6 +264,11 @@ public class GroupController {
 		return new ResponseEntity<Object>(HttpStatus.OK);
 	}
 	
+	/**
+	 * (Swagger 전용) 권한 그룹 정보 수정 요청 (UPDATE)
+	 * @author thkim
+	 * @return HttpStatus 정보
+	 */
 	@ApiOperation(value="사용자 그룹 정보 수정", notes = "사용자 그룹 정보를 수정합니다.")
 	@RequestMapping(value= "/modifySwagger", method=RequestMethod.POST)
 	@ResponseBody
@@ -286,6 +296,11 @@ public class GroupController {
 		return new ResponseEntity<Object>(HttpStatus.OK);
 	}
 	
+	/**
+	 * (Swagger 전용) 권한 그룹 정보 삭제 요청 (DELETE)
+	 * @author thkim
+	 * @return HttpStatus 정보
+	 */
 	@ApiOperation(value="사용자 그룹 정보 삭제", notes = "사용자 그룹 정보를 삭제합니다.")
 	@RequestMapping(value= "/deleteSwagger", method=RequestMethod.POST)
 	@ResponseBody
