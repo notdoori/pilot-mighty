@@ -110,3 +110,7 @@
     font-weight: normal;
     font-size: small;
 }
+
+.v-data-table-header th {
+    white-space: nowrap;
+  }

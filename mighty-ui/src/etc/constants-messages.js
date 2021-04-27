@@ -10,6 +10,9 @@ export default Object.freeze({
     USER_MODIFY_FAILED: "사용자 수정을 실패하였습니다.",
     USER_DELETE_COMPLETE: "사용자 삭제가 완료되었습니다.",
     USER_DELETE_FAILED: "사용자 삭제를 실패하였습니다.",
+    USERGROUP_SELECT_MESSAGE: "사용자 그룹을 선택하세요.",
+    LANGTYPE_SELECT_MESSAGE: "언어를 선택하세요.",
+    USE_SELECT_MESSAGE: "사용여부를 선택하세요.",
 
     // 권한 그룹 관리
     AUTHORITY_GROUP_SEARCH_FAILED: "권한 그룹 정보 조회를 실패하였습니다.",

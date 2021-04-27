@@ -144,27 +144,9 @@
 import axios from "axios";
 import userGrid from "@/views/system/GridUserListNew";
 //import userGrid from "@/views/system/GridTest";
-import { userBUS } from "@/etc/EventBus";
+import { BUS_USERS } from "@/etc/EventBus";
 import messages from "@/etc/constants-messages";
 import urls from "@/etc/constants-urls";
-
-/*
-const USER_ALL = "/api/users/all";
-const USER_REGIST = "/api/users/regist";
-const USER_MODIFY = "/api/users/modify";
-const USER_DELETE = "/api/users/delete";
-const GROUP_ALL = "/api/group/all";
-
-const ID_INPUT_MESSAGE = "ID를 입력해주세요.";
-const PW_INPUT_MESSAGE = "비밀번호를 입력해주세요.";
-const NAME_INPUT_MESSAGE = "사용자 이름을 입력해주세요.";
-const USER_REGIST_COMPLETE = "사용자 등록이 완료되었습니다.";
-const USER_REGIST_FAILED = "사용자 등록을 실패하였습니다.";
-const USER_MODIFY_COMPLETE = "사용자 수정이 완료되었습니다.";
-const USER_MODIFY_FAILED = "사용자 수정을 실패하였습니다.";
-const USER_DELETE_COMPLETE = "사용자 삭제가 완료되었습니다.";
-const USER_DELETE_FAILED = "사용자 삭제를 실패하였습니다.";
-*/
 
 export default {
   name: "User",
@@ -200,9 +182,8 @@ export default {
   },
   created() {
     this.load();
-    userBUS.$on("selectedRow", (value) => {
+    BUS_USERS.$on("selectedRow", (value) => {
       this.userId = value["userId"];
-      this.password = value["password"];
       this.userName = value["userName"];
       this.eMail = value["eMail"];
       this.phone = value["phone"];
@@ -244,23 +225,44 @@ export default {
         });
     },
     clear: function () {
-      this.$refs.form.reset(), this.load();
+      this.$refs.form.reset();
+      this.load();
     },
-    checkRequired: function () {
-      if (this.isEmpty(this.userId)) {
-        alert(this.MESSAGES.ID_INPUT_MESSAGE);
-        return false;
-      } else if (this.isEmpty(this.password)) {
-        alert(this.MESSAGES.PW_INPUT_MESSAGE);
-        return false;
-      } else if (this.isEmpty(this.userName)) {
-        alert(this.MESSAGES.NAME_INPUT_MESSAGE);
-        return false;
+    checkRequired: function (mode) {
+      if(mode === "D") {
+        if (this.isEmpty(this.userId)) {
+          alert(this.MESSAGES.ID_INPUT_MESSAGE);
+          return false;
+        }
+      }
+      else {
+        if (this.isEmpty(this.userId)) {
+          alert(this.MESSAGES.ID_INPUT_MESSAGE);
+          return false;
+        } else if (mode === "C" && this.isEmpty(this.password)) {
+          alert(this.MESSAGES.PW_INPUT_MESSAGE);
+          return false;
+        } else if (this.isEmpty(this.userName)) {
+          alert(this.MESSAGES.NAME_INPUT_MESSAGE);
+          return false;
+        }
+        else if (this.isEmpty(this.userGroup)) {
+          alert(this.MESSAGES.USERGROUP_SELECT_MESSAGE);
+          return false;
+        }
+        else if (this.isEmpty(this.langType)) {
+          alert(this.MESSAGES.LANGTYPE_SELECT_MESSAGE);
+          return false;
+        }
+        else if (this.isEmpty(this.use)) {
+          alert(this.MESSAGES.USE_SELECT_MESSAGE);
+          return false;
+        }
       }
       return true;
     },
     user_regist: function () {
-      if (!this.checkRequired()) {
+      if (!this.checkRequired("C")) {
         return;
       } else {
         axios
@@ -288,7 +290,7 @@ export default {
       }
     },
     user_modify: function () {
-      if (!this.checkRequired()) {
+      if (!this.checkRequired("U")) {
         return;
       } else {
         axios
@@ -316,7 +318,7 @@ export default {
       }
     },
     user_delete: function () {
-      if (!this.checkRequired()) {
+      if (!this.checkRequired("D")) {
         return;
       } else {
         axios
@@ -355,6 +357,13 @@ export default {
     uppercase() {
       this.userId = this.userId.toUpperCase();
     },
+  },
+  beforeDestroy() {
+    console.log("beforeDestroy...");
+    BUS_USERS.$off("selectedRow");
+  },
+  destroyed() {
+    console.log("Destroyed...");
   },
 };
 </script>

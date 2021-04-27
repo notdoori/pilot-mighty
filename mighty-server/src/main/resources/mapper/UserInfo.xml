@@ -5,7 +5,6 @@
  	<select id="selectUserInfoAll" resultType="com.pilot.mighty.model.UserInfo">
 		SELECT ROWNUM AS NO, T.*
 		  FROM (SELECT USER_ID			AS USERID,
-		  			   PASSWORD			AS PASSWORD,
 		               USER_NAME     	AS USERNAME,
 		               EMAIL			AS EMAIL,
 		               PHONE			AS PHONE,
@@ -54,8 +53,7 @@
 	
 	<update id="modifyUser" parameterType="java.util.Map">
 		UPDATE ADM_USER_INFO
-		   SET PASSWORD = #{password}
-		     , EMAIL = #{email}
+		   SET EMAIL = #{email}
 		     , PHONE = #{phone}
 		     , DEPARTMENT = #{depart}
 		     , USER_GROUP_ID = #{userGroup}

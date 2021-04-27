@@ -117,7 +117,6 @@ public class UserController {
 		
 		Map<String, String> modifyUserMap = new HashMap<String, String>();
 		modifyUserMap.put("userId", map.get("userId").toString());
-		modifyUserMap.put("password", map.get("password").toString());
 		modifyUserMap.put("userName", map.get("userName").toString());
 		modifyUserMap.put("email", map.get("email") == null ? "" : map.get("email").toString());
 		modifyUserMap.put("phone", map.get("phone") == null ? "" : map.get("phone").toString());

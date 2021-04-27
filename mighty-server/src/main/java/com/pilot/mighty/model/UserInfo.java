@@ -4,7 +4,6 @@ public class UserInfo {
 	
 	private int no;
 	private String userId;
-	private String password;
 	private String userName;
 	private String eMail;
 	private String phone;
@@ -15,12 +14,11 @@ public class UserInfo {
 	
 	public UserInfo() {}	
 	
-	public UserInfo(int no, String userId, String password, String userName, String eMail, String phone, String depart,
+	public UserInfo(int no, String userId, String userName, String eMail, String phone, String depart,
 			String userGroup, String langType, String use) {
 		super();
 		this.no = no;
 		this.userId = userId;
-		this.password = password;
 		this.userName = userName;
 		this.eMail = eMail;
 		this.phone = phone;
@@ -44,14 +42,6 @@ public class UserInfo {
 
 	public void setUserId(String userId) {
 		this.userId = userId;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	public String getUserName() {
