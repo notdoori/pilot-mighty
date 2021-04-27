@@ -10,4 +10,22 @@ export default Object.freeze({
     USER_MODIFY_FAILED: "사용자 수정을 실패하였습니다.",
     USER_DELETE_COMPLETE: "사용자 삭제가 완료되었습니다.",
     USER_DELETE_FAILED: "사용자 삭제를 실패하였습니다.",
+
+    // 권한 그룹 관리
+    AUTHORITY_GROUP_SEARCH_FAILED: "권한 그룹 정보 조회를 실패하였습니다.",
+    AUTHORITY_GROUP_ADD_COMPLETE: "권한 그룹 추가를 완료하였습니다.",
+    AUTHORITY_GROUP_ADD_FAILED: "권한 그룹 추가를 실패하였습니다.",
+    AUTHORITY_GROUP_MODIFY_COMPLETE: "권한 그룹 수정을 완료하였습니다.",
+    AUTHORITY_GROUP_MODIFY_FAILED: "권한 그룹 수정을 실패하였습니다.",
+    AUTHORITY_GROUP_DELETE_COMPLETE: "권한 그룹 삭제를 완료하였습니다.",
+    AUTHORITY_GROUP_DELETE_FAILED: "권한 그룹 삭제를 실패하였습니다.",
+
+    // 사용자 그룹 관리
+    USER_GROUP_SEARCH_FAILED: "권한 그룹 정보 조회를 실패하였습니다.",
+    USER_GROUP_ADD_COMPLETE: "사용자 그룹 추가를 완료하였습니다.",
+    USER_GROUP_ADD_FAILED: "사용자 그룹 추가를 실패하였습니다.",
+    USER_GROUP_MODIFY_COMPLETE: "사용자 그룹 수정을 완료하였습니다.",
+    USER_GROUP_MODIFY_FAILED: "사용자 그룹 수정을 실패하였습니다.",
+    USER_GROUP_DELETE_COMPLETE: "사용자 그룹 삭제를 완료하였습니다.",
+    USER_GROUP_DELETE_FAILED: "사용자 그룹 삭제를 실패하였습니다.",
 })
