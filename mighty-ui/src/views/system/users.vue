@@ -145,7 +145,10 @@ import axios from "axios";
 import userGrid from "@/views/system/GridUserListNew";
 //import userGrid from "@/views/system/GridTest";
 import { userBUS } from "@/etc/EventBus";
+import messages from "@/etc/constants-messages";
+import urls from "@/etc/constants-urls";
 
+/*
 const USER_ALL = "/api/users/all";
 const USER_REGIST = "/api/users/regist";
 const USER_MODIFY = "/api/users/modify";
@@ -161,6 +164,7 @@ const USER_MODIFY_COMPLETE = "사용자 수정이 완료되었습니다.";
 const USER_MODIFY_FAILED = "사용자 수정을 실패하였습니다.";
 const USER_DELETE_COMPLETE = "사용자 삭제가 완료되었습니다.";
 const USER_DELETE_FAILED = "사용자 삭제를 실패하였습니다.";
+*/
 
 export default {
   name: "User",
@@ -169,6 +173,8 @@ export default {
   },
   data() {
     return {
+      MESSAGES: messages,
+      URLS: urls,
       userData: [],
       userId: null,
       password: null,
@@ -179,6 +185,7 @@ export default {
       userGroup: null,
       langType: "KO",
       use: "Y",
+      operator: null,
       showPass: false,
       rules: {
         required: (value) => !!value || "Required.",
@@ -208,12 +215,15 @@ export default {
   },
   methods: {
     load() {
+      this.operator = localStorage.getItem("user_id");
+      console.log("Logined User ID: ", this.operator);
+
       this.getUserAll();
       this.getGroupAll();
     },
     getUserAll: function () {
       axios
-        .get(USER_ALL)
+        .get(this.URLS.USER_ALL)
         .then((res) => {
           this.userData = res.data;
           console.log("User Data: ", res.data);
@@ -224,7 +234,7 @@ export default {
     },
     getGroupAll: function () {
       axios
-        .get(GROUP_ALL)
+        .get(this.URLS.GROUP_ALL)
         .then((res) => {
           this.itemsUserGroup = res.data;
           console.log("Group Data: ", res.data);
@@ -238,13 +248,13 @@ export default {
     },
     checkRequired: function () {
       if (this.isEmpty(this.userId)) {
-        alert(ID_INPUT_MESSAGE);
+        alert(this.MESSAGES.ID_INPUT_MESSAGE);
         return false;
       } else if (this.isEmpty(this.password)) {
-        alert(PW_INPUT_MESSAGE);
+        alert(this.MESSAGES.PW_INPUT_MESSAGE);
         return false;
       } else if (this.isEmpty(this.userName)) {
-        alert(NAME_INPUT_MESSAGE);
+        alert(this.MESSAGES.NAME_INPUT_MESSAGE);
         return false;
       }
       return true;
@@ -254,7 +264,7 @@ export default {
         return;
       } else {
         axios
-          .post(USER_REGIST, {
+          .post(this.URLS.USER_REGIST, {
             userId: this.userId,
             password: this.password,
             userName: this.userName,
@@ -264,15 +274,16 @@ export default {
             userGroup: this.userGroup,
             langType: this.langType,
             use: this.use,
+            operator: this.operator,
           })
           .then((res) => {
             console.log(res.data),
-              alert(USER_REGIST_COMPLETE),
+              alert(this.MESSAGES.USER_REGIST_COMPLETE),
               this.clear(),
               this.load();
           })
           .catch((error) => {
-            console.log(error), alert(USER_REGIST_FAILED);
+            console.log(error), alert(this.MESSAGES.USER_REGIST_FAILED);
           });
       }
     },
@@ -281,7 +292,7 @@ export default {
         return;
       } else {
         axios
-          .post(USER_MODIFY, {
+          .post(this.URLS.USER_MODIFY, {
             userId: this.userId,
             password: this.password,
             userName: this.userName,
@@ -291,15 +302,16 @@ export default {
             userGroup: this.userGroup,
             langType: this.langType,
             use: this.use,
+            operator: this.operator,
           })
           .then((res) => {
             console.log(res.data),
-              alert(USER_MODIFY_COMPLETE),
+              alert(this.MESSAGES.USER_MODIFY_COMPLETE),
               this.clear(),
               this.load();
           })
           .catch((error) => {
-            alert(USER_MODIFY_FAILED);
+            alert(this.MESSAGES.USER_MODIFY_FAILED);
           });
       }
     },
@@ -308,17 +320,17 @@ export default {
         return;
       } else {
         axios
-          .post(USER_DELETE, {
+          .post(this.URLS.USER_DELETE, {
             userId: this.userId,
           })
           .then((res) => {
             console.log(res.data),
-              alert(USER_DELETE_COMPLETE),
+              alert(this.MESSAGES.USER_DELETE_COMPLETE),
               this.clear(),
               this.load();
           })
           .catch((error) => {
-            console.log(error.data), alert(USER_DELETE_FAILED);
+            console.log(error.data), alert(this.MESSAGES.USER_DELETE_FAILED);
           });
       }
     },
