@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.ibatis.jdbc.Null;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,12 +79,16 @@ public class UserController {
 		}
 		
 		Map<String, String> registUserMap = new HashMap<String, String>();
-		registUserMap.put("userId", map.get("userId").toString().toUpperCase());
-		registUserMap.put("userName", map.get("userName").toString());
+		registUserMap.put("userId", map.get("userId").toString());
 		registUserMap.put("password", map.get("password").toString());
-		registUserMap.put("langType", map.get("langType").toString());
-		registUserMap.put("depart", map.get("depart").toString());
-		registUserMap.put("userGroup", map.get("userGroup").toString());
+		registUserMap.put("userName", map.get("userName").toString());
+		registUserMap.put("email", map.get("email") == null ? "" : map.get("email").toString());
+		registUserMap.put("phone", map.get("phone") == null ? "" : map.get("phone").toString());
+		registUserMap.put("depart", map.get("depart") == null ? "" : map.get("depart").toString());
+		registUserMap.put("userGroup", map.get("userGroup") == null ? "" : map.get("userGroup").toString());
+		registUserMap.put("langType", map.get("langType") == null ? "" : map.get("langType").toString());
+		registUserMap.put("use", map.get("use") == null ? "" : map.get("use").toString());
+		registUserMap.put("operator", map.get("operator").toString());
 		
 		userService.registUser(registUserMap);
 		
@@ -112,11 +117,15 @@ public class UserController {
 		
 		Map<String, String> modifyUserMap = new HashMap<String, String>();
 		modifyUserMap.put("userId", map.get("userId").toString());
-		modifyUserMap.put("userName", map.get("userName").toString());
 		modifyUserMap.put("password", map.get("password").toString());
-		modifyUserMap.put("langType", map.get("langType").toString());
-		modifyUserMap.put("depart", map.get("depart").toString());
-		modifyUserMap.put("userGroup", map.get("userGroup").toString());
+		modifyUserMap.put("userName", map.get("userName").toString());
+		modifyUserMap.put("email", map.get("email") == null ? "" : map.get("email").toString());
+		modifyUserMap.put("phone", map.get("phone") == null ? "" : map.get("phone").toString());
+		modifyUserMap.put("depart", map.get("depart") == null ? "" : map.get("depart").toString());
+		modifyUserMap.put("userGroup", map.get("userGroup") == null ? "" : map.get("userGroup").toString());
+		modifyUserMap.put("langType", map.get("langType") == null ? "" : map.get("langType").toString());
+		modifyUserMap.put("use", map.get("use") == null ? "" : map.get("use").toString());
+		modifyUserMap.put("operator", map.get("operator").toString());
 		
 		userService.modifyUser(modifyUserMap);
 		
