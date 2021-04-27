@@ -91,24 +91,8 @@ import axios from "axios";
 import groupGrid from "@/views/system/GridGroupListNew";
 // import groupGrid from "@/views/system/GridGroupList";
 import { BUS_GROUPS } from "@/etc/EventBus";
-
-const USER_GROUP_ALL = "/api/group/all";
-const USER_GROUP_SEARCH = "/api/group/search";
-const USER_GROUP_ADD = "/api/group/add";
-const USER_GROUP_MODIFY = "/api/group/modify";
-const USER_GROUP_DELETE = "/api/group/delete";
-const AUTHORITY_GROUP_ALL = "/api/group/auth/all";
-
-// alert() 팝업 메시지 정보
-const NO_ID_MESSAGE = "아이디가 존재하지 않습니다.";
-const ID_INPUT_MESSAGE = "아이디를 입력하여 주십시오.";
-const USER_GROUP_SEARCH_FAILED = "권한 그룹 정보 조회를 실패하였습니다.";
-const USER_GROUP_ADD_COMPLETE = "사용자 그룹 추가를 완료하였습니다.";
-const USER_GROUP_ADD_FAILED = "사용자 그룹 추가를 실패하였습니다.";
-const USER_GROUP_MODIFY_COMPLETE = "사용자 그룹 수정을 완료하였습니다.";
-const USER_GROUP_MODIFY_FAILED = "사용자 그룹 수정을 실패하였습니다.";
-const USER_GROUP_DELETE_COMPLETE = "사용자 그룹 삭제를 완료하였습니다.";
-const USER_GROUP_DELETE_FAILED = "사용자 그룹 삭제를 실패하였습니다.";
+import messages from "@/etc/constants-messages";
+import urls from "@/etc/constants-urls";
 
 export default {
   beforeCreate() {
@@ -186,6 +170,8 @@ export default {
   },
   data() {
     return {
+      MESSAGES: messages,
+      URLS: urls,
       searchQuery: "",
       gridData: [], // 모든 사용자 그룹 데이터 정보 (SELECT)
       gridUpdate: false,
@@ -202,7 +188,7 @@ export default {
     // 모든 사용자 그룹 리스트 조회
     group_refresh: function () {
       axios
-        .get(USER_GROUP_ALL)
+        .get(this.URLS.USER_GROUP_ALL)
         .then(
           (response) => (
             (this.gridData = null), (this.gridData = response.data)
@@ -214,7 +200,7 @@ export default {
     // 모든 권한 그룹 ID 리스트 조회
     authority_refresh: function () {
       axios
-        .get(AUTHORITY_GROUP_ALL)
+        .get(this.URLS.AUTHORITY_GROUP_ALL)
         .then(
           (response) => (
             (this.gridDataAuth = null),
@@ -244,30 +230,22 @@ export default {
 
     // 사용자 그룹 정보 조회 (/search)
     group_search: function (groupId, groupDesc, roleId) {
-      // console.log("GROUP ID : " + groupId);
-      // console.log("GROUP DESC : " + groupDesc);
-      // console.log("ROLE ID : " + roleId);
-
-      if (groupId === "") {
-        alert(NO_ID_MESSAGE);
-      } else {
-        axios
-          .post(USER_GROUP_SEARCH, {
-            groupId: groupId,
-            groupDesc: groupDesc,
-            roleId: roleId,
-          })
-          .then(
-            (response) => (
-              (this.groupId = response.data["groupId"]),
-              (this.groupDesc = response.data["groupDesc"]),
-              (this.roleId = response.data["roleId"]),
-              (this.groupIdTemp = response.data["groupId"]),
-              (this.groupDescTemp = response.data["groupDesc"])
-            )
+      axios
+        .post(this.URLS.USER_GROUP_SEARCH, {
+          groupId: groupId,
+          groupDesc: groupDesc,
+          roleId: roleId,
+        })
+        .then(
+          (response) => (
+            (this.groupId = response.data["groupId"]),
+            (this.groupDesc = response.data["groupDesc"]),
+            (this.roleId = response.data["roleId"]),
+            (this.groupIdTemp = response.data["groupId"]),
+            (this.groupDescTemp = response.data["groupDesc"])
           )
-          .catch((error) => alert(USER_GROUP_SEARCH_FAILED));
-      }
+        )
+        .catch((error) => alert(this.MESSAGES.USER_GROUP_SEARCH_FAILED));
     },
 
     // 입력 정보 초기화
@@ -283,17 +261,21 @@ export default {
     // 사용자 그룹 추가 (/add)
     user_group_add: function () {
       if (this.groupId === "") {
-        alert(ID_INPUT_MESSAGE);
+        alert(this.MESSAGES.ID_INPUT_MESSAGE);
       } else {
         axios
-          .post(USER_GROUP_ADD, {
+          .post(this.URLS.USER_GROUP_ADD, {
             groupId: this.groupId,
             groupDesc: this.groupDesc,
             roleId: this.roleId,
           })
           .then(
             (response) =>
-              alert(response.data["groupId"] + " " + USER_GROUP_ADD_COMPLETE),
+              alert(
+                response.data["groupId"] +
+                  " " +
+                  this.MESSAGES.USER_GROUP_ADD_COMPLETE
+              ),
             ((this.gridUpdate = true),
             (this.groupId = ""),
             (this.groupDesc = ""),
@@ -301,17 +283,17 @@ export default {
             (this.groupIdTemp = ""),
             (this.groupDescTemp = ""))
           )
-          .catch((error) => alert(USER_GROUP_ADD_FAILED));
+          .catch((error) => alert(this.MESSAGES.USER_GROUP_ADD_FAILED));
       }
     },
 
     // 사용자 그룹 정보 수정 (/modify)
     user_group_modify: function () {
       if (this.groupId === "") {
-        alert(ID_INPUT_MESSAGE);
+        alert(this.MESSAGES.ID_INPUT_MESSAGE);
       } else {
         axios
-          .post(USER_GROUP_MODIFY, {
+          .post(this.URLS.USER_GROUP_MODIFY, {
             groupId: this.groupId,
             groupDesc: this.groupDesc,
             roleId: this.roleId,
@@ -319,7 +301,9 @@ export default {
           .then(
             (response) =>
               alert(
-                response.data["groupId"] + " " + USER_GROUP_MODIFY_COMPLETE
+                response.data["groupId"] +
+                  " " +
+                  this.MESSAGES.USER_GROUP_MODIFY_COMPLETE
               ),
             (this.gridUpdate = true),
             (this.groupIdTemp = this.groupId),
@@ -327,17 +311,17 @@ export default {
             (this.groupId = ""),
             (this.groupDesc = "")
           )
-          .catch((error) => alert(USER_GROUP_MODIFY_FAILED));
+          .catch((error) => alert(this.MESSAGES.USER_GROUP_MODIFY_FAILED));
       }
     },
 
     // 사용자 그룹 삭제 (/delete)
     user_group_delete: function () {
       if (this.groupId === "") {
-        alert(ID_INPUT_MESSAGE);
+        alert(this.MESSAGES.ID_INPUT_MESSAGE);
       } else {
         axios
-          .post(USER_GROUP_DELETE, {
+          .post(this.URLS.USER_GROUP_DELETE, {
             groupId: this.groupId,
             groupDesc: this.groupDesc,
             roleId: this.roleId,
@@ -345,7 +329,9 @@ export default {
           .then(
             (response) =>
               alert(
-                response.data["groupId"] + " " + USER_GROUP_DELETE_COMPLETE
+                response.data["groupId"] +
+                  " " +
+                  this.MESSAGES.USER_GROUP_DELETE_COMPLETE
               ),
             (this.gridUpdate = true),
             (this.groupId = ""),
@@ -354,7 +340,7 @@ export default {
             (this.groupIdTemp = ""),
             (this.groupDescTemp = "")
           )
-          .catch((error) => alert(USER_GROUP_DELETE_FAILED));
+          .catch((error) => alert(this.MESSAGES.USER_GROUP_DELETE_FAILED));
       }
     },
 

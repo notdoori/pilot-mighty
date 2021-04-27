@@ -79,23 +79,8 @@ import axios from "axios";
 import authorityGrid from "@/views/system/GridAuthorityListNew";
 // import authorityGrid from "@/views/system/GridAuthorityList";
 import { BUS_AUTHORITY } from "@/etc/EventBus";
-
-const AUTHORITY_GROUP_ALL = "/api/auth/all";
-const AUTHORITY_GROUP_SEARCH = "/api/auth/search";
-const AUTHORITY_GROUP_ADD = "/api/auth/add";
-const AUTHORITY_GROUP_MODIFY = "/api/auth/modify";
-const AUTHORITY_GROUP_DELETE = "/api/auth/delete";
-
-// alert() 팝업 메시지 정보
-const NO_ID_MESSAGE = "아이디가 존재하지 않습니다.";
-const ID_INPUT_MESSAGE = "아이디를 입력하여 주십시오.";
-const AUTHORITY_GROUP_SEARCH_FAILED = "권한 그룹 정보 조회를 실패하였습니다.";
-const AUTHORITY_GROUP_ADD_COMPLETE = "권한 그룹 추가를 완료하였습니다.";
-const AUTHORITY_GROUP_ADD_FAILED = "권한 그룹 추가를 실패하였습니다.";
-const AUTHORITY_GROUP_MODIFY_COMPLETE = "권한 그룹 수정을 완료하였습니다.";
-const AUTHORITY_GROUP_MODIFY_FAILED = "권한 그룹 수정을 실패하였습니다.";
-const AUTHORITY_GROUP_DELETE_COMPLETE = "권한 그룹 삭제를 완료하였습니다.";
-const AUTHORITY_GROUP_DELETE_FAILED = "권한 그룹 삭제를 실패하였습니다.";
+import messages from "@/etc/constants-messages";
+import urls from "@/etc/constants-urls";
 
 export default {
   beforeCreate() {
@@ -165,6 +150,8 @@ export default {
   },
   data() {
     return {
+      MESSAGES: messages,
+      URLS: urls,
       searchQuery: "",
       gridData: [], // 모든 권한 그룹 데이터 정보 (SELECT)
       gridUpdate: false,
@@ -180,7 +167,7 @@ export default {
     // 모든 권한 그룹 리스트 조회 (/all)
     authority_refresh: function () {
       axios
-        .get(AUTHORITY_GROUP_ALL)
+        .get(this.URLS.AUTHORITY_GROUP_ALL)
         .then(
           (response) => (
             (this.gridData = null), (this.gridData = response.data)
@@ -191,27 +178,20 @@ export default {
 
     // 권한 그룹 정보 조회 (/search)
     authority_search: function (id, desc) {
-      // console.log("ID : " + id);
-      // console.log("DESC : " + desc);
-
-      if (id === "") {
-        alert(NO_ID_MESSAGE);
-      } else {
-        axios
-          .post(AUTHORITY_GROUP_SEARCH, {
-            roleId: id,
-            roleDesc: desc,
-          })
-          .then(
-            (response) => (
-              (this.roleId = response.data["roleId"]),
-              (this.roleDesc = response.data["roleDesc"]),
-              (this.roleIdTemp = response.data["roleId"]),
-              (this.roleDescTemp = response.data["roleDesc"])
-            )
+      axios
+        .post(this.URLS.AUTHORITY_GROUP_SEARCH, {
+          roleId: id,
+          roleDesc: desc,
+        })
+        .then(
+          (response) => (
+            (this.roleId = response.data["roleId"]),
+            (this.roleDesc = response.data["roleDesc"]),
+            (this.roleIdTemp = response.data["roleId"]),
+            (this.roleDescTemp = response.data["roleDesc"])
           )
-          .catch((error) => alert(AUTHORITY_GROUP_SEARCH_FAILED));
-      }
+        )
+        .catch((error) => alert(this.MESSAGES.AUTHORITY_GROUP_SEARCH_FAILED));
     },
 
     // 입력 정보 초기화
@@ -226,17 +206,19 @@ export default {
     // 권한 그룹 추가 (/add)
     authority_add: function () {
       if (this.roleId === "") {
-        alert(ID_INPUT_MESSAGE, "");
+        alert(this.MESSAGES.ID_INPUT_MESSAGE, "");
       } else {
         axios
-          .post(AUTHORITY_GROUP_ADD, {
+          .post(this.URLS.AUTHORITY_GROUP_ADD, {
             roleId: this.roleId,
             roleDesc: this.roleDesc,
           })
           .then(
             (response) =>
               alert(
-                response.data["roleId"] + " " + AUTHORITY_GROUP_ADD_COMPLETE
+                response.data["roleId"] +
+                  " " +
+                  this.MESSAGES.AUTHORITY_GROUP_ADD_COMPLETE
               ),
             ((this.gridUpdate = true),
             (this.roleId = ""),
@@ -244,24 +226,26 @@ export default {
             (this.roleIdTemp = ""),
             (this.roleDescTemp = ""))
           )
-          .catch((error) => alert(AUTHORITY_GROUP_ADD_FAILED));
+          .catch((error) => alert(this.MESSAGES.AUTHORITY_GROUP_ADD_FAILED));
       }
     },
 
     // 권한 그룹 정보 수정 (/modify)
     authority_modify: function () {
       if (this.roleId === "") {
-        alert(ID_INPUT_MESSAGE);
+        alert(this.MESSAGES.ID_INPUT_MESSAGE);
       } else {
         axios
-          .post(AUTHORITY_GROUP_MODIFY, {
+          .post(this.URLS.AUTHORITY_GROUP_MODIFY, {
             roleId: this.roleId,
             roleDesc: this.roleDesc,
           })
           .then(
             (response) =>
               alert(
-                response.data["roleId"] + " " + AUTHORITY_GROUP_MODIFY_COMPLETE
+                response.data["roleId"] +
+                  " " +
+                  this.MESSAGES.AUTHORITY_GROUP_MODIFY_COMPLETE
               ),
             ((this.gridUpdate = true),
             (this.roleIdTemp = this.roleId),
@@ -269,24 +253,26 @@ export default {
             (this.roleId = ""),
             (this.roleDesc = ""))
           )
-          .catch((error) => alert(AUTHORITY_GROUP_MODIFY_FAILED));
+          .catch((error) => alert(this.MESSAGES.AUTHORITY_GROUP_MODIFY_FAILED));
       }
     },
 
     // 권한 그룹 삭제 (/delete)
     authority_delete: function () {
       if (this.roleId === "") {
-        alert(ID_INPUT_MESSAGE);
+        alert(this.MESSAGES.ID_INPUT_MESSAGE);
       } else {
         axios
-          .post(AUTHORITY_GROUP_DELETE, {
+          .post(this.URLS.AUTHORITY_GROUP_DELETE, {
             roleId: this.roleId,
             roleDesc: this.roleDesc,
           })
           .then(
             (response) =>
               alert(
-                response.data["roleId"] + " " + AUTHORITY_GROUP_DELETE_COMPLETE
+                response.data["roleId"] +
+                  " " +
+                  this.MESSAGES.AUTHORITY_GROUP_DELETE_COMPLETE
               ),
             ((this.gridUpdate = true),
             (this.roleId = ""),
@@ -294,7 +280,7 @@ export default {
             (this.roleIdTemp = ""),
             (this.roleDescTemp = ""))
           )
-          .catch((error) => alert(AUTHORITY_GROUP_DELETE_FAILED));
+          .catch((error) => alert(this.MESSAGES.AUTHORITY_GROUP_DELETE_FAILED));
       }
     },
   },
