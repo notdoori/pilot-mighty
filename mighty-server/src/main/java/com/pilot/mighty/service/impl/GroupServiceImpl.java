@@ -77,21 +77,21 @@ public class GroupServiceImpl implements GroupService {
 	@Override
 	public void insertGroupInfoSwagger(String groupId, String groupDesc, String roleId) {
 		
-		// (Swagger 프로그램) 사용자 그룹 정보 추가 요청
+		// (Swagger 전용) 사용자 그룹 정보 추가 요청
 		groupInfoDao.insertGroupInfoSwagger(groupId, groupDesc, roleId);
 	}
 	
 	@Override
 	public void updateGroupInfoSwagger(String groupId, String groupDesc, String roleId) {
 		
-		// (Swagger 프로그램) 사용자 그룹 정보 수정 요청
+		// (Swagger 전용) 사용자 그룹 정보 수정 요청
 		groupInfoDao.updateGroupInfoSwagger(groupId, groupDesc, roleId);
 	}
 	
 	@Override
 	public void deleteGroupInfoSwagger(String groupId) {
 		
-		// (Swagger 프로그램) 사용자 그룹 정보 삭제 요청
+		// (Swagger 전용) 사용자 그룹 정보 삭제 요청
 		groupInfoDao.deleteGroupInfoSwagger(groupId);
 	}
 }
