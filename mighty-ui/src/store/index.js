@@ -30,7 +30,8 @@ export default new Vuex.Store({
     actRouteMove(context, targetRouteName) {
       if (router.currentRoute.name !== targetRouteName) {
         console.log('cur: ', router.currentRoute.name, ', target: ', targetRouteName);
-        router.push({name: targetRouteName});
+        // router.push({name: targetRouteName});
+        router.replace({ name: targetRouteName }, function () {}, function () {});
       }
     },
     actLogin({dispatch, commit}, payload) {
