@@ -183,6 +183,8 @@ export default {
       // console.log('clickTreeMenu id: ', item.id, ' name: ', item.name);
 
       if (item.id === "M0004") {
+
+        BUS_MENU.$off("clickTreeMenu");
         window.removeEventListener("unload", function (){});
         window.removeEventListener("beforeunload", function (){});
         
