@@ -40,7 +40,6 @@
                                         v-model="userId"
                                         :rules="[rules.required]"
                                         label="User ID"
-                                        @keyup="uppercase"
                                     >
                                     </v-text-field>
                                 </v-col>
@@ -113,18 +112,22 @@
                                     <v-select
                                         :items="itemsLangType"
                                         :rules="[rules.required]"
-                                        label="Language Type"
+                                        label="Language"
                                         v-model="langType"
+                                        item-value="value"
+                                        item-text="name"
                                     >
                                     </v-select>
                                 </v-col>
                                 <v-divider vertical></v-divider>
                                 <v-col>
                                     <v-select
-                                        :items="itemsYN"
+                                        :items="itemsUse"
                                         :rules="[rules.required]"
-                                        label="Use YN"
+                                        label="Use"
                                         v-model="use"
+                                        item-value="value"
+                                        item-text="name"
                                     >
                                     </v-select>
                                 </v-col>
@@ -136,6 +139,11 @@
             <v-row justify="center" class="common_button_bottom">
                 <v-col cols="auto">
                     <v-btn class="common_button_1" @click="clear">초기화</v-btn>
+                </v-col>
+                <v-col cols="auto">
+                    <v-btn class="common_search_button" @click="getUserAll"
+                        >조회</v-btn
+                    >
                 </v-col>
                 <v-spacer></v-spacer>
                 <v-col cols="auto">
@@ -210,8 +218,8 @@ export default {
             depart: null,
             userGroup: null,
             userGroupDesc: null,
-            langType: "KO",
-            use: "Y",
+            //langType: "KO",
+            //use: "Y",
             operator: null,
             showPass: false,
             rules: {
@@ -221,13 +229,25 @@ export default {
                     `The email and password you entered don't match`,
             },
             itemsUserGroup: [],
-            itemsLangType: ["KO", "EN", "CN"],
-            itemsYN: ["Y", "N"],
+            itemsLangType: [
+                { name: "한국어", value: "KO" },
+                { name: "영어", value: "EN" },
+                { name: "중국어", value: "CN" },
+            ],
+            itemsUse: [
+                { name: "사용", value: "Y" },
+                { name: "미사용", value: "N" },
+            ],
             srcTitleImage: require("@/assets/images/titleBullet1.png"),
         };
     },
     created() {
-        this.load();
+        console.log("Created");
+        this.operator = localStorage.getItem("user_id");
+        console.log("Logined User ID: ", this.operator);
+        this.getGroupAll();
+        this.getUserAll();
+
         BUS_USERS.$on("selectedRow", (value) => {
             this.userId = value["userId"];
             this.userName = value["userName"];
@@ -241,16 +261,12 @@ export default {
             console.log("value: ", value);
         });
     },
-    methods: {
-        load() {
-            this.operator = localStorage.getItem("user_id");
-            console.log("Logined User ID: ", this.operator);
-
-            this.getUserAll();
-            this.getGroupAll();
-
-            this.lan;
+    watch: {
+        userId: function() {
+          return this.userId = this.userId.toUpperCase();
         },
+    },
+    methods: {
         getUserAll: function () {
             axios
                 .get(this.URLS.USER_ALL)
@@ -275,7 +291,8 @@ export default {
         },
         clear: function () {
             this.$refs.form.reset();
-            this.load();
+            this.getGroupAll();
+            this.getUserAll();
         },
         checkRequired: function (mode) {
             if (mode === "D") {
@@ -318,10 +335,10 @@ export default {
                         email: this.email,
                         phone: this.phone,
                         depart: this.depart,
-                        userGroup: this.userGroup.value,
-                        langType: this.langType.value,
+                        userGroup: this.userGroup,
+                        langType: this.langType,
                         use: this.use,
-                        operator: this.operator.value,
+                        operator: this.operator,
                     })
                     .then((res) => {
                         console.log(res.data);
@@ -397,9 +414,6 @@ export default {
             } else {
                 return false;
             }
-        },
-        uppercase() {
-            this.userId = this.userId.toUpperCase();
         },
     },
     beforeDestroy() {
