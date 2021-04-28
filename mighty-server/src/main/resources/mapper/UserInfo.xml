@@ -4,15 +4,17 @@
  
  	<select id="selectUserInfoAll" resultType="com.pilot.mighty.model.UserInfo">
 		SELECT ROWNUM AS NO, T.*
-		  FROM (SELECT USER_ID			AS USERID,
-		               USER_NAME     	AS USERNAME,
-		               EMAIL			AS EMAIL,
-		               PHONE			AS PHONE,
-		               DEPARTMENT    	AS DEPART,
-		               USER_GROUP_ID 	AS USERGROUP,
-		               LANGUAGE_TYPE 	AS LANGTYPE,
-		               USE_YN			AS USE
-		          FROM ADM_USER_INFO
+		  FROM (SELECT U.USER_ID			AS USERID,
+		               U.USER_NAME     		AS USERNAME,
+		               U.EMAIL				AS EMAIL,
+		               U.PHONE				AS PHONE,
+		               U.DEPARTMENT    		AS DEPART,
+		               U.USER_GROUP_ID 		AS USERGROUP,
+		               G.GROUP_DESC 		AS USERGROUPDESC,
+		               U.LANGUAGE_TYPE 		AS LANGTYPE,
+		               U.USE_YN				AS USE
+		          FROM ADM_USER_INFO U, ADM_GROUP_INFO G
+		         WHERE U.USER_GROUP_ID = G.GROUP_ID
 		         ORDER BY USER_ID) T
 	</select>
 	

@@ -9,13 +9,14 @@ public class UserInfo {
 	private String phone;
 	private String depart;
 	private String userGroup;
+	private String userGroupDesc;
 	private String langType;
 	private String use;
 	
 	public UserInfo() {}	
 	
 	public UserInfo(int no, String userId, String userName, String email, String phone, String depart,
-			String userGroup, String langType, String use) {
+			String userGroup, String userGroupDesc, String langType, String use) {
 		super();
 		this.no = no;
 		this.userId = userId;
@@ -24,6 +25,7 @@ public class UserInfo {
 		this.phone = phone;
 		this.depart = depart;
 		this.userGroup = userGroup;
+		this.userGroupDesc = userGroupDesc;
 		this.langType = langType;
 		this.use = use;
 	}
@@ -82,6 +84,14 @@ public class UserInfo {
 
 	public void setUserGroup(String userGroup) {
 		this.userGroup = userGroup;
+	}
+
+	public String getUserGroupDesc() {
+		return userGroupDesc;
+	}
+
+	public void setUserGroupDesc(String userGroupDesc) {
+		this.userGroupDesc = userGroupDesc;
 	}
 
 	public String getLangType() {
