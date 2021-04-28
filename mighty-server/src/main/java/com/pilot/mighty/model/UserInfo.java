@@ -5,7 +5,7 @@ public class UserInfo {
 	private int no;
 	private String userId;
 	private String userName;
-	private String eMail;
+	private String email;
 	private String phone;
 	private String depart;
 	private String userGroup;
@@ -14,13 +14,13 @@ public class UserInfo {
 	
 	public UserInfo() {}	
 	
-	public UserInfo(int no, String userId, String userName, String eMail, String phone, String depart,
+	public UserInfo(int no, String userId, String userName, String email, String phone, String depart,
 			String userGroup, String langType, String use) {
 		super();
 		this.no = no;
 		this.userId = userId;
 		this.userName = userName;
-		this.eMail = eMail;
+		this.email = email;
 		this.phone = phone;
 		this.depart = depart;
 		this.userGroup = userGroup;
@@ -52,12 +52,12 @@ public class UserInfo {
 		this.userName = userName;
 	}
 
-	public String geteMail() {
-		return eMail;
+	public String getEmail() {
+		return email;
 	}
 
-	public void seteMail(String eMail) {
-		this.eMail = eMail;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getPhone() {

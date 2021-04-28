@@ -111,6 +111,10 @@
     font-size: small;
 }
 
+.v-data-table {
+    padding: 0px 20px;
+}
+
 .v-data-table-header th {
     white-space: nowrap;
   }

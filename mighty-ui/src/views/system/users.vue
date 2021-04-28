@@ -68,7 +68,7 @@
                 </v-col>
                 <v-divider vertical></v-divider>
                 <v-col>
-                  <v-text-field v-model="eMail" label="E-Mail"> </v-text-field>
+                  <v-text-field v-model="email" label="E-Mail"> </v-text-field>
                 </v-col>
               </v-row>
               <v-row>
@@ -136,6 +136,40 @@
           <v-btn class="common_default_button" @click="user_delete">삭제</v-btn>
         </v-col>
       </v-row>
+      <v-dialog
+        v-model="dialog"
+        max-width="290"
+      >
+        <v-card>
+          <v-card-title class="headline">
+            사용자 정보 수정
+          </v-card-title>
+  
+          <v-card-text>
+            수정하시겠습니까?
+          </v-card-text>
+  
+          <v-card-actions>
+            <v-spacer></v-spacer>
+  
+            <v-btn
+              color="green darken-1"
+              text
+              @click="dialog = false"
+            >
+              Cancel
+            </v-btn>
+  
+            <v-btn
+              color="green darken-1"
+              text
+              @click="user_modify"
+            >
+              OK
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </v-container>
   </v-app>
 </template>
@@ -155,13 +189,14 @@ export default {
   },
   data() {
     return {
+      dialog: false,
       MESSAGES: messages,
       URLS: urls,
       userData: [],
       userId: null,
       password: null,
       userName: null,
-      eMail: null,
+      email: null,
       phone: null,
       depart: null,
       userGroup: null,
@@ -172,7 +207,7 @@ export default {
       rules: {
         required: (value) => !!value || "Required.",
         min: (v) => v.length >= 8 || "Min 8 characters",
-        eMailMatch: () => `The email and password you entered don't match`,
+        emailMatch: () => `The email and password you entered don't match`,
       },
       itemsUserGroup: [],
       itemsLangType: ["KO", "EN", "CN"],
@@ -185,7 +220,7 @@ export default {
     BUS_USERS.$on("selectedRow", (value) => {
       this.userId = value["userId"];
       this.userName = value["userName"];
-      this.eMail = value["eMail"];
+      this.email = value["email"];
       this.phone = value["phone"];
       this.depart = value["depart"];
       this.userGroup = value["userGroup"];
@@ -201,6 +236,8 @@ export default {
 
       this.getUserAll();
       this.getGroupAll();
+
+      this.lan
     },
     getUserAll: function () {
       axios
@@ -270,7 +307,7 @@ export default {
             userId: this.userId,
             password: this.password,
             userName: this.userName,
-            eMail: this.eMail,
+            email: this.email,
             phone: this.phone,
             depart: this.depart,
             userGroup: this.userGroup,
@@ -279,10 +316,9 @@ export default {
             operator: this.operator,
           })
           .then((res) => {
-            console.log(res.data),
-              alert(this.MESSAGES.USER_REGIST_COMPLETE),
-              this.clear(),
-              this.load();
+            console.log(res.data);
+            alert(this.MESSAGES.USER_REGIST_COMPLETE);
+            this.clear();
           })
           .catch((error) => {
             console.log(error), alert(this.MESSAGES.USER_REGIST_FAILED);
@@ -298,7 +334,7 @@ export default {
             userId: this.userId,
             password: this.password,
             userName: this.userName,
-            eMail: this.eMail,
+            email: this.email,
             phone: this.phone,
             depart: this.depart,
             userGroup: this.userGroup,
@@ -307,10 +343,9 @@ export default {
             operator: this.operator,
           })
           .then((res) => {
-            console.log(res.data),
-              alert(this.MESSAGES.USER_MODIFY_COMPLETE),
-              this.clear(),
-              this.load();
+            console.log(res.data);
+            alert(this.MESSAGES.USER_MODIFY_COMPLETE);
+            this.clear();
           })
           .catch((error) => {
             alert(this.MESSAGES.USER_MODIFY_FAILED);
@@ -326,10 +361,9 @@ export default {
             userId: this.userId,
           })
           .then((res) => {
-            console.log(res.data),
-              alert(this.MESSAGES.USER_DELETE_COMPLETE),
-              this.clear(),
-              this.load();
+            console.log(res.data);
+            alert(this.MESSAGES.USER_DELETE_COMPLETE);
+            this.clear();
           })
           .catch((error) => {
             console.log(error.data), alert(this.MESSAGES.USER_DELETE_FAILED);

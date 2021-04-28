@@ -41,7 +41,7 @@ export default {
                 },
                 { text: "User ID", value: "userId", width: "120px", fixed: true },
                 { text: "User Name", value: "userName", width: "140px", fixed: true },
-                { text: "E-Mail", value: "eMail", width: "150px" },
+                { text: "E-Mail", value: "email", width: "150px" },
                 { text: "Phone", value: "phone", width: "150px" },
                 { text: "Department", value: "depart", width: "120px" },
                 { text: "User Group", value: "userGroup", width: "200px" },
