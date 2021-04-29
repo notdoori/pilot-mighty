@@ -90,7 +90,7 @@ const multiLanguageSet = () => {
 }
 
 const getLangText = (keyword) => {
-    console.log("langText[keyword] : " + langText[keyword])
+    // console.log("langText[keyword] : " + langText[keyword])
     return langText[keyword];
 }
 
