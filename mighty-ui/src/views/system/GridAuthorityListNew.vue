@@ -14,6 +14,7 @@
       :items="data"
       :search="search"
       :items-per-page="5"
+      :page.sync="page"
       @click:row="doMouseClick"
       class="common_grid_row_pointer"
     ></v-data-table>
@@ -24,6 +25,13 @@
 import { BUS_AUTHORITY } from "@/etc/EventBus";
 
 export default {
+  created() {
+    BUS_AUTHORITY.$on("searchClear", (value) => {
+      console.log(value);
+      this.search = value;
+      this.page = 1;
+    });
+  },
   props: {
     data: Array,
   },
@@ -52,6 +60,7 @@ export default {
           fixed: true,
         },
       ],
+      page: 1,
     };
   },
   methods: {

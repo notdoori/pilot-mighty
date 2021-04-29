@@ -172,7 +172,6 @@ export default {
     return {
       MESSAGES: messages,
       URLS: urls,
-      searchQuery: "",
       gridData: [], // 모든 사용자 그룹 데이터 정보 (SELECT)
       gridUpdate: false,
       groupId: "", // 사용자 그룹 아이디 (NOT NULL)
@@ -248,14 +247,19 @@ export default {
         .catch((error) => alert(this.MESSAGES.USER_GROUP_SEARCH_FAILED));
     },
 
+    // Search 정보 초기화
+    doSearchClear: function () {
+      BUS_GROUPS.$emit("searchClear", "");
+    },
+
     // 입력 정보 초기화
     clear: function () {
-      (this.searchQuery = ""),
-        (this.groupId = ""),
-        (this.groupDesc = ""),
-        (this.roleId = ""),
-        (this.groupIdTemp = ""),
-        (this.groupDescTemp = "");
+      this.doSearchClear();
+      this.groupId = "";
+      this.groupDesc = "";
+      this.roleId = "";
+      this.groupIdTemp = "";
+      this.groupDescTemp = "";
     },
 
     // 사용자 그룹 추가 (/add)

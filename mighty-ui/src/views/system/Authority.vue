@@ -152,7 +152,6 @@ export default {
     return {
       MESSAGES: messages,
       URLS: urls,
-      searchQuery: "",
       gridData: [], // 모든 권한 그룹 데이터 정보 (SELECT)
       gridUpdate: false,
       roleId: "", // 권한 그룹 아이디 (NOT NULL)
@@ -194,13 +193,18 @@ export default {
         .catch((error) => alert(this.MESSAGES.AUTHORITY_GROUP_SEARCH_FAILED));
     },
 
+    // Search 정보 초기화
+    doSearchClear: function () {
+      BUS_AUTHORITY.$emit("searchClear", "");
+    },
+
     // 입력 정보 초기화
     clear: function () {
-      (this.searchQuery = ""),
-        (this.roleId = ""),
-        (this.roleDesc = ""),
-        (this.roleIdTemp = ""),
-        (this.roleDescTemp = "");
+      this.doSearchClear();
+      this.roleId = "";
+      this.roleDesc = "";
+      this.roleIdTemp = "";
+      this.roleDescTemp = "";
     },
 
     // 권한 그룹 추가 (/add)
