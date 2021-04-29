@@ -218,25 +218,25 @@ export default {
             depart: null,
             userGroup: null,
             userGroupDesc: null,
-            //langType: "KO",
-            //use: "Y",
+            langType: 'KO',
+            use: 'Y',
             operator: null,
             showPass: false,
             rules: {
-                required: (value) => !!value || "Required.",
-                min: (v) => v.length >= 8 || "Min 8 characters",
+                required: (value) => !!value || 'Required.',
+                min: (v) => v.length >= 8 || 'Min 8 characters',
                 emailMatch: () =>
                     `The email and password you entered don't match`,
             },
             itemsUserGroup: [],
             itemsLangType: [
-                { name: "한국어", value: "KO" },
-                { name: "영어", value: "EN" },
-                { name: "중국어", value: "CN" },
+                { name: '한국어', value: 'KO' },
+                { name: '영어', value: 'EN' },
+                { name: '중국어', value: 'CN' },
             ],
             itemsUse: [
-                { name: "사용", value: "Y" },
-                { name: "미사용", value: "N" },
+                { name: '사용', value: 'Y' },
+                { name: '미사용', value: 'N' },
             ],
             srcTitleImage: require("@/assets/images/titleBullet1.png"),
         };
@@ -263,7 +263,8 @@ export default {
     },
     watch: {
         userId: function() {
-          return this.userId = this.userId.toUpperCase();
+            console.log("uppercase value", this.userId);
+            return this.userId = this.isEmpty(this.userId) ? null : this.userId.toUpperCase();
         },
     },
     methods: {
@@ -291,8 +292,15 @@ export default {
         },
         clear: function () {
             this.$refs.form.reset();
+            this.langType = 'KO';
+            this.use = 'Y';
+            this.doSearchClear();
             this.getGroupAll();
             this.getUserAll();
+        },
+        // Search 정보 초기화
+        doSearchClear: function () {
+            BUS_USERS.$emit("searchClear", "");
         },
         checkRequired: function (mode) {
             if (mode === "D") {
