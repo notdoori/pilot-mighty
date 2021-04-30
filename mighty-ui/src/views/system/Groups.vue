@@ -64,6 +64,9 @@
         <v-col cols="auto">
           <v-btn class="common_button_1" @click="clear">초기화</v-btn>
         </v-col>
+        <v-btn class="common_search_button" @click="group_refresh">
+          조회
+        </v-btn>
         <v-spacer></v-spacer>
         <v-col cols="auto">
           <v-btn class="common_default_button" @click="user_group_add">
