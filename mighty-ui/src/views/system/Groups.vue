@@ -146,18 +146,6 @@ export default {
   updated() {
     /* updated 훅은 가상 DOM 이 재렌더링 되어 실제 DOM 이 되었을 때 호출된다. */
     // alert("updated() 호출");
-
-    if (this.gridUpdate === true) {
-      this.gridUpdate = false;
-      this.groupId = this.groupIdTemp;
-      this.groupDesc = this.groupDescTemp;
-
-      // 모든 사용자 그룹 리스트 조회
-      this.group_refresh();
-
-      // 모든 권한 그룹 ID 리스트 조회
-      this.authority_refresh();
-    }
   },
   beforeDestroy() {
     /* beforeDestroy 훅은 Vue 인스턴스가 제거되기 전에 호출되는 훅이다. */
@@ -176,7 +164,6 @@ export default {
       MESSAGES: messages,
       URLS: urls,
       gridData: [], // 모든 사용자 그룹 데이터 정보 (SELECT)
-      gridUpdate: false,
       groupId: "", // 사용자 그룹 아이디 (NOT NULL)
       groupDesc: "", // 사용자 그룹 설명 (NULL)
       roleId: "",
@@ -258,11 +245,18 @@ export default {
     // 입력 정보 초기화
     clear: function () {
       this.doSearchClear();
+
       this.groupId = "";
       this.groupDesc = "";
       this.roleId = "";
       this.groupIdTemp = "";
       this.groupDescTemp = "";
+
+      // 모든 사용자 그룹 리스트 조회
+      this.group_refresh();
+
+      // 모든 권한 그룹 ID 리스트 조회
+      this.authority_refresh();
     },
 
     // 사용자 그룹 추가 (/add)
@@ -276,20 +270,15 @@ export default {
             groupDesc: this.groupDesc,
             roleId: this.roleId,
           })
-          .then(
-            (response) =>
-              alert(
-                response.data["groupId"] +
-                  " " +
-                  this.MESSAGES.USER_GROUP_ADD_COMPLETE
-              ),
-            ((this.gridUpdate = true),
-            (this.groupId = ""),
-            (this.groupDesc = ""),
-            (this.roleId = ""),
-            (this.groupIdTemp = ""),
-            (this.groupDescTemp = ""))
-          )
+          .then((response) => {
+            alert(
+              response.data["groupId"] +
+                " " +
+                this.MESSAGES.USER_GROUP_ADD_COMPLETE
+            );
+
+            this.clear();
+          })
           .catch((error) => alert(this.MESSAGES.USER_GROUP_ADD_FAILED));
       }
     },
@@ -305,19 +294,15 @@ export default {
             groupDesc: this.groupDesc,
             roleId: this.roleId,
           })
-          .then(
-            (response) =>
-              alert(
-                response.data["groupId"] +
-                  " " +
-                  this.MESSAGES.USER_GROUP_MODIFY_COMPLETE
-              ),
-            (this.gridUpdate = true),
-            (this.groupIdTemp = this.groupId),
-            (this.groupDescTemp = this.groupDesc),
-            (this.groupId = ""),
-            (this.groupDesc = "")
-          )
+          .then((response) => {
+            alert(
+              response.data["groupId"] +
+                " " +
+                this.MESSAGES.USER_GROUP_MODIFY_COMPLETE
+            );
+
+            this.clear();
+          })
           .catch((error) => alert(this.MESSAGES.USER_GROUP_MODIFY_FAILED));
       }
     },
@@ -333,20 +318,15 @@ export default {
             groupDesc: this.groupDesc,
             roleId: this.roleId,
           })
-          .then(
-            (response) =>
-              alert(
-                response.data["groupId"] +
-                  " " +
-                  this.MESSAGES.USER_GROUP_DELETE_COMPLETE
-              ),
-            (this.gridUpdate = true),
-            (this.groupId = ""),
-            (this.roleId = ""),
-            (this.groupDesc = ""),
-            (this.groupIdTemp = ""),
-            (this.groupDescTemp = "")
-          )
+          .then((response) => {
+            alert(
+              response.data["groupId"] +
+                " " +
+                this.MESSAGES.USER_GROUP_DELETE_COMPLETE
+            );
+
+            this.clear();
+          })
           .catch((error) => alert(this.MESSAGES.USER_GROUP_DELETE_FAILED));
       }
     },

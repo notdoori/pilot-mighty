@@ -133,13 +133,6 @@ export default {
   updated() {
     /* updated 훅은 가상 DOM 이 재렌더링 되어 실제 DOM 이 되었을 때 호출된다. */
     // alert("updated() 호출");
-
-    if (this.gridUpdate === true) {
-      this.gridUpdate = false;
-      this.roleId = this.roleIdTemp;
-      this.roleDesc = this.roleDescTemp;
-      this.authority_refresh();
-    }
   },
   beforeDestroy() {
     /* beforeDestroy 훅은 Vue 인스턴스가 제거되기 전에 호출되는 훅이다. */
@@ -158,7 +151,6 @@ export default {
       MESSAGES: messages,
       URLS: urls,
       gridData: [], // 모든 권한 그룹 데이터 정보 (SELECT)
-      gridUpdate: false,
       roleId: "", // 권한 그룹 아이디 (NOT NULL)
       roleDesc: "", // 권한 그룹 설명 (NULL)
       roleIdTemp: "", // 임시 권한 그룹 아이디
@@ -206,10 +198,14 @@ export default {
     // 입력 정보 초기화
     clear: function () {
       this.doSearchClear();
+
       this.roleId = "";
       this.roleDesc = "";
       this.roleIdTemp = "";
       this.roleDescTemp = "";
+
+      // 모든 권한 그룹 리스트 조회
+      this.authority_refresh();
     },
 
     // 권한 그룹 추가 (/add)
@@ -222,19 +218,15 @@ export default {
             roleId: this.roleId,
             roleDesc: this.roleDesc,
           })
-          .then(
-            (response) =>
-              alert(
-                response.data["roleId"] +
-                  " " +
-                  this.MESSAGES.AUTHORITY_GROUP_ADD_COMPLETE
-              ),
-            ((this.gridUpdate = true),
-            (this.roleId = ""),
-            (this.roleDesc = ""),
-            (this.roleIdTemp = ""),
-            (this.roleDescTemp = ""))
-          )
+          .then((response) => {
+            alert(
+              response.data["roleId"] +
+                " " +
+                this.MESSAGES.AUTHORITY_GROUP_ADD_COMPLETE
+            );
+
+            this.clear();
+          })
           .catch((error) => alert(this.MESSAGES.AUTHORITY_GROUP_ADD_FAILED));
       }
     },
@@ -249,19 +241,15 @@ export default {
             roleId: this.roleId,
             roleDesc: this.roleDesc,
           })
-          .then(
-            (response) =>
-              alert(
-                response.data["roleId"] +
-                  " " +
-                  this.MESSAGES.AUTHORITY_GROUP_MODIFY_COMPLETE
-              ),
-            ((this.gridUpdate = true),
-            (this.roleIdTemp = this.roleId),
-            (this.roleDescTemp = this.roleDesc),
-            (this.roleId = ""),
-            (this.roleDesc = ""))
-          )
+          .then((response) => {
+            alert(
+              response.data["roleId"] +
+                " " +
+                this.MESSAGES.AUTHORITY_GROUP_MODIFY_COMPLETE
+            );
+
+            this.clear();
+          })
           .catch((error) => alert(this.MESSAGES.AUTHORITY_GROUP_MODIFY_FAILED));
       }
     },
@@ -276,19 +264,15 @@ export default {
             roleId: this.roleId,
             roleDesc: this.roleDesc,
           })
-          .then(
-            (response) =>
-              alert(
-                response.data["roleId"] +
-                  " " +
-                  this.MESSAGES.AUTHORITY_GROUP_DELETE_COMPLETE
-              ),
-            ((this.gridUpdate = true),
-            (this.roleId = ""),
-            (this.roleDesc = ""),
-            (this.roleIdTemp = ""),
-            (this.roleDescTemp = ""))
-          )
+          .then((response) => {
+            alert(
+              response.data["roleId"] +
+                " " +
+                this.MESSAGES.AUTHORITY_GROUP_DELETE_COMPLETE
+            );
+
+            this.clear();
+          })
           .catch((error) => alert(this.MESSAGES.AUTHORITY_GROUP_DELETE_FAILED));
       }
     },
