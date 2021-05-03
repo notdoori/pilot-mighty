@@ -6,8 +6,8 @@ import Main from '@/views/Main'
 import users from '@/views/system/users';
 import Groups from '@/views/system/Groups';
 import Authority from '@/views/system/Authority';
-import Inquiry1 from '@/views/Inquiry/Inquiry1';
-import Inquiry2 from '@/views/Inquiry/Inquiry2';
+import SysCode from '@/views/phase2/SysCode';
+import MultiLang from '@/views/phase2/MultiLang';
 
 Vue.use(VueRouter)
 
@@ -35,8 +35,8 @@ const routes = [{
             { path: 'M0001', name: 'M0001', component: Authority },
             { path: 'M0002', name: 'M0002', component: Groups },
             { path: 'M0003', name: 'M0003', component: users },
-            { path: 'M0021', name: 'M0021', component: Inquiry1 },
-            { path: 'M0022', name: 'M0022', component: Inquiry2 }
+            { path: 'M0021', name: 'M0021', component: SysCode },
+            { path: 'M0022', name: 'M0022', component: MultiLang }
         ]
     },
 

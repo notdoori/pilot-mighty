@@ -208,7 +208,13 @@ export default {
           { id: "M0004", name: "로그 아웃", children: [] },
         ],
       },
-      { id: "K0002", name: "INQUIRY", children: [] },
+      { id: "K0002", 
+        name: "PHASE2", 
+        children: [
+          { id: "M0021", name: "시스템 코드 관리", children: [] },
+          { id: "M0022", name: "다국어 관리", children: [] },
+        ]
+      },
     ];
     let userId = localStorage.getItem("user_id");
     let url = "/api/menu/structurebyid?userId=" + `${userId}` + '&System=ADMIN';
