@@ -52,7 +52,7 @@
                                         :append-icon="
                                             showPass ? 'mdi-eye' : 'mdi-eye-off'
                                         "
-                                        :rules="[rules.required, rules.nonSpace]"
+                                        :rules="[rules.nonSpace]"
                                         :type="showPass ? 'text' : 'password'"
                                         label="Password"
                                         @click:append="showPass = !showPass"
@@ -73,6 +73,7 @@
                                 <v-col>
                                     <v-text-field
                                         v-model="email"
+                                        :rules="[rules.emailRules]"
                                         label="E-Mail"
                                     >
                                     </v-text-field>
@@ -230,8 +231,8 @@ export default {
             rules: {
                 required: (value) => !!value || '필수항목을 입력하세요.',
                 min: (v) => v.length >= 8 || 'Min 8 characters',
-                /*emailRules: v => /^(([^<>()[\]\\.,;:\s@']+(\.[^<>()\\[\]\\.,;:\s@']+)*)|('.+'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(v)
-                    || '올바른 E-mail 형식이 아닙니다.',*/
+                emailRules: v => /^(([^<>()[\]\\.,;:\s@']+(\.[^<>()\\[\]\\.,;:\s@']+)*)|('.+'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(v)
+                    || '올바른 E-mail 형식이 아닙니다.',
                 nonSpace: v => (v || '').indexOf(' ') < 0 || '공백을 허용하지 않습니다.',
             },
             itemsUserGroup: [],
