@@ -27,7 +27,7 @@ import { BUS_USERS } from "@/etc/EventBus";
 export default {
     created() {
         BUS_USERS.$on("searchClear", (value) => {
-            console.log(value);
+            console.log("EventBus 초기화: ", value);
             this.search = value;
             this.page = 1;
         });

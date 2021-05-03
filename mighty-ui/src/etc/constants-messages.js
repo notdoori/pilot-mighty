@@ -13,6 +13,7 @@ export default Object.freeze({
     USERGROUP_SELECT_MESSAGE: "사용자 그룹을 선택하세요.",
     LANGTYPE_SELECT_MESSAGE: "언어를 선택하세요.",
     USE_SELECT_MESSAGE: "사용여부를 선택하세요.",
+    VALIDATION_FAILED: "필요사항을 충족하지 못했습니다.",
 
     // 권한 그룹 관리
     AUTHORITY_GROUP_SEARCH_FAILED: "권한 그룹 정보 조회를 실패하였습니다.",

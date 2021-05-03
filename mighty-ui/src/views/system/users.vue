@@ -38,7 +38,8 @@
                                 <v-col>
                                     <v-text-field
                                         v-model="userId"
-                                        :rules="[rules.required]"
+                                        :disabled="isUpdate"
+                                        :rules="[rules.required, rules.nonSpace]"
                                         label="User ID"
                                     >
                                     </v-text-field>
@@ -47,10 +48,11 @@
                                 <v-col>
                                     <v-text-field
                                         v-model="password"
+                                        :disabled="isUpdate"
                                         :append-icon="
                                             showPass ? 'mdi-eye' : 'mdi-eye-off'
                                         "
-                                        :rules="[rules.required]"
+                                        :rules="[rules.required, rules.nonSpace]"
                                         :type="showPass ? 'text' : 'password'"
                                         label="Password"
                                         @click:append="showPass = !showPass"
@@ -62,7 +64,7 @@
                                 <v-col>
                                     <v-text-field
                                         v-model="userName"
-                                        :rules="[rules.required]"
+                                        :rules="[rules.required, rules.nonSpace]"
                                         label="User Name"
                                     >
                                     </v-text-field>
@@ -80,6 +82,7 @@
                                 <v-col>
                                     <v-text-field
                                         v-model="phone"
+                                        :rules="[rules.nonSpace]"
                                         label="Phone Number"
                                     >
                                     </v-text-field>
@@ -147,17 +150,17 @@
                 </v-col>
                 <v-spacer></v-spacer>
                 <v-col cols="auto">
-                    <v-btn class="common_default_button" @click="user_regist"
+                    <v-btn class="common_default_button" :disabled="isUpdate" @click="user_regist"
                         >입력</v-btn
                     >
                 </v-col>
                 <v-col cols="auto">
-                    <v-btn class="common_default_button" @click="user_modify"
+                    <v-btn class="common_default_button" :disabled="isCreate" @click="user_modify"
                         >수정</v-btn
                     >
                 </v-col>
                 <v-col cols="auto">
-                    <v-btn class="common_default_button" @click="user_delete"
+                    <v-btn class="common_default_button" :disabled="isCreate" @click="user_delete"
                         >삭제</v-btn
                     >
                 </v-col>
@@ -206,6 +209,8 @@ export default {
     },
     data() {
         return {
+            isCreate: true,
+            isUpdate: false,
             dialog: false,
             MESSAGES: messages,
             URLS: urls,
@@ -218,15 +223,16 @@ export default {
             depart: null,
             userGroup: null,
             userGroupDesc: null,
-            langType: 'KO',
-            use: 'Y',
+            langType: "KO",
+            use: "Y",
             operator: null,
             showPass: false,
             rules: {
-                required: (value) => !!value || 'Required.',
+                required: (value) => !!value || '필수항목을 입력하세요.',
                 min: (v) => v.length >= 8 || 'Min 8 characters',
-                emailMatch: () =>
-                    `The email and password you entered don't match`,
+                /*emailRules: v => /^(([^<>()[\]\\.,;:\s@']+(\.[^<>()\\[\]\\.,;:\s@']+)*)|('.+'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(v)
+                    || '올바른 E-mail 형식이 아닙니다.',*/
+                nonSpace: v => (v || '').indexOf(' ') < 0 || '공백을 허용하지 않습니다.',
             },
             itemsUserGroup: [],
             itemsLangType: [
@@ -259,6 +265,8 @@ export default {
             this.langType = value["langType"];
             this.use = value["use"];
             console.log("value: ", value);
+            this.isCreate = false;
+            this.isUpdate = true;
         });
     },
     watch: {
@@ -266,6 +274,13 @@ export default {
             console.log("uppercase value", this.userId);
             return this.userId = this.isEmpty(this.userId) ? null : this.userId.toUpperCase();
         },
+
+    },
+    beforeUpdate() {
+        console.log("beforeUpdate...");
+    },
+    updated() {
+        console.log("updated...");
     },
     methods: {
         getUserAll: function () {
@@ -291,12 +306,21 @@ export default {
                 });
         },
         clear: function () {
-            this.$refs.form.reset();
+            this.$refs.form.resetValidation();
+            this.userId = null;
+            this.password = null;
+            this.userName = null;
+            this.email = null;
+            this.phone = null;
+            this.depart = null;
+            this.userGroup = null;
             this.langType = 'KO';
             this.use = 'Y';
             this.doSearchClear();
             this.getGroupAll();
             this.getUserAll();
+            this.isCreate = true;
+            this.isUpdate = false;
         },
         // Search 정보 초기화
         doSearchClear: function () {
@@ -328,6 +352,10 @@ export default {
                     alert(this.MESSAGES.USE_SELECT_MESSAGE);
                     return false;
                 }
+                if (!this.$refs.form.validate()) {
+                alert(this.MESSAGES.VALIDATION_FAILED);
+                return false;
+            }
             }
             return true;
         },
