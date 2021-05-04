@@ -247,18 +247,13 @@ export default {
     // 입력 정보 초기화
     clear: function () {
       this.doSearchClear();
-
+      this.group_refresh();
+      this.authority_refresh();
       this.groupId = "";
       this.groupDesc = "";
       this.roleId = "";
       this.groupIdTemp = "";
       this.groupDescTemp = "";
-
-      // 모든 사용자 그룹 리스트 조회
-      this.group_refresh();
-
-      // 모든 권한 그룹 ID 리스트 조회
-      this.authority_refresh();
     },
 
     // 사용자 그룹 추가 (/add)
