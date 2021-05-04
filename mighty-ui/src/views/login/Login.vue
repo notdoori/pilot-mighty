@@ -1,17 +1,25 @@
 <template>
-  <div class="login">
+  <div>
     <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
     <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
-    <v-app id="inspire">
+    <v-app class="login" id="inspire">
       <v-main>
         <v-container class="fill-height" fluid>
-          <v-row align="center" justify="center" >
-            <v-col cols="12" sm="8" md="4" >
+          <v-row align="center" justify="center">
+            <v-col cols="12" sm="8" md="4">
+              <v-layout column align-center justify-center class="darkblue--text" fill-height>
+                <img
+                  :src="srcTitleImage"
+                  height="200px"
+                >
+                <h1 class="title">기준정보 시스템</h1>
+                <p class="desc">웹기반 기준정보 시스템 구축 프로젝트 Phase-2</p>
+              </v-layout>
               <v-card class="elevation-12">
-                <v-toolbar color="primary" dark flat >
-                  <v-toolbar-title>Mighty Login </v-toolbar-title>
+                <!--<v-toolbar color="primary" dark flat >
+                  <v-toolbar-title>Login</v-toolbar-title>
                   <v-spacer></v-spacer>
-                </v-toolbar>
+                </v-toolbar>-->
                 <v-card-text>
                   <v-form>
                     <v-text-field
@@ -20,6 +28,7 @@
                       prepend-icon="mdi-account"
                       type="text"
                       v-model="userId"
+                      tabindex="1"
                     ></v-text-field>
   
                     <v-text-field
@@ -28,13 +37,24 @@
                       prepend-icon="mdi-lock"
                       type="password"
                       v-model="password"
+                      @keyup.enter="Login"
+                      tabindex="2"
                     ></v-text-field>
                   </v-form>
                 </v-card-text>
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <!-- <v-btn color="primary" @click="actLogin({userId:userId, password:password})">Login</v-btn> -->
-                  <v-btn color="primary" @click="Login">Login</v-btn>
+                  <v-btn
+                    x-large
+                    rounded
+                    color="primary"
+                    dark
+                    min-width="100%"
+                    @keyup.enter="Login"
+                    @click="Login"
+                    tabindex="3"
+                  >LOGIN</v-btn>
                 </v-card-actions>
               </v-card>
             </v-col>
@@ -88,7 +108,8 @@ export default {
   data() {
     return {
       userId: null,
-      password: null
+      password: null,
+      srcTitleImage: require("@/assets/images/mighty.png"),
     }
   },
   watch: {
@@ -102,3 +123,10 @@ export default {
   // }),
 }
 </script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+.login { background-color: #f5f5f5; }
+.title { padding-top: 50px; }
+.desc { padding-top: 20px; }
+</style>
