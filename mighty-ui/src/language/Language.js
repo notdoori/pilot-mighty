@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const LANGUAGE_PATH = "/api/language/search";
-const LANGAUGE_CODE = "VN";
+const LANGAUGE_CODE = "KO";
 
 // // ========== (Common) ========== //
 // const COMMON_ID = "COMMON_ID"; // 아이디
@@ -85,8 +85,7 @@ const LANGAUGE_CODE = "VN";
 
 const LANG_KEYWORD = {
     // ========== (Common) ========== //
-    COMMON_ID: "COMMON_ID", // 아이디
-    COMMON_DESCRIPTION: "COMMON_DESCRIPTION", // 설명
+    COMMON_SEARCH: "COMMON_SEARCH", // 조회
     COMMON_RESET: "COMMON_RESET", // 초기화
     COMMON_ADD: "COMMON_ADD", // 추가
     COMMON_MODIFY: "COMMON_MODIFY", // 수정
@@ -94,7 +93,7 @@ const LANG_KEYWORD = {
     COMMON_KEYWORD: "COMMON_KEYWORD", // 키워드
     COMMON_CODE: "COMMON_CODE", // 코드
     COMMON_TEXT: "COMMON_TEXT", // 문자열
-    COMMON_SEARCH: "COMMON_SEARCH", // 조회
+    COMMON_INQUIRY: "COMMON_INQUIRY", // 조회
     // ============================== //
 
     // ========== (Authority.vue) ========== //
@@ -134,6 +133,7 @@ const language = (keyword) => {
 }
 
 const multiLanguageSet = () => {
+    language(LANG_KEYWORD.COMMON_SEARCH); // 검색
     language(LANG_KEYWORD.COMMON_ID); // 아이디
     language(LANG_KEYWORD.COMMON_DESCRIPTION); // 설명
     language(LANG_KEYWORD.COMMON_RESET); // 초기화
@@ -143,7 +143,7 @@ const multiLanguageSet = () => {
     language(LANG_KEYWORD.COMMON_KEYWORD); // 키워드
     language(LANG_KEYWORD.COMMON_CODE); // 코드
     language(LANG_KEYWORD.COMMON_TEXT); // 문자열
-    language(LANG_KEYWORD.COMMON_SEARCH); // 조회
+    language(LANG_KEYWORD.COMMON_INQUIRY); // 조회
 
     language(LANG_KEYWORD.AUTHORITY_GROUP_LIST); // 모든 권한 그룹
     language(LANG_KEYWORD.AUTHORITY_GROUP_INFO); // 권한 그룹 정보
