@@ -268,6 +268,7 @@ export default {
             console.log("value: ", value);
             this.isCreate = false;
             this.isUpdate = true;
+            this.$refs.form.resetValidation();
         });
     },
     watch: {
