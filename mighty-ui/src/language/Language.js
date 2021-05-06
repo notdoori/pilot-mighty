@@ -112,8 +112,10 @@ const LANG_KEYWORD = {
     USER_GROUP_FOOTER: "USER_GROUP_FOOTER", // 사용자 그룹 관리 메뉴 화면 입니다.
     // ===================================== //
 
+    // ========== (MultiLang.vue) ========== //
     MULTI_LANG_LIST: "MULTI_LANG_LIST", // 모든 다국어 정보
     MULTI_LANG_FOOTER: "MULTI_LANG_FOOTER", // 다국어 정보 관리 메뉴 화면 입니다.
+    // ===================================== //
 }
 
 let langText = new Object();
@@ -150,16 +152,16 @@ const multiLanguageSet = () => {
     language(LANG_KEYWORD.AUTHORITY_GROUP_INFO); // 권한 그룹 정보
     language(LANG_KEYWORD.AUTHORITY_GROUP_ID); // 권한 그룹 아이디
     language(LANG_KEYWORD.AUTHORITY_GROUP_DESCRIPTION); // 권한 그룹 설명
-    language(LANG_KEYWORD.AUTHORITY_GROUP_FOOTER);
+    language(LANG_KEYWORD.AUTHORITY_GROUP_FOOTER); // 권한 그룹 관리 메뉴 화면 입니다.
 
     language(LANG_KEYWORD.USER_GROUP_LIST); // 모든 사용자 그룹
     language(LANG_KEYWORD.USER_GROUP_INFO); // 사용자 그룹 정보
     language(LANG_KEYWORD.USER_GROUP_ID); // 사용자 그룹 아이디
     language(LANG_KEYWORD.USER_GROUP_DESCRIPTION); // 사용자 그룹 설명
-    language(LANG_KEYWORD.USER_GROUP_FOOTER);
+    language(LANG_KEYWORD.USER_GROUP_FOOTER); // 사용자 그룹 관리 메뉴 화면 입니다.
 
-    language(LANG_KEYWORD.MULTI_LANG_LIST);
-    language(LANG_KEYWORD.MULTI_LANG_FOOTER);
+    language(LANG_KEYWORD.MULTI_LANG_LIST); // 모든 다국어 정보
+    language(LANG_KEYWORD.MULTI_LANG_FOOTER); // 다국어 정보 관리 메뉴 화면 입니다.
 }
 
 const getLangText = (keyword) => {
