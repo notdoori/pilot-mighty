@@ -1,14 +1,14 @@
 <template>
-    <div>
+  <div>
     <v-app-bar app tile color="white" height="40" extension-height="38">
       <v-btn icon small>
         <v-icon>mdi-dots-vertical</v-icon>
       </v-btn>
-      
+
       <span v-for="(menu, index) in menuList" :key="index">
         <Menu :menuGroup="menu" :key="menuKey" @clickMenu="clickMenu"></Menu>
       </span>
-    
+
       <template v-slot:extension v-if="hasTab">
         <v-tabs
           v-model="activeTab"
@@ -16,7 +16,12 @@
           color="primary"
           height="38"
         >
-          <v-tab v-for="(tab, index) in tabs" :key="index" exact @click="updateTab(tab)">
+          <v-tab
+            v-for="(tab, index) in tabs"
+            :key="index"
+            exact
+            @click="updateTab(tab)"
+          >
             {{ tab.name }}
             <v-icon small left @click="removeTab(tab)">mdi-minus-circle</v-icon>
           </v-tab>
@@ -27,7 +32,6 @@
     <div class="d1">
       <router-view></router-view>
 
-      
       <!-- <v-tabs-items v-model="activeTab">
         <v-tab-item v-for="tab in tabs" :key="tab.id">
             <div>
@@ -53,6 +57,9 @@ import { BUS_MENU } from "@/etc/EventBus";
 
 import axios from "axios";
 
+// 다국어 정보
+import { multiLanguageSet } from "@/language/Language";
+
 export default {
   components: {
     // menu
@@ -65,7 +72,7 @@ export default {
     ...mapState("MainStore", { mTab: (state) => state.mTab }),
     hasTab() {
       return this.tabs.length;
-    }
+    },
   },
   methods: {
     ...mapActions(["actLogout", "actLogoutYN"]),
@@ -183,12 +190,11 @@ export default {
       // console.log('clickTreeMenu id: ', item.id, ' name: ', item.name);
 
       if (item.id === "M0004") {
-
         BUS_MENU.$off("clickTreeMenu");
-        window.removeEventListener("unload", function (){});
-        window.removeEventListener("beforeunload", function (){});
-        
-        this.$store.dispatch("actLogoutYN");        
+        window.removeEventListener("unload", function () {});
+        window.removeEventListener("beforeunload", function () {});
+
+        this.$store.dispatch("actLogoutYN");
       } else {
         this.addMenuTab(item);
 
@@ -208,16 +214,17 @@ export default {
           { id: "M0004", name: "로그 아웃", children: [] },
         ],
       },
-      { id: "K0002", 
-        name: "PHASE2", 
+      {
+        id: "K0002",
+        name: "PHASE2",
         children: [
           { id: "M0021", name: "시스템 코드 관리", children: [] },
           { id: "M0022", name: "다국어 관리", children: [] },
-        ]
+        ],
       },
     ];
     let userId = localStorage.getItem("user_id");
-    let url = "/api/menu/structurebyid?userId=" + `${userId}` + '&System=ADMIN';
+    let url = "/api/menu/structurebyid?userId=" + `${userId}` + "&System=ADMIN";
     axios
       .get(url)
       .then((response) => {
@@ -226,6 +233,9 @@ export default {
         }
       })
       .catch((error) => alert(error));
+
+    // 다국어 정보
+    multiLanguageSet();
   },
   mounted() {
     // this.curRoutePath = this.$route.path;
