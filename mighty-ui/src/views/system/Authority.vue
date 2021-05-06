@@ -12,7 +12,9 @@
               ></v-img>
             </div>
             <div class="common_title_text">
-              <h3>모든 권한 그룹</h3>
+              <!-- <h3>모든 권한 그룹</h3> -->
+              <!-- <h3>{{ this.langText("AUTHORITY_GROUP_LIST") }}</h3> -->
+              <h3>{{ this.authorityGroupList }}</h3>
             </div>
             <v-row class="common_clear_all">
               <v-col class="common_grid">
@@ -31,17 +33,19 @@
               ></v-img>
             </div>
             <div class="common_title_text">
-              <h3>권한 그룹 정보</h3>
+              <!-- <h3>권한 그룹 정보</h3> -->
+              <!-- <h3>{{ this.langText("AUTHORITY_GROUP_INFO") }}</h3> -->
+              <h3>{{ this.authorityGroupInfo }}</h3>
             </div>
             <v-row class="common_clear_all">
               <v-col>
-                <v-text-field label="권한 그룹 아이디" v-model="roleId">
+                <v-text-field :label="authorityGroupId" v-model="roleId">
                 </v-text-field>
               </v-col>
             </v-row>
             <v-row>
               <v-col>
-                <v-text-field label="권한 그룹 설명" v-model="roleDesc">
+                <v-text-field :label="authorityGroupDesc" v-model="roleDesc">
                 </v-text-field>
               </v-col>
             </v-row>
@@ -50,32 +54,46 @@
       </v-row>
       <v-row justify="center" class="common_button_bottom">
         <v-col cols="auto">
-          <v-btn class="common_button_1" @click="clear">초기화</v-btn>
+          <v-btn class="common_button_1" @click="clear">
+            <!-- 초기화 -->
+            <!-- {{ this.langText("COMMON_RESET") }} -->
+            {{ this.commonReset }}
+          </v-btn>
         </v-col>
         <v-col cols="auto">
           <v-btn class="common_search_button" @click="authority_refresh">
-            조회
+            <!-- 조회 -->
+            <!-- {{ this.langText("COMMON_INQUIRY") }} -->
+            {{ this.commonInquiry }}
           </v-btn>
         </v-col>
         <v-spacer></v-spacer>
         <v-col cols="auto">
           <v-btn class="common_default_button" @click="authority_add">
-            추가
+            <!-- 추가 -->
+            <!-- {{ this.langText("COMMON_ADD") }} -->
+            {{ this.commonAdd }}
           </v-btn>
         </v-col>
         <v-col cols="auto">
           <v-btn class="common_default_button" @click="authority_modify">
-            수정
+            <!-- 수정 -->
+            <!-- {{ this.langText("COMMON_MODIFY") }} -->
+            {{ this.commonModify }}
           </v-btn>
         </v-col>
         <v-col cols="auto">
           <v-btn class="common_default_button" @click="authority_delete">
-            삭제
+            <!-- 삭제 -->
+            <!-- {{ this.langText("COMMON_DELETE") }} -->
+            {{ this.commonDelete }}
           </v-btn>
         </v-col>
       </v-row>
     </v-container>
-    <v-footer app> 권한 그룹 관리 메뉴 화면 입니다. </v-footer>
+    <!-- <v-footer app> 권한 그룹 관리 메뉴 화면 입니다. </v-footer> -->
+    <!-- <v-footer app> {{ this.langText("AUTHORITY_GROUP_FOOTER") }} </v-footer> -->
+    <v-footer app> {{ this.authorityFooter }} </v-footer>
   </v-app>
 </template>
 
@@ -86,6 +104,7 @@ import authorityGrid from "@/views/system/GridAuthorityListNew";
 import { BUS_AUTHORITY } from "@/etc/EventBus";
 import messages from "@/etc/constants-messages";
 import urls from "@/etc/constants-urls";
+import { getLangText, LANG_KEYWORD } from "@/language/Language";
 
 export default {
   beforeCreate() {
@@ -116,6 +135,8 @@ export default {
         this.groupInfo["roleDesc"]
       );
     });
+
+    this.labelLangText();
   },
   beforeMount() {
     /* beforeMount 훅 이후부터는 컴포넌트에 접근할 수 있다. */
@@ -156,10 +177,48 @@ export default {
       roleIdTemp: "", // 임시 권한 그룹 아이디
       roleDescTemp: "", // 임시 권한 그룹 설명
       srcTitleImage: require("@/assets/images/titleBullet1.png"),
+
+      // 다국어
+      commonReset: "", // 초기화
+      commonInquiry: "", // 조회
+      commonAdd: "", // 추가
+      commonModify: "", // 수정
+      commonDelete: "", // 삭제
+      authorityGroupList: "", // 모든 권한 그룹
+      authorityGroupInfo: "", // 권한 그룹 정보
+      authorityGroupId: "", // 권한 그룹 아이디
+      authorityGroupDesc: "", // 권한 그룹 설명
+      authorityFooter: "",
     };
   },
 
   methods: {
+    // 다국어 적용
+    labelLangText: function () {
+      this.commonReset = this.langText(LANG_KEYWORD.COMMON_RESET);
+      this.commonInquiry = this.langText(LANG_KEYWORD.COMMON_INQUIRY);
+      this.commonAdd = this.langText(LANG_KEYWORD.COMMON_ADD);
+      this.commonModify = this.langText(LANG_KEYWORD.COMMON_MODIFY);
+      this.commonDelete = this.langText(LANG_KEYWORD.COMMON_DELETE);
+
+      this.authorityGroupList = this.langText(
+        LANG_KEYWORD.AUTHORITY_GROUP_LIST
+      );
+      this.authorityGroupInfo = this.langText(
+        LANG_KEYWORD.AUTHORITY_GROUP_INFO
+      );
+      this.authorityGroupId = this.langText(LANG_KEYWORD.AUTHORITY_GROUP_ID);
+      this.authorityGroupDesc = this.langText(
+        LANG_KEYWORD.AUTHORITY_GROUP_DESCRIPTION
+      );
+    },
+
+    // 다국어 적용 (axios)
+    langText: function (keyword) {
+      console.log("keyword : " + keyword);
+      return getLangText(keyword);
+    },
+
     // 모든 권한 그룹 리스트 조회 (/all)
     authority_refresh: function () {
       axios
@@ -198,14 +257,11 @@ export default {
     // 입력 정보 초기화
     clear: function () {
       this.doSearchClear();
-
+      this.authority_refresh();
       this.roleId = "";
       this.roleDesc = "";
       this.roleIdTemp = "";
       this.roleDescTemp = "";
-
-      // 모든 권한 그룹 리스트 조회
-      this.authority_refresh();
     },
 
     // 권한 그룹 추가 (/add)

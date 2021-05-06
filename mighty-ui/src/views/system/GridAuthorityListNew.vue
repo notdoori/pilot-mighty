@@ -4,7 +4,7 @@
       <v-text-field
         v-model="search"
         append-icon="mdi-magnify"
-        label="Search"
+        :label="commonSearch"
         single-line
         hide-details
       ></v-text-field>
@@ -23,6 +23,7 @@
 
 <script>
 import { BUS_AUTHORITY } from "@/etc/EventBus";
+import { getLangText, LANG_KEYWORD } from "@/language/Language";
 
 export default {
   created() {
@@ -31,6 +32,10 @@ export default {
       this.search = value;
       this.page = 1;
     });
+
+    this.labelLangText();
+
+    this.initHeaders();
   },
   props: {
     data: Array,
@@ -38,7 +43,35 @@ export default {
   data() {
     return {
       search: "",
-      headers: [
+      headers: [],
+      commonSearch: "", // 검색
+      authorityGroupId: "", // 아이디
+      authorityGroupDesc: "", // 설명
+      page: 1,
+    };
+  },
+  methods: {
+    doMouseClick: function (value) {
+      BUS_AUTHORITY.$emit("selectedRow", value);
+    },
+
+    // 다국어 적용
+    labelLangText: function () {
+      this.commonSearch = this.langText(LANG_KEYWORD.COMMON_SEARCH);
+      this.authorityGroupId = this.langText(LANG_KEYWORD.AUTHORITY_GROUP_ID);
+      this.authorityGroupDesc = this.langText(
+        LANG_KEYWORD.AUTHORITY_GROUP_DESCRIPTION
+      );
+    },
+
+    // 다국어 적용 (axios)
+    langText: function (keyword) {
+      console.log("keyword : " + keyword);
+      return getLangText(keyword);
+    },
+
+    initHeaders: function () {
+      this.headers = [
         {
           text: "NO.",
           align: "start",
@@ -48,24 +81,18 @@ export default {
           fixed: true,
         },
         {
-          text: "권한 그룹 아이디",
+          text: this.authorityGroupId,
           value: "roleId",
           width: "480px",
           fixed: true,
         },
         {
-          text: "권한 그룹 설명",
+          text: this.authorityGroupDesc,
           value: "roleDesc",
           width: "480px",
           fixed: true,
         },
-      ],
-      page: 1,
-    };
-  },
-  methods: {
-    doMouseClick: function (value) {
-      BUS_AUTHORITY.$emit("selectedRow", value);
+      ];
     },
   },
 };
