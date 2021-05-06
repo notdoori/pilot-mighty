@@ -111,6 +111,9 @@ const LANG_KEYWORD = {
     USER_GROUP_DESCRIPTION: "USER_GROUP_DESCRIPTION", // 사용자 그룹 설명
     USER_GROUP_FOOTER: "USER_GROUP_FOOTER", // 사용자 그룹 관리 메뉴 화면 입니다.
     // ===================================== //
+
+    MULTI_LANG_LIST: "MULTI_LANG_LIST", // 모든 다국어 정보
+    MULTI_LANG_FOOTER: "MULTI_LANG_FOOTER", // 다국어 정보 관리 메뉴 화면 입니다.
 }
 
 let langText = new Object();
@@ -154,6 +157,9 @@ const multiLanguageSet = () => {
     language(LANG_KEYWORD.USER_GROUP_ID); // 사용자 그룹 아이디
     language(LANG_KEYWORD.USER_GROUP_DESCRIPTION); // 사용자 그룹 설명
     language(LANG_KEYWORD.USER_GROUP_FOOTER);
+
+    language(LANG_KEYWORD.MULTI_LANG_LIST);
+    language(LANG_KEYWORD.MULTI_LANG_FOOTER);
 }
 
 const getLangText = (keyword) => {
