@@ -20,4 +20,7 @@ export default Object.freeze({
     USER_GROUP_ADD: "/api/group/add",
     USER_GROUP_MODIFY: "/api/group/modify",
     USER_GROUP_DELETE: "/api/group/delete",
+
+    // 다국어 관리
+    MULTI_LANGUAGE_ALL: "/api/language/all",
 })
