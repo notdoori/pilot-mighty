@@ -134,8 +134,6 @@ const language = (keyword) => {
 
 const multiLanguageSet = () => {
     language(LANG_KEYWORD.COMMON_SEARCH); // 검색
-    language(LANG_KEYWORD.COMMON_ID); // 아이디
-    language(LANG_KEYWORD.COMMON_DESCRIPTION); // 설명
     language(LANG_KEYWORD.COMMON_RESET); // 초기화
     language(LANG_KEYWORD.COMMON_ADD); // 추가
     language(LANG_KEYWORD.COMMON_MODIFY); // 수정
