@@ -30,7 +30,7 @@ import com.pilot.mighty.service.GroupService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-@Api(tags = {"1. Group"})
+@Api(tags = {"2. Group"})
 @RestController
 @RequestMapping("/api/group")
 public class GroupController {

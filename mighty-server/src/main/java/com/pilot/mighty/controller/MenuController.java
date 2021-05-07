@@ -27,7 +27,7 @@ import com.pilot.mighty.query.QueryExecutor;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-@Api(tags = {"1. Menu"})
+@Api(tags = {"4. Menu"})
 @RestController
 @RequestMapping("/api/menu")
 public class MenuController {

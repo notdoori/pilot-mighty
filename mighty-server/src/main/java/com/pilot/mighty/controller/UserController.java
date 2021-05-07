@@ -30,7 +30,7 @@ import com.pilot.mighty.util.TokenUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-@Api(tags = {"1. User"})
+@Api(tags = {"3. User"})
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
