@@ -23,4 +23,7 @@ export default Object.freeze({
 
     // 다국어 관리
     MULTI_LANGUAGE_ALL: "/api/language/all",
+    MULTI_LANGUAGE_ADD: "/api/language/add",
+    MULTI_LANGUAGE_MODIFY: "/api/language/modify",
+    MULTI_LANGUAGE_DELETE: "/api/language/delete",
 })

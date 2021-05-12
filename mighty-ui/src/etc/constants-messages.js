@@ -32,4 +32,13 @@ export default Object.freeze({
     USER_GROUP_MODIFY_FAILED: "사용자 그룹 수정을 실패하였습니다.",
     USER_GROUP_DELETE_COMPLETE: "사용자 그룹 삭제를 완료하였습니다.",
     USER_GROUP_DELETE_FAILED: "사용자 그룹 삭제를 실패하였습니다.",
+
+    // 다국어 관리
+    ID_INPUT_LANG_CODE: "다국어 코드를 입력해주세요.",
+    MULTI_LANGUAGE_ADD_COMPLETE: "다국어 정보 추가를 완료하였습니다.",
+    MULTI_LANGUAGE_ADD_FAILED: "다국어 정보 추가를 실패하였습니다.",
+    MULTI_LANGUAGE_MODIFY_COMPLETE: "다국어 정보 수정을 완료하였습니다.",
+    MULTI_LANGUAGE_MODIFY_FAILED: "다국어 정보 수정을 실패하였습니다.",
+    MULTI_LANGUAGE_DELETE_COMPLETE: "다국어 정보 삭제를 완료하였습니다.",
+    MULTI_LANGUAGE_DELETE_FAILED: "다국어 정보 삭제를 실패하였습니다.",
 })
