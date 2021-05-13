@@ -3,9 +3,51 @@
  <mapper namespace="com.pilot.mighty.dao.SysCodeDao">
  
  	<select id="selectSysCodeAll" resultType="com.pilot.mighty.model.SysCode">
-		SELECT B.CODE_SEQ AS SEQ
-		     , B.CODE_NAME AS NAME
+		SELECT ROWNUM AS NO
+		     , T.NAME
+		     , T.VALUE
+		     , T.USE_YN AS USE
+		FROM (
+		SELECT T.TABLE_NAME AS NAME
+		     , T.TABLE_DESC AS VALUE
+		     , T.USE_YN
+		  FROM SYS_SYSTEM_CODE T
+		 ORDER BY T.TABLE_NAME
+		) T
+	</select>
+	
+ 	<select id="selectSysCodeDataAll" parameterType="java.util.Map" resultType="com.pilot.mighty.model.SysCodeData">
+		SELECT B.CODE_NAME AS NAME
 		     , B.CODE_DESC AS VALUE
+		     , B.CODE_SEQ AS SEQ
+		  FROM SYS_SYSTEM_CODE A, SYS_SYSTEM_CODE_DATA B
+		 WHERE 1=1
+		   AND A.TABLE_NAME = B.TABLE_NAME
+		   AND A.TABLE_NAME = #{tableName}
+		 ORDER BY B.CODE_SEQ
+	</select>
+	
+	<select id="selectSysCode" parameterType="java.util.Map" resultType="com.pilot.mighty.model.SysCode">
+		SELECT ROWNUM AS NO
+		     , T.NAME
+		     , T.VALUE
+		     , T.USE_YN AS USE
+		FROM (
+		SELECT T.TABLE_NAME AS NAME
+		     , T.TABLE_DESC AS VALUE
+		     , T.USE_YN
+		  FROM SYS_SYSTEM_CODE T
+		 WHERE 1=1
+		   AND TABLE_NAME = #{tableName}
+		   AND T.USE_YN = #{use}
+		 ORDER BY T.TABLE_NAME
+		) T
+	</select>
+	
+	<select id="selectSysCodeData" parameterType="java.util.Map" resultType="com.pilot.mighty.model.SysCodeData">
+		SELECT B.CODE_NAME AS NAME
+		     , B.CODE_DESC AS VALUE
+		     , B.CODE_SEQ AS SEQ
 		  FROM SYS_SYSTEM_CODE A, SYS_SYSTEM_CODE_DATA B
 		 WHERE 1=1
 		   AND A.TABLE_NAME = B.TABLE_NAME
@@ -13,5 +55,80 @@
 		   AND A.USE_YN = #{use}
 		 ORDER BY B.CODE_SEQ
 	</select>
+	
+	<select id="checkRegistSysCode" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT T.TABLE_NAME
+		  FROM SYS_SYSTEM_CODE T
+		 WHERE 1=1
+		   AND TABLE_NAME = #{tableName}
+	</select>
+	
+	<select id="checkRegistSysCodeData" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT B.CODE_NAME
+		  FROM SYS_SYSTEM_CODE A, SYS_SYSTEM_CODE_DATA B
+		 WHERE 1=1
+		   AND A.TABLE_NAME = B.TABLE_NAME
+		   AND A.TABLE_NAME = #{tableName}
+		   AND B.CODE_NAME = #{codeName}
+	</select>
+	
+	<insert id="registSysCode" parameterType="java.util.Map">
+		INSERT INTO SYS_SYSTEM_CODE (
+			TABLE_NAME
+		  , TABLE_DESC
+		  , USE_YN
+		)
+		VALUES (
+			#{tableName}
+		  , #{tableDesc}
+		  , #{use}
+		)
+	</insert>
+	
+	<update id="modifySysCode" parameterType="java.util.Map">
+		UPDATE SYS_SYSTEM_CODE
+		   SET TABLE_DESC = #{tableDesc}
+		     , USE_YN = #{use}
+		 WHERE TABLE_NAME = #{tableName}
+	</update>
+	
+	<delete id="deleteSysCode" parameterType="java.util.Map">
+		DELETE FROM SYS_SYSTEM_CODE 
+		 WHERE TABLE_NAME = #{tableName}
+	</delete>
+	
+	<insert id="registSysCodeData" parameterType="java.util.Map">
+		INSERT INTO SYS_SYSTEM_CODE_DATA (
+			TABLE_NAME
+		  , CODE_NAME
+		  , CODE_SEQ
+		  , CODE_DESC
+		)
+		VALUES (
+			#{tableName}
+		  , #{codeName}
+		  , #{codeSeq}
+		  , #{codeDesc}
+		)
+	</insert>
+	
+	<update id="modifySysCodeData" parameterType="java.util.Map">
+		UPDATE SYS_SYSTEM_CODE_DATA
+		   SET CODE_SEQ = #{codeSeq}
+		     , CODE_DESC = #{codeDesc}
+		 WHERE TABLE_NAME = #{tableName}
+		   AND CODE_NAME = #{codeName}
+	</update>
+	
+	<delete id="deleteSysCodeData" parameterType="java.util.Map">
+		DELETE FROM SYS_SYSTEM_CODE_DATA 
+		 WHERE TABLE_NAME = #{tableName}
+		   AND CODE_NAME = #{codeName}
+	</delete>
+	
+	<delete id="deleteRelatedSysCodeData" parameterType="java.util.Map">
+		DELETE FROM SYS_SYSTEM_CODE_DATA 
+		 WHERE TABLE_NAME = #{tableName}
+	</delete>
 
 </mapper>

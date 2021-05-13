@@ -1,28 +1,18 @@
 package com.pilot.mighty.model;
 
-public class SysCode {
+public class SysCodeData {
 	
-	private int no;
 	private String name;
 	private String value;
-	private String use;
+	private int seq;
 	
-	public SysCode() {}	
+	public SysCodeData() {}	
 	
-	public SysCode(int no, String name, String value, String use) {
+	public SysCodeData(String name, String value, int seq) {
 		super();
-		this.no = no;
 		this.name = name;
 		this.value = value;
-		this.use = use;
-	}
-
-	public int getNo() {
-		return no;
-	}
-
-	public void setNo(int no) {
-		this.no = no;
+		this.seq = seq;
 	}
 
 	public String getName() {
@@ -41,12 +31,12 @@ public class SysCode {
 		this.value = value;
 	}
 	
-	public String getUse() {
-		return use;
+	public int getSeq() {
+		return seq;
 	}
 
-	public void setUse(String use) {
-		this.use = use;
+	public void setSeq(int seq) {
+		this.seq = seq;
 	}
 	
 }
