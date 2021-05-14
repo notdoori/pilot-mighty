@@ -4,18 +4,20 @@
  
  <select id="selectLanguageInfoAll" resultType="com.pilot.mighty.model.MultiLanguageInfo">
 		SELECT ROWNUM AS NO, T.*
-		FROM  (SELECT LANG_KEYWORD as langKeyword,
-		           LANG_CODE as langCode,
-		           LANG_TEXT as langText
-		 FROM ADM_MULTI_LANGUAGE
-		ORDER BY LANG_KEYWORD) T
-	</select>
-	
-	<select id="selectMultiLanguageInfo" parameterType="java.util.Map" resultType="java.util.HashMap">
-		SELECT LANG_TEXT as langText
-		  FROM ADM_MULTI_LANGUAGE
-		 WHERE LANG_KEYWORD = #{keyword}
-		 AND LANG_CODE = #{code}
-	</select>
-	
+		FROM  (SELECT LANG_CODE as langCode,
+		                      LANG_TYP as langTyp,
+		                      DATA as langData
+		 FROM SYS_LANG_DATA
+		ORDER BY LANG_CODE) T
+</select>
+
+<select id="selectLanguageInfoSearch" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT LANG_CODE as langCode,
+		           LANG_TYP as langTyp,
+		           DATA as langData
+		 FROM SYS_LANG_DATA
+		 WHERE LANG_CODE = #{langCode}
+		 AND LANG_TYP = #{langTyp}
+</select>
+
 </mapper>
