@@ -1,7 +1,9 @@
 package com.pilot.mighty.controller;
 
+import java.awt.List;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pilot.mighty.query.QueryExecutor;
 import com.pilot.mighty.util.TokenUtil;
@@ -197,24 +200,31 @@ public class SysCodeController {
 		
 		ObjectMapper mapper = new ObjectMapper();
 		@SuppressWarnings("unchecked")
-		Map<String, Object> map = mapper.readValue(body, Map.class);
 		
-		HashMap<String, Object> retMap = sysCodeService.checkRegistSysCodeData(map);
-		if (retMap != null) {
-			retMap = new HashMap<String, Object>();
-			retMap.put("reason", map.get("system code Data").toString() + " already exists.");
-			return new ResponseEntity<Object>(retMap, HttpStatus.FOUND);
+		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+		list = mapper.readValue(body, new TypeReference<ArrayList<HashMap<String, Object>>>() {});
+		
+		for(int i=0; i<list.size(); i++)
+		{
+			Map<String, Object> map = list.get(i);
+			HashMap<String, Object> retMap = sysCodeService.checkRegistSysCodeData(map);
+		
+			if (retMap != null) {
+				retMap = new HashMap<String, Object>();
+				retMap.put("reason", map.get("system code Data").toString() + " already exists.");
+				return new ResponseEntity<Object>(retMap, HttpStatus.FOUND);
+			}
+			
+			Map<String, String> registSysCodeDataMap = new HashMap<String, String>();
+			registSysCodeDataMap.put("tableName", map.get("tableName").toString());
+			registSysCodeDataMap.put("codeName", map.get("codeName").toString());
+			registSysCodeDataMap.put("codeSeq", map.get("codeSeq") == null ? "" : map.get("codeSeq").toString());
+			registSysCodeDataMap.put("codeDesc", map.get("codeDesc") == null ? "" : map.get("codeDesc").toString());
+			
+			sysCodeService.registSysCodeData(registSysCodeDataMap);
 		}
 		
-		Map<String, String> registSysCodeDataMap = new HashMap<String, String>();
-		registSysCodeDataMap.put("tableName", map.get("tableName").toString());
-		registSysCodeDataMap.put("codeName", map.get("codeName").toString());
-		registSysCodeDataMap.put("codeSeq", map.get("codeSeq") == null ? "" : map.get("codeSeq").toString());
-		registSysCodeDataMap.put("codeDesc", map.get("codeDesc") == null ? "" : map.get("codeDesc").toString());
-		
-		sysCodeService.registSysCodeData(registSysCodeDataMap);
-		
-		return new ResponseEntity<Object>(retMap, HttpStatus.OK);
+		return new ResponseEntity<Object>(list, HttpStatus.OK);
 	}
 	
 	/**
