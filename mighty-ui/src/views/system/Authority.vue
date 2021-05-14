@@ -94,7 +94,6 @@
 <script>
 import axios from "axios";
 import authorityGrid from "@/views/system/GridAuthorityListNew";
-// import authorityGrid from "@/views/system/GridAuthorityList";
 import { BUS_AUTHORITY } from "@/etc/EventBus";
 import messages from "@/etc/constants-messages";
 import urls from "@/etc/constants-urls";
