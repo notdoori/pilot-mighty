@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pilot.mighty.model.AuthInfo;
 import com.pilot.mighty.model.MultiLanguageInfo;
 import com.pilot.mighty.query.QueryExecutor;
 import com.pilot.mighty.service.MultiLanguageService;
