@@ -23,7 +23,7 @@
 
 <script>
 import { BUS_AUTHORITY } from "@/etc/EventBus";
-import { getLangText, LANG_KEYWORD } from "@/language/Language";
+import { getLangText, LANG_CODE } from "@/language/Language";
 
 export default {
   created() {
@@ -57,10 +57,10 @@ export default {
 
     // 다국어 적용
     labelLangText: function () {
-      this.commonSearch = this.langText(LANG_KEYWORD.COMMON_SEARCH);
-      this.authorityGroupId = this.langText(LANG_KEYWORD.AUTHORITY_GROUP_ID);
+      this.commonSearch = this.langText(LANG_CODE.COMMON_SEARCH);
+      this.authorityGroupId = this.langText(LANG_CODE.AUTHORITY_GROUP_ID);
       this.authorityGroupDesc = this.langText(
-        LANG_KEYWORD.AUTHORITY_GROUP_DESCRIPTION
+        LANG_CODE.AUTHORITY_GROUP_DESCRIPTION
       );
     },
 
