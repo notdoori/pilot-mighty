@@ -13,24 +13,48 @@
 </select>
 -->
 
-<select id="selectLanguageInfoAll" resultType="com.pilot.mighty.model.MultiLanguageInfo">
-		SELECT ROWNUM AS NO, T.*
-		FROM (SELECT DISTINCT sld.LANG_CODE as langCode,
-                  (SELECT DATA FROM SYS_LANG_DATA WHERE LANG_CODE = sld.LANG_CODE AND LANG_TYP = 'KO') as langKo,
-                  (SELECT DATA FROM SYS_LANG_DATA WHERE LANG_CODE = sld.LANG_CODE AND LANG_TYP = 'EN') as langEn,
-                  (SELECT DATA FROM SYS_LANG_DATA WHERE LANG_CODE = sld.LANG_CODE AND LANG_TYP = 'CN') as langCn,
-                  (SELECT DATA FROM SYS_LANG_DATA WHERE LANG_CODE = sld.LANG_CODE AND LANG_TYP = 'VN') as langVn
-		          FROM SYS_LANG_DATA sld
-		          ORDER BY sld.LANG_CODE) T
-</select>
-
-<select id="selectLanguageInfoSearch" parameterType="java.util.Map" resultType="java.util.HashMap">
-		SELECT LANG_CODE as langCode,
-		           LANG_TYP as langTyp,
-		           DATA as langData
-		 FROM SYS_LANG_DATA
-		 WHERE LANG_CODE = #{langCode}
-		 AND LANG_TYP = #{langTyp}
-</select>
-
+	<select id="selectLanguageInfoAll" resultType="com.pilot.mighty.model.MultiLanguageInfo">
+			SELECT ROWNUM AS NO, T.*
+			FROM (SELECT DISTINCT sld.LANG_CODE as langCode,
+	                  (SELECT DATA FROM SYS_LANG_DATA WHERE LANG_CODE = sld.LANG_CODE AND LANG_TYP = 'KO') as langKo,
+	                  (SELECT DATA FROM SYS_LANG_DATA WHERE LANG_CODE = sld.LANG_CODE AND LANG_TYP = 'EN') as langEn,
+	                  (SELECT DATA FROM SYS_LANG_DATA WHERE LANG_CODE = sld.LANG_CODE AND LANG_TYP = 'CN') as langCn,
+	                  (SELECT DATA FROM SYS_LANG_DATA WHERE LANG_CODE = sld.LANG_CODE AND LANG_TYP = 'VN') as langVn
+			          FROM SYS_LANG_DATA sld
+			          ORDER BY sld.LANG_CODE) T
+	</select>
+	
+	<select id="selectLanguageInfoSearch1" parameterType="java.util.Map" resultType="java.util.HashMap">
+			SELECT LANG_CODE as langCode,
+			           LANG_TYP as langTyp,
+			           DATA as langData
+			 FROM SYS_LANG_DATA
+			 WHERE LANG_CODE = #{langCode}
+			 AND LANG_TYP = #{langTyp}
+	</select>
+	
+	<select id="selectLanguageInfoSearch2" parameterType="java.util.Map" resultType="java.util.HashMap">
+			SELECT DISTINCT LANG_CODE as langCode
+			 FROM SYS_LANG_DATA
+			 WHERE LANG_CODE = #{langCode}
+	</select>
+	
+	<insert id="insertLanguageInfo" parameterType="java.util.Map">
+			INSERT INTO SYS_LANG_DATA (LANG_CODE, LANG_TYP, DATA)
+			VALUES (#{langCode}, #{langTyp}, #{langData})
+	</insert>
+		
+<!--
+	<update id="updateLanguageInfo" parameterType="java.util.Map">
+		UPDATE ADM_ROLE_INFO
+		      SET ROLE_DESC = #{roleDesc}
+		 WHERE ROLE_ID = #{roleId}
+	</update>
+-->
+	
+	<delete id="deleteLanguageInfo" parameterType="java.util.Map">
+		DELETE FROM SYS_LANG_DATA
+	    WHERE LANG_CODE = #{langCode}
+	</delete>
+	
 </mapper>

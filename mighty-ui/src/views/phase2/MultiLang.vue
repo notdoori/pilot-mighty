@@ -34,7 +34,7 @@
                     :search="search"
                     :items-per-page="5"
                     :page.sync="page"
-                    @click:row="doMouseClick"
+                    @click:row="doClick"
                     class="common_grid_row_pointer"
                   ></v-data-table>
                 </v-card>
@@ -124,10 +124,9 @@
 
 <script>
 import axios from "axios";
-// import languageGrid from "@/views/phase2/GridMultiLangListNew";
-// import { BUS_AUTHORITY } from "@/etc/EventBus";
 import messages from "@/etc/constants-messages";
 import urls from "@/etc/constants-urls";
+// import { BUS_LANGUAGE } from "@/etc/EventBus";
 import { getLangText, LANG_CODE } from "@/language/Language";
 
 export default {
@@ -136,18 +135,25 @@ export default {
        beforeCreate 훅이 호출된 직후 데이터와 이벤트가 초기화되어 created 훅에서는 데이터와 이벤트에 접근할 수 있다. */
     // alert("created() 호출");
 
+    // BUS_LANGUAGE.$on("selectedRow", (value) => {
+    //   console.log("value : " + value);
+    // this.listInfo = value;
+    // console.log("value : " + value);
+
+    // this.langCode = listInfo["langCode"]; // 코드
+    // this.langKo = listInfo["langKo"]; // 한국어
+    // this.langEn = listInfo["langEn"]; // 영어
+    // this.langCn = listInfo["langCn"]; // 중국어
+    // this.langVn = listInfo["langVn"]; // 베트남어
+    // });
+
     // 모든 권한 그룹 리스트 조회
     this.language_refresh();
 
-    // "/api/auth/search"
-    // BUS_LANGUAGE.$on("selectedRow", (value) => {
-    //   // this.groupInfo = value;
-    //   // this.roleId = this.groupInfo["roleId"];
-    //   // this.roleDesc = this.groupInfo["roleDesc"];
-    // });
-
+    // 모든 다국어 문자열 조회
     this.labelLangText();
 
+    // 리스트 헤더 정보 구성
     this.initHeaders();
   },
   name: "MultiLang",
@@ -185,9 +191,29 @@ export default {
   },
 
   methods: {
-    doMouseClick: function (value) {
-      console.log("[doMouseClick] " + value);
+    doClick: function (value) {
+      console.log("[doClick] " + value);
     },
+    // doMouseClick: function (value) {
+    //   console.log("[doMouseClick] " + value);
+    //   console.log("[gridData] " + this.gridData[1]);
+    //   console.log("[gridData] " + this.gridData[0]["langCode"]);
+    //   console.log("[gridData] " + this.gridData[0]["langKo"]);
+
+    //   // this.listInfo = value;
+
+    //   // console.log("listInfo : " + listInfo["langCode"]);
+    //   // console.log("listInfo : " + listInfo["langKo"]);
+    //   // console.log("listInfo : " + listInfo["langEn"]);
+    //   // console.log("listInfo : " + listInfo["langCn"]);
+    //   // console.log("listInfo : " + listInfo["langVn"]);
+
+    //   // this.langCode = listInfo["langCode"]; // 코드
+    //   // this.langKo = listInfo["langKo"]; // 한국어
+    //   // this.langEn = listInfo["langEn"]; // 영어
+    //   // this.langCn = listInfo["langCn"]; // 중국어
+    //   // this.langVn = listInfo["langVn"]; // 베트남어
+    // },
 
     // 다국어 적용
     labelLangText: function () {
@@ -247,14 +273,18 @@ export default {
         this.langCn === "" ||
         this.langVn === ""
       ) {
-        alert(this.MESSAGES.ID_INPUT_LANG_INFO);
+        alert(this.MESSAGES.INFO_INPUT_MESSAGE);
       } else {
         axios
           .post(this.URLS.MULTI_LANGUAGE_ADD, {
             langCode: this.langCode,
+            langTypKo: "KO",
             langKo: this.langKo,
+            langTypEn: "EN",
             langEn: this.langEn,
+            langTypCn: "CN",
             langCn: this.langCn,
+            langTypVn: "VN",
             langVn: this.langVn,
           })
           .then((response) => {
@@ -275,14 +305,18 @@ export default {
         this.langCn === "" ||
         this.langVn === ""
       ) {
-        alert(this.MESSAGES.ID_INPUT_LANG_INFO);
+        alert(this.MESSAGES.INFO_INPUT_MESSAGE);
       } else {
         axios
           .post(this.URLS.MULTI_LANGUAGE_MODIFY, {
             langCode: this.langCode,
+            langTypKo: "KO",
             langKo: this.langKo,
+            langTypEn: "EN",
             langEn: this.langEn,
+            langTypCn: "CN",
             langCn: this.langCn,
+            langTypVn: "VN",
             langVn: this.langVn,
           })
           .then((response) => {
@@ -296,14 +330,8 @@ export default {
 
     // 다국어 정보 삭제 (/delete)
     language_delete: function () {
-      if (
-        this.langCode === "" ||
-        this.langKo === "" ||
-        this.langEn === "" ||
-        this.langCn === "" ||
-        this.langVn === ""
-      ) {
-        alert(this.MESSAGES.ID_INPUT_LANG_INFO);
+      if (this.langCode === "") {
+        alert(this.MESSAGES.INFO_INPUT_MESSAGE);
       } else {
         axios
           .post(this.URLS.MULTI_LANGUAGE_DELETE, {

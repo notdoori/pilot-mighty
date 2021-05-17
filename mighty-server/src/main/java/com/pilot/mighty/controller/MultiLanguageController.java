@@ -68,7 +68,7 @@ public class MultiLanguageController {
 		logger.debug("langCode: " + map.get("langCode").toString());
 		logger.debug("langTyp: " + map.get("langTyp").toString());
 
-		HashMap<String, Object> retMap = multiLanguageService.selectLanguageInfoSearch(map);
+		HashMap<String, Object> retMap = multiLanguageService.selectLanguageInfoSearch1(map);
 		
 		// Database 에 리스트 존재 여부 확인
 		if (retMap == null) {
@@ -94,38 +94,50 @@ public class MultiLanguageController {
 	 * @author thkim
 	 * @return HttpStatus 정보
 	 */
-	@ApiOperation(value="다국어 정보 저장", notes = "다국어 정보를 저장합니다.")
-	@PostMapping(value = "/save"
+	@ApiOperation(value="다국어 정보 추가", notes = "다국어 정보를 추가합니다.")
+	@PostMapping(value = "/add"
 			,consumes = {MediaType.APPLICATION_JSON_VALUE}
 			,produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
-	public ResponseEntity<Object> languageSave(@RequestBody String body) throws JsonParseException, IOException {
+	public ResponseEntity<Object> languageAdd(@RequestBody String body) throws JsonParseException, IOException {
 		
 		ObjectMapper mapper = new ObjectMapper();
 		@SuppressWarnings("unchecked")
 		Map<String, Object> map = mapper.readValue(body, Map.class);
 		
-		logger.debug("langCode: " + map.get("langCode").toString());
-		logger.debug("langKo: " + map.get("langKo").toString());
-		logger.debug("langEn: " + map.get("langEn").toString());
-		logger.debug("langCn: " + map.get("langCn").toString());
-		logger.debug("langVn: " + map.get("langVn").toString());
+		String info[] = new String[] {
+				map.get("langTypKo").toString(), map.get("langKo").toString(), map.get("langTypEn").toString(), map.get("langEn").toString(),
+				map.get("langTypCn").toString(), map.get("langCn").toString(), map.get("langTypVn").toString(), map.get("langVn").toString()
+		};
 		
-//		HashMap<String, Object> retMap = authService.selectAuthInfoCheck(map);
-//		
-//		// Database 에 리스트 존재 여부 확인
-//		if (retMap != null) {
-//			retMap = new HashMap<String, Object>();
-//			retMap.put("reason", map.get("roleId").toString() + " is already existed.");
-//			return new ResponseEntity<Object>(retMap, HttpStatus.FOUND);
-//		}
-//		
-//		Map<String, String> insertMap = new HashMap<String, String>();
-//		
-//		insertMap.put("roleId", map.get("roleId").toString());
-//		insertMap.put("roleDesc", map.get("roleDesc").toString());
-//		
-//		authService.insertAuthInfo(insertMap);
+		logger.debug("langCode: " + map.get("langCode").toString());
+		logger.debug("langTypKo: " + info[0]);
+		logger.debug("langKo: " + info[1]);
+		logger.debug("langTypEn: " + info[2]);
+		logger.debug("langEn: " + info[3]);
+		logger.debug("langTypCn: " + info[4]);
+		logger.debug("langCn: " + info[5]);
+		logger.debug("langTypVn: " + info[6]);
+		logger.debug("langVn: " + info[7]);
+		
+		HashMap<String, Object> retMap = multiLanguageService.selectLanguageInfoSearch2(map);
+		
+		// Database 에 리스트 존재 여부 확인
+		if (retMap != null) {
+			retMap = new HashMap<String, Object>();
+			retMap.put("reason", map.get("langCode").toString() + " is already existed.");
+			return new ResponseEntity<Object>(retMap, HttpStatus.FOUND);
+		}
+		
+		for (int i = 0; i < info.length; i+=2) {
+			Map<String, String> insertMap = new HashMap<String, String>();
+			
+			insertMap.put("langCode", map.get("langCode").toString());
+			insertMap.put("langTyp", info[i]);
+			insertMap.put("langData", info[i+1]);
+			
+			multiLanguageService.insertLanguageInfo(insertMap);	
+		}
 		
 		return new ResponseEntity<Object>(map, HttpStatus.OK);
 	}
@@ -140,33 +152,36 @@ public class MultiLanguageController {
 			,consumes = {MediaType.APPLICATION_JSON_VALUE}
 			,produces = {MediaType.APPLICATION_JSON_VALUE} )
 	@ResponseBody
-	public ResponseEntity<Object> authModify(@RequestBody String body) throws JsonParseException, IOException {
+	public ResponseEntity<Object> languageModify(@RequestBody String body) throws JsonParseException, IOException {
 		
 		ObjectMapper mapper = new ObjectMapper();
 		@SuppressWarnings("unchecked")
 		Map<String, Object> map = mapper.readValue(body, Map.class);
 		
-		logger.debug("langCode: " + map.get("langCode").toString());
-		logger.debug("langKo: " + map.get("langKo").toString());
-		logger.debug("langEn: " + map.get("langEn").toString());
-		logger.debug("langCn: " + map.get("langCn").toString());
-		logger.debug("langVn: " + map.get("langVn").toString());
+		String info[] = new String[] {
+				map.get("langTypKo").toString(), map.get("langKo").toString(), map.get("langTypEn").toString(), map.get("langEn").toString(),
+				map.get("langTypCn").toString(), map.get("langCn").toString(), map.get("langTypVn").toString(), map.get("langVn").toString()
+		};
 		
-//		HashMap<String, Object> retMap = authService.selectAuthInfoCheck(map);
-//		
-//		// Database 에 리스트 존재 여부 확인
-//		if (retMap == null) {
-//			retMap = new HashMap<String, Object>();
-//			retMap.put("reason", map.get("roleId").toString() + " is not found.");
-//			return new ResponseEntity<Object>(retMap, HttpStatus.NOT_FOUND);
+		logger.debug("langCode: " + map.get("langCode").toString());
+		logger.debug("langTypKo: " + info[0]);
+		logger.debug("langKo: " + info[1]);
+		logger.debug("langTypEn: " + info[2]);
+		logger.debug("langEn: " + info[3]);
+		logger.debug("langTypCn: " + info[4]);
+		logger.debug("langCn: " + info[5]);
+		logger.debug("langTypVn: " + info[6]);
+		logger.debug("langVn: " + info[7]);
+		
+//		for (int i = 0; i < info.length; i+=2) {
+//			Map<String, String> updatetMap = new HashMap<String, String>();
+//			
+//			updatetMap.put("langCode", map.get("langCode").toString());
+//			updatetMap.put("langTyp", info[i]);
+//			updatetMap.put("langData", info[i+1]);
+//			
+//			multiLanguageService.updateLanguageInfo(updatetMap);	
 //		}
-//		
-//		Map<String, String> updateMap = new HashMap<String, String>();
-//		
-//		updateMap.put("roleId", map.get("roleId").toString());
-//		updateMap.put("roleDesc", map.get("roleDesc").toString());
-//		
-//		authService.updateAuthInfo(updateMap);
 		
 		return new ResponseEntity<Object>(map, HttpStatus.OK);
 	}
@@ -189,21 +204,11 @@ public class MultiLanguageController {
 		
 		logger.debug("langCode: " + map.get("langCode").toString());
 		
-//		HashMap<String, Object> retMap = authService.selectAuthInfoCheck(map);
-//		
-//		// Database 에 리스트 존재 여부 확인
-//		if (retMap == null) {
-//			retMap = new HashMap<String, Object>();
-//			retMap.put("reason", map.get("roleId").toString() + " is not found.");
-//			return new ResponseEntity<Object>(retMap, HttpStatus.NOT_FOUND);
-//		}
-//		
-//		Map<String, String> deleteMap = new HashMap<String, String>();
-//		
-//		deleteMap.put("roleId", map.get("roleId").toString());
-//		deleteMap.put("roleDesc", map.get("roleDesc").toString());
-//		
-//		authService.deleteAuthInfo(deleteMap);
+		Map<String, String> deleteMap = new HashMap<String, String>();
+		
+		deleteMap.put("langCode", map.get("langCode").toString());
+		
+		multiLanguageService.deleteLanguageInfo(deleteMap);
 		
 		return new ResponseEntity<Object>(map, HttpStatus.OK);
 	}
