@@ -173,15 +173,24 @@ public class MultiLanguageController {
 		logger.debug("langTypVn: " + info[6]);
 		logger.debug("langVn: " + info[7]);
 		
-//		for (int i = 0; i < info.length; i+=2) {
-//			Map<String, String> updatetMap = new HashMap<String, String>();
-//			
-//			updatetMap.put("langCode", map.get("langCode").toString());
-//			updatetMap.put("langTyp", info[i]);
-//			updatetMap.put("langData", info[i+1]);
-//			
-//			multiLanguageService.updateLanguageInfo(updatetMap);	
-//		}
+		HashMap<String, Object> retMap = multiLanguageService.selectLanguageInfoSearch2(map);
+		
+		// Database 에 리스트 존재 여부 확인
+		if (retMap == null) {
+			retMap = new HashMap<String, Object>();
+			retMap.put("reason", map.get("langCode").toString() + " is not existed.");
+			return new ResponseEntity<Object>(retMap, HttpStatus.FOUND);
+		}
+		
+		for (int i = 0; i < info.length; i+=2) {
+			Map<String, String> updatetMap = new HashMap<String, String>();
+			
+			updatetMap.put("langCode", map.get("langCode").toString());
+			updatetMap.put("langTyp", info[i]);
+			updatetMap.put("langData", info[i+1]);
+			
+			multiLanguageService.updateLanguageInfo(updatetMap);	
+		}
 		
 		return new ResponseEntity<Object>(map, HttpStatus.OK);
 	}

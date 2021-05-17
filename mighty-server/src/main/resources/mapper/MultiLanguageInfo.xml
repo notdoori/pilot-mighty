@@ -44,13 +44,12 @@
 			VALUES (#{langCode}, #{langTyp}, #{langData})
 	</insert>
 		
-<!--
 	<update id="updateLanguageInfo" parameterType="java.util.Map">
-		UPDATE ADM_ROLE_INFO
-		      SET ROLE_DESC = #{roleDesc}
-		 WHERE ROLE_ID = #{roleId}
+		UPDATE SYS_LANG_DATA
+		      SET DATA = #{langData}
+		 WHERE LANG_CODE = #{langCode}
+		 AND LANG_TYP = #{langTyp}
 	</update>
--->
 	
 	<delete id="deleteLanguageInfo" parameterType="java.util.Map">
 		DELETE FROM SYS_LANG_DATA
