@@ -12,7 +12,7 @@
                             ></v-img>
                         </div>
                         <div class="common_title_text">
-                            <h3>등록된 사용자</h3>
+                            <h3>사용자</h3>
                         </div>
                         <v-row class="common_clear_all">
                             <v-col class="common_grid">

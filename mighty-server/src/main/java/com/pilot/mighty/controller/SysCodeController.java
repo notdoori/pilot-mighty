@@ -36,7 +36,7 @@ import io.swagger.annotations.ApiOperation;
 
 @Api(tags = {"5. System Code"})
 @RestController
-@RequestMapping("/api/syscode")
+@RequestMapping("/api")
 public class SysCodeController {
 	
 	@Autowired
@@ -67,7 +67,7 @@ public class SysCodeController {
 	 * @return SysCode[]
 	 */
 	@ApiOperation(value="전체 시스템 코드 데이터 조회", notes = "모든 시스템 코드 데이터를 조회합니다.")
-	@RequestMapping(value= "/syscodedata//all", method=RequestMethod.GET)
+	@RequestMapping(value= "/syscodedata/all", method=RequestMethod.GET)
 	public SysCodeData[] getSysCodeDataAll(@RequestParam String tableName) {	
 		SysCodeData[] sysCodeData = sysCodeService.selectSysCodeDataAll(tableName);
 		
@@ -80,7 +80,7 @@ public class SysCodeController {
 	 * @return SysCode[]
 	 */
 	@ApiOperation(value="시스템 코드 조회", notes = "시스템 코드를 조회합니다.")
-	@RequestMapping(value= "/syscode/list", method=RequestMethod.GET)
+	@RequestMapping(value= "/syscode/search", method=RequestMethod.GET)
 	public SysCode[] getSysCode(@RequestParam String tableName, String use) {	
 		SysCode[] sysCode = sysCodeService.selectSysCode(tableName, use);
 		
@@ -93,7 +93,7 @@ public class SysCodeController {
 	 * @return SysCode[]
 	 */
 	@ApiOperation(value="시스템 코드 데이터 조회", notes = "시스템 코드 데이터를 조회합니다.")
-	@RequestMapping(value= "syscodedata/list", method=RequestMethod.GET)
+	@RequestMapping(value= "syscodedata/search", method=RequestMethod.GET)
 	public SysCodeData[] getSysCodeData(@RequestParam String tableName, String use) {	
 		SysCodeData[] sysCode = sysCodeService.selectSysCodeData(tableName, use);
 		
@@ -106,7 +106,7 @@ public class SysCodeController {
 	 * @return ResponseEntity<Object>
 	 */
 	@ApiOperation(value="시스템 코드 등록", notes = "시스템 코드를 등록합니다.")
-	@RequestMapping(value= "/syscode/regist", method=RequestMethod.POST)
+	@RequestMapping(value= "/syscode/add", method=RequestMethod.POST)
 	public ResponseEntity<Object> registSysCode(@RequestBody String body) throws JsonParseException, IOException {
 		
 		ObjectMapper mapper = new ObjectMapper();
@@ -195,7 +195,7 @@ public class SysCodeController {
 	 * @return ResponseEntity<Object>
 	 */
 	@ApiOperation(value="시스템 코드 데이터 등록", notes = "시스템 코드 데이터를 등록합니다.")
-	@RequestMapping(value= "/syscodedata/regist", method=RequestMethod.POST)
+	@RequestMapping(value= "/syscodedata/add", method=RequestMethod.POST)
 	public ResponseEntity<Object> registSysCodeData(@RequestBody String body) throws JsonParseException, IOException {
 		
 		ObjectMapper mapper = new ObjectMapper();
