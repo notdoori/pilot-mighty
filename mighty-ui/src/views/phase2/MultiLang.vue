@@ -192,28 +192,12 @@ export default {
 
   methods: {
     doClick: function (value) {
-      console.log("[doClick] " + value);
+      this.langCode = value["langCode"]; // 코드
+      this.langKo = value["langKo"]; // 한국어
+      this.langEn = value["langEn"]; // 영어
+      this.langCn = value["langCn"]; // 중국어
+      this.langVn = value["langVn"]; // 베트남어
     },
-    // doMouseClick: function (value) {
-    //   console.log("[doMouseClick] " + value);
-    //   console.log("[gridData] " + this.gridData[1]);
-    //   console.log("[gridData] " + this.gridData[0]["langCode"]);
-    //   console.log("[gridData] " + this.gridData[0]["langKo"]);
-
-    //   // this.listInfo = value;
-
-    //   // console.log("listInfo : " + listInfo["langCode"]);
-    //   // console.log("listInfo : " + listInfo["langKo"]);
-    //   // console.log("listInfo : " + listInfo["langEn"]);
-    //   // console.log("listInfo : " + listInfo["langCn"]);
-    //   // console.log("listInfo : " + listInfo["langVn"]);
-
-    //   // this.langCode = listInfo["langCode"]; // 코드
-    //   // this.langKo = listInfo["langKo"]; // 한국어
-    //   // this.langEn = listInfo["langEn"]; // 영어
-    //   // this.langCn = listInfo["langCn"]; // 중국어
-    //   // this.langVn = listInfo["langVn"]; // 베트남어
-    // },
 
     // 다국어 적용
     labelLangText: function () {
