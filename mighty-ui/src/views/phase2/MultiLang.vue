@@ -126,7 +126,6 @@
 import axios from "axios";
 import messages from "@/etc/constants-messages";
 import urls from "@/etc/constants-urls";
-// import { BUS_LANGUAGE } from "@/etc/EventBus";
 import { getLangText, LANG_CODE } from "@/language/Language";
 
 export default {
@@ -134,18 +133,6 @@ export default {
     /* created 훅은 beforeCreate 훅의 다음 단계로서,
        beforeCreate 훅이 호출된 직후 데이터와 이벤트가 초기화되어 created 훅에서는 데이터와 이벤트에 접근할 수 있다. */
     // alert("created() 호출");
-
-    // BUS_LANGUAGE.$on("selectedRow", (value) => {
-    //   console.log("value : " + value);
-    // this.listInfo = value;
-    // console.log("value : " + value);
-
-    // this.langCode = listInfo["langCode"]; // 코드
-    // this.langKo = listInfo["langKo"]; // 한국어
-    // this.langEn = listInfo["langEn"]; // 영어
-    // this.langCn = listInfo["langCn"]; // 중국어
-    // this.langVn = listInfo["langVn"]; // 베트남어
-    // });
 
     // 모든 권한 그룹 리스트 조회
     this.language_refresh();
