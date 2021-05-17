@@ -3,6 +3,7 @@ export default Object.freeze({
     // message
     ID_INPUT_MESSAGE: "ID를 입력해주세요.",
     PW_INPUT_MESSAGE: "비밀번호를 입력해주세요.",
+    INFO_INPUT_MESSAGE: "정보를 입력해주세요.",
     NAME_INPUT_MESSAGE: "사용자 이름을 입력해주세요.",
     USER_REGIST_COMPLETE: "사용자 등록이 완료되었습니다.",
     USER_REGIST_FAILED: "사용자 등록을 실패하였습니다.",
@@ -34,7 +35,6 @@ export default Object.freeze({
     USER_GROUP_DELETE_FAILED: "사용자 그룹 삭제를 실패하였습니다.",
 
     // 다국어 관리
-    ID_INPUT_LANG_INFO: "다국어 정보를 입력해주세요.",
     MULTI_LANGUAGE_ADD_COMPLETE: "다국어 정보 추가를 완료하였습니다.",
     MULTI_LANGUAGE_ADD_FAILED: "다국어 정보 추가를 실패하였습니다.",
     MULTI_LANGUAGE_MODIFY_COMPLETE: "다국어 정보 수정을 완료하였습니다.",
