@@ -26,4 +26,16 @@ export default Object.freeze({
     MULTI_LANGUAGE_ADD: "/api/language/add",
     MULTI_LANGUAGE_MODIFY: "/api/language/modify",
     MULTI_LANGUAGE_DELETE: "/api/language/delete",
+
+    // 시스템 코드 관리
+    SYSTEM_CODE_ALL: "/api/syscode/all",
+    SYSTEM_CODE_SEARCH: "/api/syscode/search",
+    SYSTEM_CODE_ADD: "/api/syscode/add",
+    SYSTEM_CODE_MODIFY: "/api/syscode/modify",
+    SYSTEM_CODE_DELETE: "/api/syscode/delete",
+    SYSTEM_CODE_DATA_ALL: "/api/syscodedata/all",
+    SYSTEM_CODE_DATA_SEARCH: "/api/syscodedata/search",
+    SYSTEM_CODE_DATA_ADD: "/api/syscodedata/add",
+    SYSTEM_CODE_DATA_MODIFY: "/api/syscodedata/modify",
+    SYSTEM_CODE_DATA_DELETE: "/api/syscodedata/delete",
 })
