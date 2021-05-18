@@ -234,8 +234,26 @@ export default {
       })
       .catch((error) => alert(error));
 
-    // 다국어 정보
-    multiLanguageSet();
+    // 다국어 정보 설정
+    let language = localStorage.getItem("language");
+    let temp = null;
+
+    switch (language) {
+      case "ENGLISH":
+        temp = "EN";
+        break;
+      case "CHINESE":
+        temp = "CN";
+        break;
+      case "VIETNAMESE":
+        temp = "VN";
+        break;
+      default:
+        temp = "KO";
+        break;
+    }
+
+    multiLanguageSet(temp);
   },
   mounted() {
     // this.curRoutePath = this.$route.path;
