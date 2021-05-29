@@ -1,6 +1,6 @@
 // src/etc/constants_messages.js
 export default Object.freeze({
-    // message
+    // 사용자 관리
     ID_INPUT_MESSAGE: "ID를 입력해주세요.",
     PW_INPUT_MESSAGE: "비밀번호를 입력해주세요.",
     INFO_INPUT_MESSAGE: "정보를 입력해주세요.",
@@ -41,4 +41,8 @@ export default Object.freeze({
     MULTI_LANGUAGE_MODIFY_FAILED: "다국어 정보 수정을 실패하였습니다.",
     MULTI_LANGUAGE_DELETE_COMPLETE: "다국어 정보 삭제를 완료하였습니다.",
     MULTI_LANGUAGE_DELETE_FAILED: "다국어 정보 삭제를 실패하였습니다.",
+
+    // 공통
+    MSG_INPUT_REQUIRED: "필수항목을 입력하세요.",
+    MSG_NON_SPACE: "공백을 허용하지 않습니다.",
 })

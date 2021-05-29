@@ -15,10 +15,29 @@
     margin-top: 10px;
 }
 
+.common_subcontent_box {
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    padding-top: 20px;
+    margin-top: 10px;
+    box-shadow: 0 3px 1px -2px rgb(0 0 0 / 20%), 0 2px 2px 0 rgb(0 0 0 / 14%), 0 1px 5px 0 rgb(0 0 0 / 12%);
+}
+
+.common_subcontent_item {
+    clear: both;
+    padding-left: 20px;
+}
+
 .common_title_bullet {
     float: left;
     width: 30px;
     padding-top: 2px;
+}
+
+.common_subtitle_bullet {
+    float: left;
+    width: 30px;
 }
 
 .common_title_text {}

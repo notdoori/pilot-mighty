@@ -229,11 +229,11 @@ export default {
             operator: null,
             showPass: false,
             rules: {
-                required: (value) => !!value || '필수항목을 입력하세요.',
+                required: (value) => !!value || MSG_INPUT_REQUIRED,
                 min: (v) => v.length >= 8 || 'Min 8 characters',
                 emailRules: v => /^(([^<>()[\]\\.,;:\s@']+(\.[^<>()\\[\]\\.,;:\s@']+)*)|('.+'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(v)
                     || '올바른 E-mail 형식이 아닙니다.',
-                nonSpace: v => (v || '').indexOf(' ') < 0 || '공백을 허용하지 않습니다.',
+                nonSpace: v => (v || '').indexOf(' ') < 0 || MSG_NON_SPACE,
             },
             itemsUserGroup: [],
             itemsLangType: [
